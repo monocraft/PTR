@@ -1,4 +1,3 @@
-
 const state = {
   allProducts: [],
   filteredProducts: [],
@@ -21,8 +20,7 @@ const els = {
   emptyState: document.getElementById('emptyState'),
   metricTemplate: document.getElementById('metricTemplate'),
   barRowTemplate: document.getElementById('barRowTemplate'),
-  productTemplate: document.getElementById('productTemplate'),
-  yearGroupTemplate: document.getElementById('yearGroupTemplate')
+  productTemplate: document.getElementById('productTemplate')
 };
 
 function currency(value) {
@@ -36,7 +34,7 @@ function currency(value) {
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Unknown';
-  const date = new Date(dateStr + 'T00:00:00');
+  const date = new Date(`${dateStr}T00:00:00`);
   if (Number.isNaN(date.valueOf())) return dateStr;
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
@@ -45,8 +43,30 @@ function formatDate(dateStr) {
   }).format(date);
 }
 
+function formatMonthYear(dateStr) {
+  if (!dateStr) return 'Unknown month';
+  const date = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(date.valueOf())) return dateStr;
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    year: 'numeric'
+  }).format(date);
+}
+
+function formatMonthDay(dateStr) {
+  if (!dateStr) return 'Unknown date';
+  const date = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(date.valueOf())) return dateStr;
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric'
+  }).format(date);
+}
+
 function titleCase(input) {
-  return input.replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase());
+  return String(input || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, ch => ch.toUpperCase());
 }
 
 function average(nums) {
@@ -221,57 +241,184 @@ function renderProducts(products) {
   els.emptyState.classList.toggle('hidden', products.length > 0);
 }
 
-function renderTimeline(products) {
-  els.timeline.innerHTML = '';
-  const byYear = new Map();
+function getMonthKey(product) {
+  if (typeof product.releaseDate === 'string' && /^\d{4}-\d{2}/.test(product.releaseDate)) {
+    return product.releaseDate.slice(0, 7);
+  }
+  return 'unknown';
+}
 
-  products.forEach(product => {
-    const year = product.releaseYear;
-    if (!byYear.has(year)) byYear.set(year, []);
-    byYear.get(year).push(product);
+function createSourceLinks(sources) {
+  const list = document.createElement('div');
+  list.className = 'mini-sources';
+
+  (sources || []).slice(0, 2).forEach(source => {
+    if (!source || !source.label) return;
+
+    if (source.url) {
+      const link = document.createElement('a');
+      link.href = source.url;
+      link.target = '_blank';
+      link.rel = 'noreferrer noopener';
+      link.textContent = source.label;
+      list.appendChild(link);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = source.label;
+      list.appendChild(span);
+    }
   });
 
-  [...byYear.keys()]
-    .sort((a, b) => b - a)
-    .forEach(year => {
-      const productsInYear = sortProducts(byYear.get(year), 'date-asc');
-      const section = els.yearGroupTemplate.content.firstElementChild.cloneNode(true);
+  return list;
+}
 
-      section.querySelector('.year-title').textContent = year;
-      section.querySelector('.year-count').textContent = `${productsInYear.length} release${productsInYear.length === 1 ? '' : 's'}`;
+function enableHorizontalWheelScroll(container) {
+  container.addEventListener('wheel', event => {
+    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    container.scrollLeft += event.deltaY;
+    event.preventDefault();
+  }, { passive: false });
+}
 
-      const container = section.querySelector('.year-products');
-
-      productsInYear.forEach(product => {
-        const row = document.createElement('article');
-        row.className = 'year-product';
-        row.innerHTML = `
-          <div class="year-product-top">
-            <div>
-              <h4 class="year-product-name">${product.productName}</h4>
-              <div class="year-product-brand">${product.brand} · ${product.series || 'Series n/a'}</div>
-            </div>
-            <span class="release-badge">${titleCase(product.releaseType)}</span>
-          </div>
-          <div class="year-product-meta">
-            ${formatDate(product.releaseDate)} · ${currency(product.msrpUSD)}
-          </div>
-          <div class="year-product-meta">
-            ${product.features.slice(0, 3).join(' • ')}
-          </div>
-        `;
-        container.appendChild(row);
-      });
-
-      els.timeline.appendChild(section);
-    });
+function renderTimeline(products) {
+  els.timeline.innerHTML = '';
 
   if (!products.length) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
     empty.textContent = 'No grouped timeline to show.';
     els.timeline.appendChild(empty);
+    return;
   }
+
+  const byMonth = new Map();
+  sortProducts(products, 'date-asc').forEach(product => {
+    const monthKey = getMonthKey(product);
+    if (!byMonth.has(monthKey)) byMonth.set(monthKey, []);
+    byMonth.get(monthKey).push(product);
+  });
+
+  const monthKeys = [...byMonth.keys()].sort((a, b) => {
+    if (a === 'unknown') return 1;
+    if (b === 'unknown') return -1;
+    return a.localeCompare(b);
+  });
+
+  const shell = document.createElement('div');
+  shell.className = 'release-board-shell';
+
+  const hint = document.createElement('div');
+  hint.className = 'release-board-hint';
+  hint.textContent = 'Scroll sideways to browse launch months.';
+  shell.appendChild(hint);
+
+  const board = document.createElement('div');
+  board.className = 'release-board';
+
+  let previousYear = '';
+
+  monthKeys.forEach(monthKey => {
+    const productsInMonth = sortProducts(byMonth.get(monthKey), 'date-asc');
+    const column = document.createElement('section');
+    column.className = 'release-column';
+
+    let currentYear = 'Unknown';
+    let monthTitle = 'Unknown date';
+    let monthSubtitle = 'Needs source verification';
+
+    if (monthKey !== 'unknown') {
+      currentYear = monthKey.slice(0, 4);
+      monthTitle = formatMonthYear(`${monthKey}-01`).split(' ')[0];
+      monthSubtitle = currentYear;
+    }
+
+    if (currentYear !== previousYear) {
+      column.classList.add('is-year-start');
+      previousYear = currentYear;
+    }
+
+    const header = document.createElement('div');
+    header.className = 'release-column-head';
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'release-column-title-wrap';
+
+    const title = document.createElement('h3');
+    title.className = 'release-column-title';
+    title.textContent = monthTitle;
+
+    const subtitle = document.createElement('p');
+    subtitle.className = 'release-column-subtitle';
+    subtitle.textContent = monthSubtitle;
+
+    titleWrap.append(title, subtitle);
+
+    const count = document.createElement('span');
+    count.className = 'release-column-count';
+    count.textContent = `${productsInMonth.length}`;
+
+    header.append(titleWrap, count);
+    column.appendChild(header);
+
+    const stack = document.createElement('div');
+    stack.className = 'release-card-stack';
+
+    productsInMonth.forEach(product => {
+      const card = document.createElement('article');
+      card.className = 'release-mini-card';
+
+      const top = document.createElement('div');
+      top.className = 'release-mini-top';
+
+      const day = document.createElement('span');
+      day.className = 'release-mini-date';
+      day.textContent = formatMonthDay(product.releaseDate);
+
+      const type = document.createElement('span');
+      type.className = 'release-mini-type';
+      type.textContent = titleCase(product.releaseType);
+
+      top.append(day, type);
+
+      const name = document.createElement('h4');
+      name.className = 'release-mini-name';
+      name.textContent = product.productName;
+
+      const brand = document.createElement('p');
+      brand.className = 'release-mini-brand';
+      brand.textContent = `${product.brand} · ${product.series || 'Series n/a'}`;
+
+      const meta = document.createElement('p');
+      meta.className = 'release-mini-meta';
+      meta.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
+
+      const featureTitle = document.createElement('p');
+      featureTitle.className = 'release-mini-label';
+      featureTitle.textContent = 'Features';
+
+      const features = document.createElement('ul');
+      features.className = 'release-mini-features';
+      (product.features || []).slice(0, 3).forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        features.appendChild(li);
+      });
+
+      const sourceTitle = document.createElement('p');
+      sourceTitle.className = 'release-mini-label';
+      sourceTitle.textContent = 'Sources';
+
+      card.append(top, name, brand, meta, featureTitle, features, sourceTitle, createSourceLinks(product.sources));
+      stack.appendChild(card);
+    });
+
+    column.appendChild(stack);
+    board.appendChild(column);
+  });
+
+  shell.appendChild(board);
+  els.timeline.appendChild(shell);
+  enableHorizontalWheelScroll(board);
 }
 
 function renderMetadata() {
