@@ -23,6 +23,8 @@ const els = {
   productTemplate: document.getElementById('productTemplate')
 };
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 function currency(value) {
   if (typeof value !== 'number' || Number.isNaN(value)) return '—';
   return new Intl.NumberFormat('en-US', {
@@ -39,16 +41,6 @@ function formatDate(dateStr) {
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
-  }).format(date);
-}
-
-function formatMonthYear(dateStr) {
-  if (!dateStr) return 'Unknown month';
-  const date = new Date(`${dateStr}T00:00:00`);
-  if (Number.isNaN(date.valueOf())) return dateStr;
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
     year: 'numeric'
   }).format(date);
 }
@@ -152,7 +144,7 @@ function buildMetric(label, value, subtext) {
 function renderMetrics(products) {
   els.metrics.innerHTML = '';
   const msrps = products.map(p => p.msrpUSD).filter(n => typeof n === 'number');
-  const years = products.map(p => p.releaseYear);
+  const years = products.map(p => p.releaseYear).filter(year => typeof year === 'number');
   const coveredYears = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
   const uniqueBrands = new Set(products.map(p => p.brand)).size;
   const newest = products[0] ? `${products[0].brand} · ${products[0].productName}` : '—';
@@ -241,13 +233,6 @@ function renderProducts(products) {
   els.emptyState.classList.toggle('hidden', products.length > 0);
 }
 
-function getMonthKey(product) {
-  if (typeof product.releaseDate === 'string' && /^\d{4}-\d{2}/.test(product.releaseDate)) {
-    return product.releaseDate.slice(0, 7);
-  }
-  return 'unknown';
-}
-
 function createSourceLinks(sources) {
   const list = document.createElement('div');
   list.className = 'mini-sources';
@@ -280,6 +265,140 @@ function enableHorizontalWheelScroll(container) {
   }, { passive: false });
 }
 
+function getVisibleYearRange(products) {
+  const selectedYear = els.yearFilter.value;
+  if (selectedYear !== 'all') {
+    const year = Number(selectedYear);
+    return Number.isFinite(year) ? [year, year] : [null, null];
+  }
+
+  const years = products.map(product => product.releaseYear).filter(year => typeof year === 'number');
+  if (!years.length) return [null, null];
+  return [Math.min(...years), Math.max(...years)];
+}
+
+function groupProductsByYearMonth(products) {
+  const map = new Map();
+  sortProducts(products, 'date-asc').forEach(product => {
+    if (typeof product.releaseYear !== 'number') return;
+    const month = typeof product.releaseDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(product.releaseDate)
+      ? Number(product.releaseDate.slice(5, 7))
+      : null;
+    if (!month || month < 1 || month > 12) return;
+    const key = `${product.releaseYear}-${String(month).padStart(2, '0')}`;
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(product);
+  });
+  return map;
+}
+
+function buildReleasePeek(product) {
+  const item = document.createElement('article');
+  item.className = 'release-peek';
+  item.tabIndex = 0;
+
+  const compactTop = document.createElement('div');
+  compactTop.className = 'release-peek-top';
+
+  const compactDate = document.createElement('span');
+  compactDate.className = 'release-peek-date';
+  compactDate.textContent = formatMonthDay(product.releaseDate);
+
+  const compactType = document.createElement('span');
+  compactType.className = 'release-peek-type';
+  compactType.textContent = titleCase(product.releaseType);
+
+  compactTop.append(compactDate, compactType);
+
+  const compactName = document.createElement('h4');
+  compactName.className = 'release-peek-name';
+  compactName.textContent = product.productName;
+
+  const compactBrand = document.createElement('p');
+  compactBrand.className = 'release-peek-brand';
+  compactBrand.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''}`;
+
+  const detail = document.createElement('div');
+  detail.className = 'release-hover-card';
+
+  const detailName = document.createElement('h5');
+  detailName.className = 'hover-card-title';
+  detailName.textContent = product.productName;
+
+  const detailMeta = document.createElement('p');
+  detailMeta.className = 'hover-card-meta';
+  detailMeta.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''} · ${formatDate(product.releaseDate)}`;
+
+  const detailPrice = document.createElement('p');
+  detailPrice.className = 'hover-card-price';
+  detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
+
+  const featureLabel = document.createElement('p');
+  featureLabel.className = 'hover-card-label';
+  featureLabel.textContent = 'Features';
+
+  const featureList = document.createElement('ul');
+  featureList.className = 'hover-card-features';
+  (product.features || []).slice(0, 4).forEach(feature => {
+    const li = document.createElement('li');
+    li.textContent = feature;
+    featureList.appendChild(li);
+  });
+
+  const sourceLabel = document.createElement('p');
+  sourceLabel.className = 'hover-card-label';
+  sourceLabel.textContent = 'Sources';
+
+  detail.append(detailName, detailMeta, detailPrice, featureLabel, featureList, sourceLabel, createSourceLinks(product.sources));
+  item.append(compactTop, compactName, compactBrand, detail);
+  return item;
+}
+
+function buildMonthCell(year, monthNumber, productsInMonth) {
+  const monthCell = document.createElement('section');
+  monthCell.className = 'month-cell';
+
+  const header = document.createElement('div');
+  header.className = 'month-cell-head';
+
+  const titleWrap = document.createElement('div');
+  titleWrap.className = 'month-title-wrap';
+
+  const title = document.createElement('h4');
+  title.className = 'month-title';
+  title.textContent = MONTH_NAMES[monthNumber - 1];
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'month-subtitle';
+  subtitle.textContent = String(year);
+
+  titleWrap.append(title, subtitle);
+
+  const count = document.createElement('span');
+  count.className = 'month-count';
+  count.textContent = String(productsInMonth.length);
+
+  header.append(titleWrap, count);
+  monthCell.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'month-cell-body';
+
+  if (!productsInMonth.length) {
+    const empty = document.createElement('p');
+    empty.className = 'month-empty';
+    empty.textContent = 'No release';
+    body.appendChild(empty);
+  } else {
+    productsInMonth.forEach(product => {
+      body.appendChild(buildReleasePeek(product));
+    });
+  }
+
+  monthCell.appendChild(body);
+  return monthCell;
+}
+
 function renderTimeline(products) {
   els.timeline.innerHTML = '';
 
@@ -291,134 +410,66 @@ function renderTimeline(products) {
     return;
   }
 
-  const byMonth = new Map();
-  sortProducts(products, 'date-asc').forEach(product => {
-    const monthKey = getMonthKey(product);
-    if (!byMonth.has(monthKey)) byMonth.set(monthKey, []);
-    byMonth.get(monthKey).push(product);
-  });
+  const [minYear, maxYear] = getVisibleYearRange(products);
+  if (!minYear || !maxYear) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = 'No valid release years found in the current result set.';
+    els.timeline.appendChild(empty);
+    return;
+  }
 
-  const monthKeys = [...byMonth.keys()].sort((a, b) => {
-    if (a === 'unknown') return 1;
-    if (b === 'unknown') return -1;
-    return a.localeCompare(b);
-  });
+  const byYearMonth = groupProductsByYearMonth(products);
 
   const shell = document.createElement('div');
-  shell.className = 'release-board-shell';
+  shell.className = 'calendar-board-shell';
 
   const hint = document.createElement('div');
-  hint.className = 'release-board-hint';
-  hint.textContent = 'Scroll sideways to browse launch months.';
+  hint.className = 'calendar-board-hint';
+  hint.textContent = 'Hover a release for details. Use shift + mouse wheel or trackpad scroll to move sideways.';
   shell.appendChild(hint);
 
-  const board = document.createElement('div');
-  board.className = 'release-board';
+  const viewport = document.createElement('div');
+  viewport.className = 'calendar-board-viewport';
 
-  let previousYear = '';
+  const canvas = document.createElement('div');
+  canvas.className = 'calendar-board-canvas';
 
-  monthKeys.forEach(monthKey => {
-    const productsInMonth = sortProducts(byMonth.get(monthKey), 'date-asc');
-    const column = document.createElement('section');
-    column.className = 'release-column';
+  for (let year = maxYear; year >= minYear; year -= 1) {
+    const yearSection = document.createElement('section');
+    yearSection.className = 'year-row';
 
-    let currentYear = 'Unknown';
-    let monthTitle = 'Unknown date';
-    let monthSubtitle = 'Needs source verification';
-
-    if (monthKey !== 'unknown') {
-      currentYear = monthKey.slice(0, 4);
-      monthTitle = formatMonthYear(`${monthKey}-01`).split(' ')[0];
-      monthSubtitle = currentYear;
-    }
-
-    if (currentYear !== previousYear) {
-      column.classList.add('is-year-start');
-      previousYear = currentYear;
-    }
-
-    const header = document.createElement('div');
-    header.className = 'release-column-head';
-
-    const titleWrap = document.createElement('div');
-    titleWrap.className = 'release-column-title-wrap';
+    const yearHeader = document.createElement('div');
+    yearHeader.className = 'year-row-head';
 
     const title = document.createElement('h3');
-    title.className = 'release-column-title';
-    title.textContent = monthTitle;
-
-    const subtitle = document.createElement('p');
-    subtitle.className = 'release-column-subtitle';
-    subtitle.textContent = monthSubtitle;
-
-    titleWrap.append(title, subtitle);
+    title.className = 'year-row-title';
+    title.textContent = String(year);
 
     const count = document.createElement('span');
-    count.className = 'release-column-count';
-    count.textContent = `${productsInMonth.length}`;
+    count.className = 'year-row-count';
+    let yearReleaseCount = 0;
 
-    header.append(titleWrap, count);
-    column.appendChild(header);
+    const grid = document.createElement('div');
+    grid.className = 'year-grid';
 
-    const stack = document.createElement('div');
-    stack.className = 'release-card-stack';
+    for (let month = 1; month <= 12; month += 1) {
+      const key = `${year}-${String(month).padStart(2, '0')}`;
+      const productsInMonth = byYearMonth.get(key) || [];
+      yearReleaseCount += productsInMonth.length;
+      grid.appendChild(buildMonthCell(year, month, productsInMonth));
+    }
 
-    productsInMonth.forEach(product => {
-      const card = document.createElement('article');
-      card.className = 'release-mini-card';
+    count.textContent = `${yearReleaseCount} release${yearReleaseCount === 1 ? '' : 's'}`;
+    yearHeader.append(title, count);
+    yearSection.append(yearHeader, grid);
+    canvas.appendChild(yearSection);
+  }
 
-      const top = document.createElement('div');
-      top.className = 'release-mini-top';
-
-      const day = document.createElement('span');
-      day.className = 'release-mini-date';
-      day.textContent = formatMonthDay(product.releaseDate);
-
-      const type = document.createElement('span');
-      type.className = 'release-mini-type';
-      type.textContent = titleCase(product.releaseType);
-
-      top.append(day, type);
-
-      const name = document.createElement('h4');
-      name.className = 'release-mini-name';
-      name.textContent = product.productName;
-
-      const brand = document.createElement('p');
-      brand.className = 'release-mini-brand';
-      brand.textContent = `${product.brand} · ${product.series || 'Series n/a'}`;
-
-      const meta = document.createElement('p');
-      meta.className = 'release-mini-meta';
-      meta.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
-
-      const featureTitle = document.createElement('p');
-      featureTitle.className = 'release-mini-label';
-      featureTitle.textContent = 'Features';
-
-      const features = document.createElement('ul');
-      features.className = 'release-mini-features';
-      (product.features || []).slice(0, 3).forEach(feature => {
-        const li = document.createElement('li');
-        li.textContent = feature;
-        features.appendChild(li);
-      });
-
-      const sourceTitle = document.createElement('p');
-      sourceTitle.className = 'release-mini-label';
-      sourceTitle.textContent = 'Sources';
-
-      card.append(top, name, brand, meta, featureTitle, features, sourceTitle, createSourceLinks(product.sources));
-      stack.appendChild(card);
-    });
-
-    column.appendChild(stack);
-    board.appendChild(column);
-  });
-
-  shell.appendChild(board);
+  viewport.appendChild(canvas);
+  shell.appendChild(viewport);
   els.timeline.appendChild(shell);
-  enableHorizontalWheelScroll(board);
+  enableHorizontalWheelScroll(viewport);
 }
 
 function renderMetadata() {

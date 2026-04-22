@@ -8,21 +8,19 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="shell">
-      <p class="eyebrow">GitHub Pages-ready • JSON-driven</p>
-      <h1>Gaming Headset Release Tracker</h1>
-      <p class="lede">
-        Explore gaming headset releases across Logitech, Razer, Corsair, SteelSeries, and Turtle Beach.
-        Filter the database, compare brands, and browse year-by-year launch history.
-      </p>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="title-block">
+        <p class="eyebrow">GitHub Pages-ready • JSON-driven</p>
+        <h1>Gaming Headset Release Tracker</h1>
+      </div>
       <div id="metadataNote" class="notice loading">Loading dataset…</div>
     </div>
   </header>
 
-  <main class="shell">
-    <section class="panel controls">
-      <div class="control-grid">
+  <main class="shell main-layout">
+    <section class="panel controls controls-minimal">
+      <div class="control-grid compact-row">
         <label>
           <span>Brand</span>
           <select id="brandFilter">
@@ -37,7 +35,7 @@
           </select>
         </label>
 
-        <label>
+        <label class="search-field wide-field">
           <span>Search</span>
           <input id="searchInput" type="search" placeholder="Search model, series, or features" />
         </label>
@@ -53,12 +51,20 @@
             <option value="name-asc">Name A–Z</option>
           </select>
         </label>
-      </div>
 
-      <div class="control-actions">
-        <button id="resetButton" class="button secondary">Reset filters</button>
-        <span id="resultCount" class="result-count"></span>
+        <div class="toolbar-meta">
+          <span id="resultCount" class="result-count"></span>
+          <button id="resetButton" class="button secondary">Reset</button>
+        </div>
       </div>
+    </section>
+
+    <section class="panel timeline-panel">
+      <div class="section-head">
+        <h2>Year-by-year release board</h2>
+        <p>Each visible year shows all 12 months. Empty months stay visible. Hover or focus a release for full details.</p>
+      </div>
+      <div id="timeline" class="timeline"></div>
     </section>
 
     <section class="metrics-grid" id="metrics"></section>
@@ -84,20 +90,12 @@
     <section class="panel">
       <div class="section-head">
         <h2>All tracked products</h2>
-        <p>Starter database cards with release date, MSRP, feature highlights, and source notes.</p>
+        <p>Full card view with release date, MSRP, feature highlights, and source links.</p>
       </div>
       <div id="productGrid" class="product-grid"></div>
       <div id="emptyState" class="empty-state hidden">
         No products match the current filters.
       </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>Scrollable release board</h2>
-        <p>Browse launch months left to right in a horizontal board layout.</p>
-      </div>
-      <div id="timeline" class="timeline"></div>
     </section>
   </main>
 
@@ -157,16 +155,6 @@
         <ul class="source-list"></ul>
       </div>
     </article>
-  </template>
-
-  <template id="yearGroupTemplate">
-    <section class="year-group">
-      <div class="year-header">
-        <h3 class="year-title"></h3>
-        <span class="year-count"></span>
-      </div>
-      <div class="year-products"></div>
-    </section>
   </template>
 
   <script src="app.js" defer></script>
