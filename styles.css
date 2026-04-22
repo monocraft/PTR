@@ -236,27 +236,51 @@ input:focus {
   height: 100%;
 }
 
+.timeline-scroll-shell {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 12px;
+  gap: 4px;
+}
+
 .year-snap-viewport {
   height: 100%;
   min-height: 0;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(122,162,255,0.65) rgba(255,255,255,0.05);
-  padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .year-snap-viewport::-webkit-scrollbar {
-  height: 10px;
+  height: 0;
 }
 
-.year-snap-viewport::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
+.year-scrollbar {
+  min-height: 12px;
+  max-height: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122,162,255,0.80) rgba(255,255,255,0.08);
 }
 
-.year-snap-viewport::-webkit-scrollbar-thumb {
+.year-scrollbar::-webkit-scrollbar {
+  height: 12px;
+}
+
+.year-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.08);
+}
+
+.year-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(122,162,255,0.80);
+}
+
+.year-scrollbar-inner {
+  height: 1px;
 }
 
 .year-strip {
@@ -321,6 +345,7 @@ input:focus {
   gap: 4px;
   min-height: 0;
   height: 100%;
+  align-items: stretch;
 }
 
 .quarter-card {
@@ -355,6 +380,7 @@ input:focus {
   gap: 4px;
   min-height: 0;
   height: 100%;
+  align-items: stretch;
 }
 
 .month-card {
@@ -367,6 +393,7 @@ input:focus {
   border: 1px solid var(--line);
   background: #10151d;
   height: 100%;
+  overflow: hidden;
 }
 
 .month-head {
@@ -397,7 +424,8 @@ input:focus {
   display: grid;
   gap: 3px;
   align-content: start;
-  overflow: visible;
+  grid-auto-rows: min-content;
+  overflow: hidden;
 }
 
 .month-empty {
@@ -420,6 +448,7 @@ input:focus {
   background: rgba(255,255,255,0.03);
   outline: none;
   cursor: default;
+  min-height: 58px;
 }
 
 .release-peek:hover,

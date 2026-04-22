@@ -456,6 +456,57 @@ function enableHorizontalWheelScroll(container) {
   }, { passive: false });
 }
 
+function attachSyncedScrollbar(viewport, strip) {
+  const shell = document.createElement('div');
+  shell.className = 'timeline-scroll-shell';
+
+  const scrollbar = document.createElement('div');
+  scrollbar.className = 'year-scrollbar';
+
+  const inner = document.createElement('div');
+  inner.className = 'year-scrollbar-inner';
+  scrollbar.appendChild(inner);
+
+  shell.append(viewport, scrollbar);
+
+  let syncing = false;
+
+  const syncWidths = () => {
+    inner.style.width = `${strip.scrollWidth}px`;
+  };
+
+  const syncFromViewport = () => {
+    if (syncing) return;
+    syncing = true;
+    scrollbar.scrollLeft = viewport.scrollLeft;
+    requestAnimationFrame(() => {
+      syncing = false;
+    });
+  };
+
+  const syncFromScrollbar = () => {
+    if (syncing) return;
+    syncing = true;
+    viewport.scrollLeft = scrollbar.scrollLeft;
+    hideDetailCard(true);
+    requestAnimationFrame(() => {
+      syncing = false;
+    });
+  };
+
+  viewport.addEventListener('scroll', syncFromViewport, { passive: true });
+  scrollbar.addEventListener('scroll', syncFromScrollbar, { passive: true });
+
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(syncWidths);
+    observer.observe(viewport);
+    observer.observe(strip);
+  }
+
+  requestAnimationFrame(syncWidths);
+  return shell;
+}
+
 function scrollToLatestYear(viewport) {
   const panels = viewport.querySelectorAll('.year-panel');
   if (!panels.length) return;
@@ -533,7 +584,7 @@ function renderTimeline(products) {
 
   viewport.appendChild(strip);
   viewport.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
-  els.timeline.appendChild(viewport);
+  els.timeline.appendChild(attachSyncedScrollbar(viewport, strip));
   enableHorizontalWheelScroll(viewport);
 
   if (els.yearFilter.value === 'all') {
