@@ -1,0 +1,609 @@
+{
+  "metadata": {
+    "title": "Gaming Headset Release Tracker",
+    "description": "Starter JSON database of gaming headset releases across major brands. Built for a static GitHub Pages site.",
+    "currency": "USD",
+    "caveats": [
+      "This is a sourced starter dataset, not a complete historical catalog.",
+      "Some brands publish announcement or preorder dates more clearly than retail launch dates. In those cases, releaseDate may reflect the best documented public milestone.",
+      "Some official press releases omit MSRP; when that happens, MSRP may be sourced from product pages or reputable launch coverage and is flagged in priceStatus."
+    ],
+    "brands": [
+      "Logitech",
+      "Razer",
+      "Corsair",
+      "SteelSeries",
+      "Turtle Beach"
+    ]
+  },
+  "products": [
+    {
+      "id": "logitech-g435-2021",
+      "brand": "Logitech",
+      "productName": "G435 LIGHTSPEED",
+      "series": "G",
+      "releaseDate": "2021-09-14",
+      "releaseYear": 2021,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 79.99,
+      "features": [
+        "LIGHTSPEED wireless",
+        "Bluetooth",
+        "40mm drivers",
+        "Dual beamforming microphones",
+        "Lightweight over-ear design"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Logitech G435 LIGHTSPEED",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced September 14, 2021 at $79.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "logitech-g735-2022",
+      "brand": "Logitech",
+      "productName": "G735 Wireless Gaming Headset",
+      "series": "Aurora Collection",
+      "releaseDate": "2022-07-26",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 229.99,
+      "features": [
+        "LIGHTSYNC RGB",
+        "Bluetooth + LIGHTSPEED",
+        "Blue VO!CE",
+        "Dual audio mixing",
+        "56+ hour battery life"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Aurora Collection / G735",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced July 26, 2022 at $229.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "logitech-pro-x2-lightspeed-2023",
+      "brand": "Logitech",
+      "productName": "PRO X 2 LIGHTSPEED",
+      "series": "PRO",
+      "releaseDate": "2023-05-24",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 249.0,
+      "features": [
+        "50mm graphene drivers",
+        "LIGHTSPEED + Bluetooth + 3.5mm",
+        "Up to 50-hour battery life",
+        "Blue VO!CE microphone",
+        "DTS Headphone:X 2.0"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: PRO X 2 LIGHTSPEED",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced May 24, 2023 at $249 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "logitech-astro-a50x-2024",
+      "brand": "Logitech",
+      "productName": "ASTRO A50 X LIGHTSPEED",
+      "series": "ASTRO",
+      "releaseDate": "2024-02-24",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_announcement_and_launch_coverage",
+      "msrpUSD": 379.99,
+      "features": [
+        "PLAYSYNC multi-platform switching",
+        "PRO-G graphene drivers",
+        "HDMI 2.1 base station",
+        "Bluetooth device mixing",
+        "Broadcast-quality 16-bit 48kHz microphone"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: ASTRO A50 X announced December 5, 2023",
+          "type": "official"
+        },
+        {
+          "label": "Retail/review launch coverage: shipping / on-sale in February 2024",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "razer-barracuda-pro-2022",
+      "brand": "Razer",
+      "productName": "Barracuda Pro",
+      "series": "Barracuda",
+      "releaseDate": "2022-05-31",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 249.99,
+      "features": [
+        "Hybrid active noise cancellation",
+        "THX Achromatic Audio Amplifier",
+        "Razer SmartSwitch dual wireless",
+        "Beamforming noise-cancelling microphones",
+        "Bluetooth + HyperSpeed Wireless"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Barracuda line refresh",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced May 31, 2022 at $249.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-kraken-kitty-v2-pro-2022",
+      "brand": "Razer",
+      "productName": "Kraken Kitty V2 Pro",
+      "series": "Kraken",
+      "releaseDate": "2022-10-17",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 199.99,
+      "features": [
+        "Interchangeable kitty, bear, and bunny ears",
+        "Razer Chroma RGB",
+        "Stream reactive lighting",
+        "USB wired connectivity",
+        "Creator-focused styling"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Kraken Kitty V2 Pro",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced October 17, 2022 starting at $199.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-blackshark-v2-pro-2023",
+      "brand": "Razer",
+      "productName": "BlackShark V2 Pro (2023)",
+      "series": "BlackShark",
+      "releaseDate": "2023-04-27",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 199.99,
+      "features": [
+        "HyperClear super wideband microphone",
+        "70-hour battery life",
+        "HyperSpeed wireless",
+        "TriForce titanium 50mm drivers",
+        "Onboard FPS audio profiles"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: BlackShark V2 Pro (2023)",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced April 27, 2023 at $199.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-kraken-v4-pro-2024",
+      "brand": "Razer",
+      "productName": "Kraken V4 Pro",
+      "series": "Kraken",
+      "releaseDate": "2024-09-28",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 399.99,
+      "features": [
+        "Razer Sensa HD haptics",
+        "OLED Control Hub",
+        "Four connectivity modes",
+        "Bluetooth + HyperSpeed Wireless + USB + 3.5mm",
+        "Up to 50-hour battery life"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Kraken V4 Pro",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: $399.99 MSRP widely reported at launch",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-virtuoso-rgb-wireless-xt-2021",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO RGB WIRELESS XT",
+      "series": "VIRTUOSO",
+      "releaseDate": "2021-05-13",
+      "releaseYear": 2021,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 269.99,
+      "features": [
+        "Simultaneous SLIPSTREAM wireless + Bluetooth",
+        "USB and 3.5mm wired options",
+        "50mm high-density drivers",
+        "Dolby Atmos support",
+        "Broadcast-grade omnidirectional microphone"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VIRTUOSO RGB WIRELESS XT",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: MSRP reported at $269.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-hs65-wireless-2023",
+      "brand": "Corsair",
+      "productName": "HS65 WIRELESS",
+      "series": "HS",
+      "releaseDate": "2023-02-13",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 119.99,
+      "features": [
+        "2.4GHz low-latency wireless",
+        "Bluetooth",
+        "Dolby Audio 7.1 on PC/Mac",
+        "Lightweight frame",
+        "Memory foam ear pads"
+      ],
+      "sources": [
+        {
+          "label": "Launch coverage: HS65 WIRELESS announced February 13, 2023",
+          "type": "coverage"
+        },
+        {
+          "label": "Source note: launch pricing reported at $119.99",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "corsair-hs80-max-2023",
+      "brand": "Corsair",
+      "productName": "HS80 MAX WIRELESS",
+      "series": "HS",
+      "releaseDate": "2023-08-10",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 179.99,
+      "features": [
+        "Bluetooth + 2.4GHz wireless",
+        "Broadcast-grade omni-directional microphone",
+        "Dolby Atmos",
+        "SoundID personalization",
+        "Floating headband design"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: HS80 MAX WIRELESS",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources place launch pricing around $179.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-virtuoso-max-2024",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO MAX",
+      "series": "VIRTUOSO",
+      "releaseDate": "2024-10-15",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 329.99,
+      "features": [
+        "50mm graphene drivers",
+        "Active noise cancellation",
+        "Dolby Atmos",
+        "Bluetooth + 2.4GHz wireless",
+        "Up to 60-hour battery life"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VIRTUOSO MAX",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources report launch pricing at $329.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-void-v2-max-2025",
+      "brand": "Corsair",
+      "productName": "VOID WIRELESS v2",
+      "series": "VOID",
+      "releaseDate": "2025-09-30",
+      "releaseYear": 2025,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 149.99,
+      "features": [
+        "Simultaneous 2.4GHz + Bluetooth",
+        "Dolby Atmos",
+        "NVIDIA Broadcast-powered mic processing",
+        "Up to 70-hour battery life",
+        "SoundID on PC"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VOID WIRELESS v2",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources report pricing at $149.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-7plus-2021",
+      "brand": "SteelSeries",
+      "productName": "Arctis 7+",
+      "series": "Arctis",
+      "releaseDate": "2021-10-13",
+      "releaseYear": 2021,
+      "releaseType": "launch",
+      "priceStatus": "official_store_msrp",
+      "msrpUSD": 169.99,
+      "features": [
+        "30+ hour battery life",
+        "USB-C wireless dongle",
+        "15-minute quick charge for 3 hours",
+        "ClearCast retractable microphone",
+        "Spatial audio support"
+      ],
+      "sources": [
+        {
+          "label": "Official store / launch announcement: Arctis 7+",
+          "type": "official"
+        },
+        {
+          "label": "Source note: available October 13, 2021 at $169.99",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-nova-pro-wireless-2022",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova Pro Wireless",
+      "series": "Arctis Nova",
+      "releaseDate": "2022-05-24",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 349.0,
+      "features": [
+        "Active noise cancellation",
+        "Infinity Power dual-battery system",
+        "Multi-System Connect base station",
+        "AI-powered noise-cancelling mic",
+        "Sonar audio software suite"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Arctis Nova Pro family",
+          "type": "official"
+        },
+        {
+          "label": "Public launch references report MSRP at $349",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-nova-7-2022",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova 7",
+      "series": "Arctis Nova",
+      "releaseDate": "2022-08-23",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 179.99,
+      "features": [
+        "2.4GHz + Bluetooth",
+        "38-hour battery life",
+        "AI noise-cancelling microphone",
+        "USB-C fast charging",
+        "Neodymium Magnetic Drivers"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Arctis Nova 7 family",
+          "type": "official"
+        },
+        {
+          "label": "Public launch references report MSRP at $179.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-nova-5-2024",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova 5 Wireless",
+      "series": "Arctis Nova",
+      "releaseDate": "2024-05-14",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 129.99,
+      "features": [
+        "100+ game audio presets via app",
+        "Quick-Switch Wireless",
+        "60+ hour battery life",
+        "ClearCast 2.X microphone",
+        "Bluetooth 5.3"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Arctis Nova 5 Wireless",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced May 14, 2024 at $129.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "turtlebeach-stealth-pro-2023",
+      "brand": "Turtle Beach",
+      "productName": "Stealth Pro",
+      "series": "Stealth",
+      "releaseDate": "2023-04-23",
+      "releaseYear": 2023,
+      "releaseType": "launch",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 329.99,
+      "features": [
+        "Active noise cancellation",
+        "50mm Nanoclear drivers",
+        "Dual swappable batteries",
+        "Bluetooth 5.1",
+        "Noise-cancelling microphone system"
+      ],
+      "sources": [
+        {
+          "label": "Launch coverage: Stealth Pro release timing and price",
+          "type": "coverage"
+        },
+        {
+          "label": "Product/coverage references place MSRP at $329.99",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "turtlebeach-atlas-air-2024",
+      "brand": "Turtle Beach",
+      "productName": "Atlas Air",
+      "series": "Atlas",
+      "releaseDate": "2024-05-19",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
+      "msrpUSD": 179.99,
+      "features": [
+        "Open-back design",
+        "50-hour battery life",
+        "Waves 3D Audio",
+        "Broadcast-quality 16kHz microphone",
+        "Low-latency wireless + Bluetooth"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Atlas Air",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale May 19, 2024 at $179.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "turtlebeach-stealth-600-gen3-2024",
+      "brand": "Turtle Beach",
+      "productName": "Stealth 600 Gen 3",
+      "series": "Stealth",
+      "releaseDate": "2024-05-19",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
+      "msrpUSD": 99.99,
+      "features": [
+        "80-hour battery life",
+        "QuickSwitch button",
+        "Bluetooth",
+        "AI-driven microphone noise reduction",
+        "Multi-platform wireless"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Stealth 600 Gen 3",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale May 19, 2024 at $99.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "turtlebeach-stealth-700-gen3-2024",
+      "brand": "Turtle Beach",
+      "productName": "Stealth 700 Gen 3",
+      "series": "Stealth",
+      "releaseDate": "2024-09-22",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
+      "msrpUSD": 199.99,
+      "features": [
+        "Dual USB wireless transmitters",
+        "60mm Eclipse drivers",
+        "80-hour battery life",
+        "Bluetooth 5.2",
+        "AI noise-reduction microphone"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Stealth 700 Gen 3",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale September 22, 2024 at $199.99",
+          "type": "coverage"
+        }
+      ]
+    }
+  ]
+}

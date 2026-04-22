@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gaming Headset Release Tracker</title>
+  <meta name="description" content="Track gaming headset releases by brand and by year using a local JSON database." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="shell">
+      <p class="eyebrow">GitHub Pages-ready • JSON-driven</p>
+      <h1>Gaming Headset Release Tracker</h1>
+      <p class="lede">
+        Explore gaming headset releases across Logitech, Razer, Corsair, SteelSeries, and Turtle Beach.
+        Filter the database, compare brands, and browse year-by-year launch history.
+      </p>
+      <div id="metadataNote" class="notice loading">Loading dataset…</div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="panel controls">
+      <div class="control-grid">
+        <label>
+          <span>Brand</span>
+          <select id="brandFilter">
+            <option value="all">All brands</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Year</span>
+          <select id="yearFilter">
+            <option value="all">All years</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Search model, series, or features" />
+        </label>
+
+        <label>
+          <span>Sort</span>
+          <select id="sortSelect">
+            <option value="date-desc">Newest first</option>
+            <option value="date-asc">Oldest first</option>
+            <option value="msrp-desc">Highest MSRP</option>
+            <option value="msrp-asc">Lowest MSRP</option>
+            <option value="brand-asc">Brand A–Z</option>
+            <option value="name-asc">Name A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="control-actions">
+        <button id="resetButton" class="button secondary">Reset filters</button>
+        <span id="resultCount" class="result-count"></span>
+      </div>
+    </section>
+
+    <section class="metrics-grid" id="metrics"></section>
+
+    <section class="two-col">
+      <div class="panel">
+        <div class="section-head">
+          <h2>Releases by brand</h2>
+          <p>Count based on the active filters.</p>
+        </div>
+        <div id="brandChart" class="bar-chart"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <h2>Releases by year</h2>
+          <p>Count based on the active filters.</p>
+        </div>
+        <div id="yearChart" class="bar-chart"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>All tracked products</h2>
+        <p>Starter database cards with release date, MSRP, feature highlights, and source notes.</p>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
+      <div id="emptyState" class="empty-state hidden">
+        No products match the current filters.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>Year-by-year view</h2>
+        <p>Grouped timeline so you can scan release activity by year.</p>
+      </div>
+      <div id="timeline" class="timeline"></div>
+    </section>
+  </main>
+
+  <template id="metricTemplate">
+    <article class="metric-card">
+      <span class="metric-label"></span>
+      <strong class="metric-value"></strong>
+      <span class="metric-subtext"></span>
+    </article>
+  </template>
+
+  <template id="barRowTemplate">
+    <div class="bar-row">
+      <div class="bar-labels">
+        <span class="bar-title"></span>
+        <span class="bar-value"></span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="productTemplate">
+    <article class="product-card">
+      <div class="card-top">
+        <div>
+          <p class="brand-pill"></p>
+          <h3 class="product-name"></h3>
+          <p class="product-series"></p>
+        </div>
+        <span class="release-badge"></span>
+      </div>
+
+      <dl class="meta-grid">
+        <div>
+          <dt>Release date</dt>
+          <dd class="release-date"></dd>
+        </div>
+        <div>
+          <dt>MSRP</dt>
+          <dd class="msrp"></dd>
+        </div>
+        <div>
+          <dt>Price source</dt>
+          <dd class="price-status"></dd>
+        </div>
+      </dl>
+
+      <div class="feature-block">
+        <p class="feature-title">Features</p>
+        <ul class="feature-list"></ul>
+      </div>
+
+      <div class="source-block">
+        <p class="feature-title">Source notes</p>
+        <ul class="source-list"></ul>
+      </div>
+    </article>
+  </template>
+
+  <template id="yearGroupTemplate">
+    <section class="year-group">
+      <div class="year-header">
+        <h3 class="year-title"></h3>
+        <span class="year-count"></span>
+      </div>
+      <div class="year-products"></div>
+    </section>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
