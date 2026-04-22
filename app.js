@@ -1,3 +1,15 @@
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+const QUARTERS = [
+  { label: 'Q1', months: [1, 2, 3] },
+  { label: 'Q2', months: [4, 5, 6] },
+  { label: 'Q3', months: [7, 8, 9] },
+  { label: 'Q4', months: [10, 11, 12] }
+];
+
 const state = {
   allProducts: [],
   filteredProducts: [],
@@ -13,66 +25,46 @@ const els = {
   resetButton: document.getElementById('resetButton'),
   resultCount: document.getElementById('resultCount'),
   metrics: document.getElementById('metrics'),
-  brandChart: document.getElementById('brandChart'),
-  yearChart: document.getElementById('yearChart'),
-  productGrid: document.getElementById('productGrid'),
   timeline: document.getElementById('timeline'),
-  emptyState: document.getElementById('emptyState'),
-  metricTemplate: document.getElementById('metricTemplate'),
-  barRowTemplate: document.getElementById('barRowTemplate'),
-  productTemplate: document.getElementById('productTemplate')
+  metricTemplate: document.getElementById('metricTemplate')
 };
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 function currency(value) {
-  if (typeof value !== 'number' || Number.isNaN(value)) return '—';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: value % 1 === 0 ? 0 : 2
-  }).format(value);
+  return typeof value === 'number'
+    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
+    : '—';
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return 'Unknown';
-  const date = new Date(`${dateStr}T00:00:00`);
-  if (Number.isNaN(date.valueOf())) return dateStr;
+function formatDate(value) {
+  if (!value) return 'Unknown';
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
   return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
     month: 'short',
-    day: 'numeric',
-    year: 'numeric'
+    day: 'numeric'
   }).format(date);
 }
 
-function formatMonthDay(dateStr) {
-  if (!dateStr) return 'Unknown date';
-  const date = new Date(`${dateStr}T00:00:00`);
-  if (Number.isNaN(date.valueOf())) return dateStr;
+function formatMonthDay(value) {
+  if (!value) return 'Unknown';
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric'
   }).format(date);
 }
 
-function titleCase(input) {
-  return String(input || '')
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, ch => ch.toUpperCase());
+function titleCase(value) {
+  return String(value || '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, char => char.toUpperCase());
 }
 
 function average(nums) {
   if (!nums.length) return 0;
-  return nums.reduce((sum, n) => sum + n, 0) / nums.length;
-}
-
-function groupCount(items, keyFn) {
-  const map = new Map();
-  items.forEach(item => {
-    const key = keyFn(item);
-    map.set(key, (map.get(key) || 0) + 1);
-  });
-  return map;
+  return nums.reduce((sum, num) => sum + num, 0) / nums.length;
 }
 
 function sortProducts(items, sortKey) {
@@ -91,8 +83,10 @@ function sortProducts(items, sortKey) {
 }
 
 function populateFilters(products) {
-  const brands = [...new Set(products.map(p => p.brand))].sort();
-  const years = [...new Set(products.map(p => p.releaseYear))].sort((a, b) => b - a);
+  const brands = [...new Set(products.map(product => product.brand))].sort();
+  const years = [...new Set(products.map(product => product.releaseYear))]
+    .filter(year => typeof year === 'number')
+    .sort((a, b) => b - a);
 
   brands.forEach(brand => {
     const option = document.createElement('option');
@@ -104,7 +98,7 @@ function populateFilters(products) {
   years.forEach(year => {
     const option = document.createElement('option');
     option.value = String(year);
-    option.textContent = year;
+    option.textContent = String(year);
     els.yearFilter.appendChild(option);
   });
 }
@@ -128,8 +122,7 @@ function applyFilters() {
     return matchesBrand && matchesYear && matchesSearch;
   });
 
-  results = sortProducts(results, sort);
-  state.filteredProducts = results;
+  state.filteredProducts = sortProducts(results, sort);
   renderAll();
 }
 
@@ -143,17 +136,18 @@ function buildMetric(label, value, subtext) {
 
 function renderMetrics(products) {
   els.metrics.innerHTML = '';
-  const msrps = products.map(p => p.msrpUSD).filter(n => typeof n === 'number');
-  const years = products.map(p => p.releaseYear).filter(year => typeof year === 'number');
-  const coveredYears = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
-  const uniqueBrands = new Set(products.map(p => p.brand)).size;
-  const newest = products[0] ? `${products[0].brand} · ${products[0].productName}` : '—';
+
+  const msrps = products.map(product => product.msrpUSD).filter(value => typeof value === 'number');
+  const years = products.map(product => product.releaseYear).filter(year => typeof year === 'number');
+  const uniqueBrands = new Set(products.map(product => product.brand)).size;
+  const newest = sortProducts(products, 'date-desc')[0];
+  const yearSpan = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
 
   const metrics = [
-    ['Tracked releases', String(products.length), 'Current result set'],
-    ['Brands visible', String(uniqueBrands), 'Across active filters'],
-    ['Average MSRP', msrps.length ? currency(average(msrps)) : '—', 'Based on visible records'],
-    ['Year span', coveredYears, `Newest visible: ${newest}`]
+    ['Visible releases', String(products.length), 'Current filtered set'],
+    ['Brands', String(uniqueBrands), 'Across current filters'],
+    ['Average MSRP', msrps.length ? currency(average(msrps)) : '—', 'Visible records only'],
+    ['Span', yearSpan, newest ? `Latest: ${newest.productName}` : 'No results']
   ];
 
   metrics.forEach(([label, value, subtext]) => {
@@ -161,83 +155,11 @@ function renderMetrics(products) {
   });
 }
 
-function renderBarChart(target, map, numericSort = false) {
-  target.innerHTML = '';
-  const rows = [...map.entries()];
-  if (numericSort) {
-    rows.sort((a, b) => Number(a[0]) - Number(b[0]));
-  } else {
-    rows.sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])));
-  }
-
-  const max = Math.max(...rows.map(([, value]) => value), 1);
-
-  rows.forEach(([label, value]) => {
-    const node = els.barRowTemplate.content.firstElementChild.cloneNode(true);
-    node.querySelector('.bar-title').textContent = label;
-    node.querySelector('.bar-value').textContent = value;
-    node.querySelector('.bar-fill').style.width = `${(value / max) * 100}%`;
-    target.appendChild(node);
-  });
-
-  if (!rows.length) {
-    const empty = document.createElement('p');
-    empty.className = 'empty-state';
-    empty.textContent = 'No data for the current filters.';
-    target.appendChild(empty);
-  }
-}
-
-function renderProducts(products) {
-  els.productGrid.innerHTML = '';
-
-  products.forEach(product => {
-    const node = els.productTemplate.content.firstElementChild.cloneNode(true);
-
-    node.querySelector('.brand-pill').textContent = product.brand;
-    node.querySelector('.product-name').textContent = product.productName;
-    node.querySelector('.product-series').textContent = product.series ? `Series: ${product.series}` : 'Series not specified';
-    node.querySelector('.release-badge').textContent = titleCase(product.releaseType);
-    node.querySelector('.release-date').textContent = formatDate(product.releaseDate);
-    node.querySelector('.msrp').textContent = currency(product.msrpUSD);
-    node.querySelector('.price-status').textContent = titleCase(product.priceStatus);
-
-    const featureList = node.querySelector('.feature-list');
-    (product.features || []).forEach(feature => {
-      const li = document.createElement('li');
-      li.textContent = feature;
-      featureList.appendChild(li);
-    });
-
-    const sourceList = node.querySelector('.source-list');
-    (product.sources || []).forEach(source => {
-      const li = document.createElement('li');
-
-      if (source.url) {
-        const link = document.createElement('a');
-        link.href = source.url;
-        link.target = '_blank';
-        link.rel = 'noreferrer noopener';
-        link.textContent = source.label;
-        li.appendChild(link);
-      } else {
-        li.textContent = source.label;
-      }
-
-      sourceList.appendChild(li);
-    });
-
-    els.productGrid.appendChild(node);
-  });
-
-  els.emptyState.classList.toggle('hidden', products.length > 0);
-}
-
 function createSourceLinks(sources) {
   const list = document.createElement('div');
   list.className = 'mini-sources';
 
-  (sources || []).slice(0, 2).forEach(source => {
+  (sources || []).slice(0, 3).forEach(source => {
     if (!source || !source.label) return;
 
     if (source.url) {
@@ -257,69 +179,38 @@ function createSourceLinks(sources) {
   return list;
 }
 
-function enableHorizontalWheelScroll(container) {
-  container.addEventListener('wheel', event => {
-    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-    container.scrollLeft += event.deltaY;
-    event.preventDefault();
-  }, { passive: false });
+function getHoverAlignment(monthNumber) {
+  return monthNumber >= 10 ? 'align-right' : 'align-left';
 }
 
-function getVisibleYearRange(products) {
-  const selectedYear = els.yearFilter.value;
-  if (selectedYear !== 'all') {
-    const year = Number(selectedYear);
-    return Number.isFinite(year) ? [year, year] : [null, null];
-  }
-
-  const years = products.map(product => product.releaseYear).filter(year => typeof year === 'number');
-  if (!years.length) return [null, null];
-  return [Math.min(...years), Math.max(...years)];
-}
-
-function groupProductsByYearMonth(products) {
-  const map = new Map();
-  sortProducts(products, 'date-asc').forEach(product => {
-    if (typeof product.releaseYear !== 'number') return;
-    const month = typeof product.releaseDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(product.releaseDate)
-      ? Number(product.releaseDate.slice(5, 7))
-      : null;
-    if (!month || month < 1 || month > 12) return;
-    const key = `${product.releaseYear}-${String(month).padStart(2, '0')}`;
-    if (!map.has(key)) map.set(key, []);
-    map.get(key).push(product);
-  });
-  return map;
-}
-
-function buildReleasePeek(product) {
+function buildReleasePeek(product, monthNumber) {
   const item = document.createElement('article');
   item.className = 'release-peek';
   item.tabIndex = 0;
 
-  const compactTop = document.createElement('div');
-  compactTop.className = 'release-peek-top';
+  const top = document.createElement('div');
+  top.className = 'release-peek-top';
 
-  const compactDate = document.createElement('span');
-  compactDate.className = 'release-peek-date';
-  compactDate.textContent = formatMonthDay(product.releaseDate);
+  const date = document.createElement('span');
+  date.className = 'release-date-pill';
+  date.textContent = formatMonthDay(product.releaseDate);
 
-  const compactType = document.createElement('span');
-  compactType.className = 'release-peek-type';
-  compactType.textContent = titleCase(product.releaseType);
+  const type = document.createElement('span');
+  type.className = 'release-kind';
+  type.textContent = titleCase(product.releaseType);
 
-  compactTop.append(compactDate, compactType);
+  top.append(date, type);
 
-  const compactName = document.createElement('h4');
-  compactName.className = 'release-peek-name';
-  compactName.textContent = product.productName;
+  const name = document.createElement('h4');
+  name.className = 'release-peek-name';
+  name.textContent = product.productName;
 
-  const compactBrand = document.createElement('p');
-  compactBrand.className = 'release-peek-brand';
-  compactBrand.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''}`;
+  const brand = document.createElement('p');
+  brand.className = 'release-peek-brand';
+  brand.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''}`;
 
   const detail = document.createElement('div');
-  detail.className = 'release-hover-card';
+  detail.className = `release-hover-card ${getHoverAlignment(monthNumber)}`;
 
   const detailName = document.createElement('h5');
   detailName.className = 'hover-card-title';
@@ -349,40 +240,70 @@ function buildReleasePeek(product) {
   sourceLabel.className = 'hover-card-label';
   sourceLabel.textContent = 'Sources';
 
-  detail.append(detailName, detailMeta, detailPrice, featureLabel, featureList, sourceLabel, createSourceLinks(product.sources));
-  item.append(compactTop, compactName, compactBrand, detail);
+  detail.append(
+    detailName,
+    detailMeta,
+    detailPrice,
+    featureLabel,
+    featureList,
+    sourceLabel,
+    createSourceLinks(product.sources)
+  );
+
+  item.append(top, name, brand, detail);
   return item;
 }
 
-function buildMonthCell(year, monthNumber, productsInMonth) {
-  const monthCell = document.createElement('section');
-  monthCell.className = 'month-cell';
+function groupProductsByYearMonth(products) {
+  const map = new Map();
 
-  const header = document.createElement('div');
-  header.className = 'month-cell-head';
+  sortProducts(products, 'date-asc').forEach(product => {
+    if (typeof product.releaseYear !== 'number') return;
+    if (typeof product.releaseDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(product.releaseDate)) return;
 
-  const titleWrap = document.createElement('div');
-  titleWrap.className = 'month-title-wrap';
+    const month = Number(product.releaseDate.slice(5, 7));
+    if (!month || month < 1 || month > 12) return;
+
+    const key = `${product.releaseYear}-${String(month).padStart(2, '0')}`;
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(product);
+  });
+
+  return map;
+}
+
+function getVisibleYears(products) {
+  const selectedYear = els.yearFilter.value;
+  if (selectedYear !== 'all') {
+    return [Number(selectedYear)].filter(Number.isFinite);
+  }
+
+  const years = [...new Set(products.map(product => product.releaseYear))]
+    .filter(year => typeof year === 'number')
+    .sort((a, b) => a - b);
+
+  return years;
+}
+
+function buildMonthCard(year, monthNumber, productsInMonth) {
+  const monthCard = document.createElement('section');
+  monthCard.className = 'month-card';
+
+  const head = document.createElement('div');
+  head.className = 'month-head';
 
   const title = document.createElement('h4');
   title.className = 'month-title';
   title.textContent = MONTH_NAMES[monthNumber - 1];
 
-  const subtitle = document.createElement('p');
-  subtitle.className = 'month-subtitle';
-  subtitle.textContent = String(year);
-
-  titleWrap.append(title, subtitle);
-
   const count = document.createElement('span');
   count.className = 'month-count';
   count.textContent = String(productsInMonth.length);
 
-  header.append(titleWrap, count);
-  monthCell.appendChild(header);
+  head.append(title, count);
 
   const body = document.createElement('div');
-  body.className = 'month-cell-body';
+  body.className = 'month-body';
 
   if (!productsInMonth.length) {
     const empty = document.createElement('p');
@@ -391,12 +312,62 @@ function buildMonthCell(year, monthNumber, productsInMonth) {
     body.appendChild(empty);
   } else {
     productsInMonth.forEach(product => {
-      body.appendChild(buildReleasePeek(product));
+      body.appendChild(buildReleasePeek(product, monthNumber));
     });
   }
 
-  monthCell.appendChild(body);
-  return monthCell;
+  monthCard.append(head, body);
+  return monthCard;
+}
+
+function buildQuarterCard(year, quarter, byYearMonth) {
+  const quarterCard = document.createElement('section');
+  quarterCard.className = 'quarter-card';
+
+  const total = quarter.months.reduce((sum, monthNumber) => {
+    const key = `${year}-${String(monthNumber).padStart(2, '0')}`;
+    return sum + (byYearMonth.get(key) || []).length;
+  }, 0);
+
+  const head = document.createElement('div');
+  head.className = 'quarter-head';
+
+  const title = document.createElement('h3');
+  title.className = 'quarter-title';
+  title.textContent = quarter.label;
+
+  const badge = document.createElement('span');
+  badge.className = 'year-count';
+  badge.textContent = `${total} release${total === 1 ? '' : 's'}`;
+
+  head.append(title, badge);
+
+  const months = document.createElement('div');
+  months.className = 'quarter-months';
+
+  quarter.months.forEach(monthNumber => {
+    const key = `${year}-${String(monthNumber).padStart(2, '0')}`;
+    const productsInMonth = byYearMonth.get(key) || [];
+    months.appendChild(buildMonthCard(year, monthNumber, productsInMonth));
+  });
+
+  quarterCard.append(head, months);
+  return quarterCard;
+}
+
+function enableHorizontalWheelScroll(container) {
+  container.addEventListener('wheel', event => {
+    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    container.scrollLeft += event.deltaY;
+    event.preventDefault();
+  }, { passive: false });
+}
+
+function scrollToLatestYear(viewport) {
+  const panels = viewport.querySelectorAll('.year-panel');
+  if (!panels.length) return;
+  const lastPanel = panels[panels.length - 1];
+  viewport.scrollLeft = lastPanel.offsetLeft;
 }
 
 function renderTimeline(products) {
@@ -405,97 +376,97 @@ function renderTimeline(products) {
   if (!products.length) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
-    empty.textContent = 'No grouped timeline to show.';
+    empty.textContent = 'No releases match the current filters.';
     els.timeline.appendChild(empty);
     return;
   }
 
-  const [minYear, maxYear] = getVisibleYearRange(products);
-  if (!minYear || !maxYear) {
+  const years = getVisibleYears(products);
+  if (!years.length) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
-    empty.textContent = 'No valid release years found in the current result set.';
+    empty.textContent = 'No valid release years found.';
     els.timeline.appendChild(empty);
     return;
   }
 
   const byYearMonth = groupProductsByYearMonth(products);
-
-  const shell = document.createElement('div');
-  shell.className = 'calendar-board-shell';
-
-  const hint = document.createElement('div');
-  hint.className = 'calendar-board-hint';
-  hint.textContent = 'Hover a release for details. Use shift + mouse wheel or trackpad scroll to move sideways.';
-  shell.appendChild(hint);
-
   const viewport = document.createElement('div');
-  viewport.className = 'calendar-board-viewport';
+  viewport.className = 'year-snap-viewport';
 
-  const canvas = document.createElement('div');
-  canvas.className = 'calendar-board-canvas';
+  const strip = document.createElement('div');
+  strip.className = 'year-strip';
 
-  for (let year = maxYear; year >= minYear; year -= 1) {
-    const yearSection = document.createElement('section');
-    yearSection.className = 'year-row';
+  years.forEach(year => {
+    const yearPanel = document.createElement('section');
+    yearPanel.className = 'year-panel';
 
-    const yearHeader = document.createElement('div');
-    yearHeader.className = 'year-row-head';
+    const head = document.createElement('div');
+    head.className = 'year-panel-head';
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'year-title-wrap';
 
     const title = document.createElement('h3');
-    title.className = 'year-row-title';
+    title.className = 'year-title';
     title.textContent = String(year);
 
+    const subtitle = document.createElement('span');
+    subtitle.className = 'year-subtitle';
+    subtitle.textContent = 'Full-year monthly view';
+
+    titleWrap.append(title, subtitle);
+
+    const total = Array.from({ length: 12 }, (_, index) => index + 1).reduce((sum, monthNumber) => {
+      const key = `${year}-${String(monthNumber).padStart(2, '0')}`;
+      return sum + (byYearMonth.get(key) || []).length;
+    }, 0);
+
     const count = document.createElement('span');
-    count.className = 'year-row-count';
-    let yearReleaseCount = 0;
+    count.className = 'year-count';
+    count.textContent = `${total} release${total === 1 ? '' : 's'}`;
 
-    const grid = document.createElement('div');
-    grid.className = 'year-grid';
+    head.append(titleWrap, count);
 
-    for (let month = 1; month <= 12; month += 1) {
-      const key = `${year}-${String(month).padStart(2, '0')}`;
-      const productsInMonth = byYearMonth.get(key) || [];
-      yearReleaseCount += productsInMonth.length;
-      grid.appendChild(buildMonthCell(year, month, productsInMonth));
-    }
+    const quarterGrid = document.createElement('div');
+    quarterGrid.className = 'quarter-grid';
+    QUARTERS.forEach(quarter => {
+      quarterGrid.appendChild(buildQuarterCard(year, quarter, byYearMonth));
+    });
 
-    count.textContent = `${yearReleaseCount} release${yearReleaseCount === 1 ? '' : 's'}`;
-    yearHeader.append(title, count);
-    yearSection.append(yearHeader, grid);
-    canvas.appendChild(yearSection);
-  }
+    yearPanel.append(head, quarterGrid);
+    strip.appendChild(yearPanel);
+  });
 
-  viewport.appendChild(canvas);
-  shell.appendChild(viewport);
-  els.timeline.appendChild(shell);
+  viewport.appendChild(strip);
+  els.timeline.appendChild(viewport);
   enableHorizontalWheelScroll(viewport);
+
+  if (els.yearFilter.value === 'all') {
+    requestAnimationFrame(() => scrollToLatestYear(viewport));
+  }
 }
 
 function renderMetadata() {
   const metadata = state.metadata;
   if (!metadata) return;
 
-  const brands = metadata.brands.join(', ');
-  const caveats = (metadata.caveats || []).map(text => `• ${text}`).join(' ');
+  const minYear = Math.min(...state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number'));
+  const maxYear = Math.max(...state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number'));
   els.metadataNote.classList.remove('loading');
-  els.metadataNote.textContent = `Tracked brands: ${brands}. ${caveats}`;
+  els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
 
 function renderAll() {
   const products = state.filteredProducts;
-  els.resultCount.textContent = `${products.length} visible product${products.length === 1 ? '' : 's'}`;
-
+  els.resultCount.textContent = `${products.length} visible`;
   renderMetrics(products);
-  renderBarChart(els.brandChart, groupCount(products, p => p.brand));
-  renderBarChart(els.yearChart, groupCount(products, p => p.releaseYear), true);
-  renderProducts(products);
   renderTimeline(products);
 }
 
 function bindEvents() {
-  [els.brandFilter, els.yearFilter, els.sortSelect].forEach(el => {
-    el.addEventListener('change', applyFilters);
+  [els.brandFilter, els.yearFilter, els.sortSelect].forEach(element => {
+    element.addEventListener('change', applyFilters);
   });
 
   els.searchInput.addEventListener('input', applyFilters);

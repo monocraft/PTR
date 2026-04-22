@@ -1,245 +1,75 @@
 {
   "metadata": {
     "title": "Gaming Headset Release Tracker",
-    "updatedAt": "2026-04-22",
+    "description": "Starter JSON database of gaming headset releases across major brands. Built for a static GitHub Pages site.",
+    "currency": "USD",
+    "caveats": [
+      "This is a sourced starter dataset, not a complete historical catalog.",
+      "Some brands publish announcement or preorder dates more clearly than retail launch dates. In those cases, releaseDate may reflect the best documented public milestone.",
+      "Some official press releases omit MSRP; when that happens, MSRP may be sourced from product pages or reputable launch coverage and is flagged in priceStatus."
+    ],
     "brands": [
       "Logitech",
       "Razer",
       "Corsair",
       "SteelSeries",
       "Turtle Beach"
-    ],
-    "recordCount": 52,
-    "yearSpan": [
-      2009,
-      2025
-    ],
-    "caveats": [
-      "Dates often reflect first public announcement, preorder, or official availability notice rather than every retailer shelf date.",
-      "MSRP confidence varies by record and is flagged in priceStatus. Some recent prices come from official product pages or launch coverage when the primary press release omitted MSRP.",
-      "Each source object now includes a direct URL so the site can link back to the underlying announcement, product page, or launch coverage."
     ]
   },
   "products": [
     {
-      "id": "corsair-void-v2-max-wireless-2025",
-      "brand": "Corsair",
-      "productName": "VOID v2 MAX Wireless",
-      "series": "VOID",
-      "releaseDate": "2025-09-30",
-      "releaseYear": 2025,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "Simultaneous 2.4GHz + Bluetooth",
-        "Dolby Atmos / Tempest 3D support",
-        "Long battery life focus"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: VOID v2 MAX Wireless",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair-announces-leveled-up-void-v2-max-wireless-gaming-headsets-for-xbox-and-pc-with-simultaneous-audio-connections-dolby-atmos-and-long-lasting-battery-life"
-        },
-        {
-          "label": "Launch coverage MSRP: VOID v2 MAX Wireless",
-          "type": "coverage",
-          "url": "https://www.gamesradar.com/hardware/headsets-headphones/xbox-fans-are-in-for-a-treat-as-corsair-has-levelled-up-one-of-my-favorite-headsets-for-the-series-x-s/"
-        }
-      ]
-    },
-    {
-      "id": "corsair-virtuoso-max-2024",
-      "brand": "Corsair",
-      "productName": "VIRTUOSO MAX",
-      "series": "VIRTUOSO",
-      "releaseDate": "2024-10-15",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "Active noise cancellation",
-        "Graphene drivers",
-        "Premium multiplatform wireless headset"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: VIRTUOSO MAX",
-          "type": "official",
-          "url": "https://ir.corsair.com/news-releases/news-release-details/corsair-launches-virtuoso-max-headset-active-noise-cancellation"
-        },
-        {
-          "label": "Launch coverage MSRP: VIRTUOSO MAX",
-          "type": "coverage",
-          "url": "https://hardcoregamer.com/corsair-virtuoso-max/"
-        }
-      ]
-    },
-    {
-      "id": "razer-kraken-v4-pro-2024",
-      "brand": "Razer",
-      "productName": "Kraken V4 Pro",
-      "series": "Kraken",
-      "releaseDate": "2024-09-28",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 399.99,
-      "features": [
-        "OLED control hub",
-        "Razer Sensa HD Haptics",
-        "Multi-source wireless connectivity"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Kraken V4 Pro",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/introducing-razer-kraken-v4-pro/"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-stealth-700-gen3-2024",
-      "brand": "Turtle Beach",
-      "productName": "Stealth 700 Gen 3",
-      "series": "Stealth",
-      "releaseDate": "2024-08-19",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Dual USB transmitters for quick switching",
-        "60mm drivers",
-        "80-hour battery life"
-      ],
-      "sources": [
-        {
-          "label": "Launch coverage: The Verge on Stealth 700 Gen 3",
-          "type": "coverage",
-          "url": "https://www.theverge.com/2024/8/19/24223821/turtle-beach-stealth-700-gen3-headset-playstation-xbox-pc-steam-price-specs"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-nova-5-wireless-2024",
-      "brand": "SteelSeries",
-      "productName": "Arctis Nova 5 Wireless",
-      "series": "Arctis Nova",
-      "releaseDate": "2024-05-14",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 129.99,
-      "features": [
-        "100+ game audio presets",
-        "60+ hour battery life",
-        "Quick-Switch 2.4GHz + Bluetooth"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Arctis Nova 5",
-          "type": "official",
-          "url": "https://steelseries.com/press/144-steelseries-introduces-100-game-specific-audio-profiles-with-new-arctis"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-atlas-air-2024",
-      "brand": "Turtle Beach",
-      "productName": "Atlas Air",
-      "series": "Atlas",
-      "releaseDate": "2024-04-18",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 179.99,
-      "features": [
-        "Wireless open-back design",
-        "24-bit audio support",
-        "Waves 3D audio + Bluetooth"
-      ],
-      "sources": [
-        {
-          "label": "Business Wire release: 2024 Turtle Beach lineup",
-          "type": "official_wire",
-          "url": "https://www.businesswire.com/news/home/20240418952365/en/Best-Selling-Gaming-Accessory-Brand-Turtle-Beach-Unveils-New-Gaming-Headsets-Keyboards-Mice-Launching-May-2024"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-stealth-600-gen3-2024",
-      "brand": "Turtle Beach",
-      "productName": "Stealth 600 Gen 3",
-      "series": "Stealth",
-      "releaseDate": "2024-04-18",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "2.4GHz + Bluetooth",
-        "80-hour battery life",
-        "50mm Nanoclear drivers"
-      ],
-      "sources": [
-        {
-          "label": "Business Wire release: 2024 Turtle Beach lineup",
-          "type": "official_wire",
-          "url": "https://www.businesswire.com/news/home/20240418952365/en/Best-Selling-Gaming-Accessory-Brand-Turtle-Beach-Unveils-New-Gaming-Headsets-Keyboards-Mice-Launching-May-2024"
-        }
-      ]
-    },
-    {
-      "id": "logitech-astro-a50x-2023",
+      "id": "logitech-g435-2021",
       "brand": "Logitech",
-      "productName": "ASTRO A50 X LIGHTSPEED",
-      "series": "ASTRO A50",
-      "releaseDate": "2023-12-05",
-      "releaseYear": 2023,
+      "productName": "G435 LIGHTSPEED",
+      "series": "G",
+      "releaseDate": "2021-09-14",
+      "releaseYear": 2021,
       "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 379.99,
+      "priceStatus": "official_msrp",
+      "msrpUSD": 79.99,
       "features": [
-        "PLAYSYNC multi-platform switching",
-        "Base station with HDMI 2.1 passthrough",
-        "PRO-G Graphene drivers"
+        "LIGHTSPEED wireless",
+        "Bluetooth",
+        "40mm drivers",
+        "Dual beamforming microphones",
+        "Lightweight over-ear design"
       ],
       "sources": [
         {
-          "label": "Official press release: ASTRO A50 X",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2023/Logitech-G-Launches-New-Flagship-Console-Wireless-Gaming-Headset---the-ASTRO-A50-X/default.aspx"
+          "label": "Official announcement: Logitech G435 LIGHTSPEED",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced September 14, 2021 at $79.99 MSRP",
+          "type": "note"
         }
       ]
     },
     {
-      "id": "corsair-hs80-max-2023",
-      "brand": "Corsair",
-      "productName": "HS80 MAX Wireless",
-      "series": "HS",
-      "releaseDate": "2023-08-10",
-      "releaseYear": 2023,
+      "id": "logitech-g735-2022",
+      "brand": "Logitech",
+      "productName": "G735 Wireless Gaming Headset",
+      "series": "Aurora Collection",
+      "releaseDate": "2022-07-26",
+      "releaseYear": 2022,
       "releaseType": "announcement",
-      "priceStatus": "official_article_current_price",
-      "msrpUSD": 179.99,
+      "priceStatus": "official_msrp",
+      "msrpUSD": 229.99,
       "features": [
-        "Bluetooth support",
-        "Sonarworks SoundID",
-        "Up to 65-hour battery life"
+        "LIGHTSYNC RGB",
+        "Bluetooth + LIGHTSPEED",
+        "Blue VO!CE",
+        "Dual audio mixing",
+        "56+ hour battery life"
       ],
       "sources": [
         {
-          "label": "Official press release: HS80 MAX",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/forge-your-legacy-corsair-launches-new-keyboard-and-headset-for-superior-customization-and-control"
+          "label": "Official announcement: Aurora Collection / G735",
+          "type": "official"
         },
         {
-          "label": "Official Corsair article: HS80 Series pricing context",
-          "type": "official_article",
-          "url": "https://www.corsair.com/us/en/explorer/gamer/headsets/corsair-hs80-series-gaming-headsets-everything-you-need-to-know/"
+          "label": "Source note: announced July 26, 2022 at $229.99 MSRP",
+          "type": "note"
         }
       ]
     },
@@ -251,161 +81,51 @@
       "releaseDate": "2023-05-24",
       "releaseYear": 2023,
       "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
+      "priceStatus": "official_msrp",
       "msrpUSD": 249.0,
       "features": [
-        "PRO-G Graphene drivers",
+        "50mm graphene drivers",
         "LIGHTSPEED + Bluetooth + 3.5mm",
-        "Up to 50-hour battery life"
+        "Up to 50-hour battery life",
+        "Blue VO!CE microphone",
+        "DTS Headphone:X 2.0"
       ],
       "sources": [
         {
-          "label": "Official press release: PRO X 2 LIGHTSPEED",
-          "type": "official",
-          "url": "https://news.logitech.com/press-releases/news-details/2023/Logitech-G-Introduces-the-Newest-Audio-Innovation-in-Esports---The-Logitech-G-PRO-X-2-LIGHTSPEED-Gaming-Headset-with-PRO-G-GRAPHENE-Audio-Drivers/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "razer-blackshark-v2-pro-2023",
-      "brand": "Razer",
-      "productName": "BlackShark V2 Pro (2023)",
-      "series": "BlackShark",
-      "releaseDate": "2023-04-27",
-      "releaseYear": 2023,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Upgraded HyperClear wideband mic",
-        "FPS-tuned wireless headset",
-        "Esports-focused design"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: 2023 BlackShark V2 Pro",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/introducing-the-2023-razer-blackshark-v2-pro-the-definitive-esports-headset-evolves/"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-stealth-pro-2023",
-      "brand": "Turtle Beach",
-      "productName": "Stealth Pro",
-      "series": "Stealth",
-      "releaseDate": "2023-03-23",
-      "releaseYear": 2023,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "ANC",
-        "Swappable battery system",
-        "50mm Nanoclear drivers"
-      ],
-      "sources": [
-        {
-          "label": "Business Wire release: Stealth Pro",
-          "type": "official_wire",
-          "url": "https://www.businesswire.com/news/home/20230323005173/en/All-Hail-the-New-King-of-Ultra-Premium-Wireless-Gaming-Audio-Turtle-Beach-Reveals-the-Stealth-Pro"
-        }
-      ]
-    },
-    {
-      "id": "corsair-hs65-wireless-2023",
-      "brand": "Corsair",
-      "productName": "HS65 Wireless",
-      "series": "HS",
-      "releaseDate": "2023-02-13",
-      "releaseYear": 2023,
-      "releaseType": "announcement",
-      "priceStatus": "official_product_page_current_price",
-      "msrpUSD": 119.99,
-      "features": [
-        "2.4GHz + Bluetooth",
-        "Lightweight reinforced build",
-        "Dolby Audio 7.1 on PC"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: HS65 Wireless",
-          "type": "official",
-          "url": "https://ir.corsair.com/news-releases/news-release-details/play-your-own-beat-corsair-launches-new-hs65-and-hs55-wireless"
+          "label": "Official announcement: PRO X 2 LIGHTSPEED",
+          "type": "official"
         },
         {
-          "label": "Official product page: HS65 Wireless",
-          "type": "official_product",
-          "url": "https://www.corsair.com/us/en/p/gaming-headsets/ca-9011285-na2/hs65-wireless-gaming-headset-carbon-ca-9011285-na2"
+          "label": "Source note: announced May 24, 2023 at $249 MSRP",
+          "type": "note"
         }
       ]
     },
     {
-      "id": "razer-kraken-kitty-v2-pro-2022",
-      "brand": "Razer",
-      "productName": "Kraken Kitty V2 Pro",
-      "series": "Kraken Kitty",
-      "releaseDate": "2022-10-15",
-      "releaseYear": 2022,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Interchangeable Chroma ears",
-        "Streaming-first identity",
-        "HyperClear cardioid mic"
-      ],
-      "sources": [
-        {
-          "label": "Official company news: RazerCon 2022 announcements",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/company-news/razercon-2022-captivates-gamers-globally-packed-with-new-product-announcements-giveaways/"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-nova-7-2022",
-      "brand": "SteelSeries",
-      "productName": "Arctis Nova 7",
-      "series": "Arctis Nova",
-      "releaseDate": "2022-08-23",
-      "releaseYear": 2022,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 179.99,
-      "features": [
-        "2.4GHz + Bluetooth",
-        "38-hour battery life era",
-        "Pocket-size USB-C dongle"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Arctis Nova 7",
-          "type": "official",
-          "url": "https://steelseries.com/press/121-steelseries-introduces-arctis-nova-7-heir-one-best-selling-gaming-headsets"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g735-2022",
+      "id": "logitech-astro-a50x-2024",
       "brand": "Logitech",
-      "productName": "G735",
-      "series": "Aurora",
-      "releaseDate": "2022-07-26",
-      "releaseYear": 2022,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_lineup_msrp",
-      "msrpUSD": 229.99,
+      "productName": "ASTRO A50 X LIGHTSPEED",
+      "series": "ASTRO",
+      "releaseDate": "2024-02-24",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_announcement_and_launch_coverage",
+      "msrpUSD": 379.99,
       "features": [
-        "LIGHTSPEED + Bluetooth",
-        "Suspension headband design",
-        "Aurora Collection styling"
+        "PLAYSYNC multi-platform switching",
+        "PRO-G graphene drivers",
+        "HDMI 2.1 base station",
+        "Bluetooth device mixing",
+        "Broadcast-quality 16-bit 48kHz microphone"
       ],
       "sources": [
         {
-          "label": "Official press release: Aurora Collection / G735",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2022/Welcome-to-a-New-Age-of-Play-with-the-Aurora-Collection-by-Logitech-G/default.aspx"
+          "label": "Official announcement: ASTRO A50 X announced December 5, 2023",
+          "type": "official"
+        },
+        {
+          "label": "Retail/review launch coverage: shipping / on-sale in February 2024",
+          "type": "coverage"
         }
       ]
     },
@@ -417,18 +137,275 @@
       "releaseDate": "2022-05-31",
       "releaseYear": 2022,
       "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
+      "priceStatus": "official_msrp",
       "msrpUSD": 249.99,
       "features": [
-        "Hybrid ANC",
-        "Integrated beamforming mics",
-        "Street-ready wireless design"
+        "Hybrid active noise cancellation",
+        "THX Achromatic Audio Amplifier",
+        "Razer SmartSwitch dual wireless",
+        "Beamforming noise-cancelling microphones",
+        "Bluetooth + HyperSpeed Wireless"
       ],
       "sources": [
         {
-          "label": "Official product news: Barracuda lineup",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/gaming-takes-to-the-streets-with-the-new-razer-barracuda-line-up/"
+          "label": "Official announcement: Barracuda line refresh",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced May 31, 2022 at $249.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-kraken-kitty-v2-pro-2022",
+      "brand": "Razer",
+      "productName": "Kraken Kitty V2 Pro",
+      "series": "Kraken",
+      "releaseDate": "2022-10-17",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 199.99,
+      "features": [
+        "Interchangeable kitty, bear, and bunny ears",
+        "Razer Chroma RGB",
+        "Stream reactive lighting",
+        "USB wired connectivity",
+        "Creator-focused styling"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Kraken Kitty V2 Pro",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced October 17, 2022 starting at $199.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-blackshark-v2-pro-2023",
+      "brand": "Razer",
+      "productName": "BlackShark V2 Pro (2023)",
+      "series": "BlackShark",
+      "releaseDate": "2023-04-27",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "official_msrp",
+      "msrpUSD": 199.99,
+      "features": [
+        "HyperClear super wideband microphone",
+        "70-hour battery life",
+        "HyperSpeed wireless",
+        "TriForce titanium 50mm drivers",
+        "Onboard FPS audio profiles"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: BlackShark V2 Pro (2023)",
+          "type": "official"
+        },
+        {
+          "label": "Source note: announced April 27, 2023 at $199.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "razer-kraken-v4-pro-2024",
+      "brand": "Razer",
+      "productName": "Kraken V4 Pro",
+      "series": "Kraken",
+      "releaseDate": "2024-09-28",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 399.99,
+      "features": [
+        "Razer Sensa HD haptics",
+        "OLED Control Hub",
+        "Four connectivity modes",
+        "Bluetooth + HyperSpeed Wireless + USB + 3.5mm",
+        "Up to 50-hour battery life"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Kraken V4 Pro",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: $399.99 MSRP widely reported at launch",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-virtuoso-rgb-wireless-xt-2021",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO RGB WIRELESS XT",
+      "series": "VIRTUOSO",
+      "releaseDate": "2021-05-13",
+      "releaseYear": 2021,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 269.99,
+      "features": [
+        "Simultaneous SLIPSTREAM wireless + Bluetooth",
+        "USB and 3.5mm wired options",
+        "50mm high-density drivers",
+        "Dolby Atmos support",
+        "Broadcast-grade omnidirectional microphone"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VIRTUOSO RGB WIRELESS XT",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: MSRP reported at $269.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-hs65-wireless-2023",
+      "brand": "Corsair",
+      "productName": "HS65 WIRELESS",
+      "series": "HS",
+      "releaseDate": "2023-02-13",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 119.99,
+      "features": [
+        "2.4GHz low-latency wireless",
+        "Bluetooth",
+        "Dolby Audio 7.1 on PC/Mac",
+        "Lightweight frame",
+        "Memory foam ear pads"
+      ],
+      "sources": [
+        {
+          "label": "Launch coverage: HS65 WIRELESS announced February 13, 2023",
+          "type": "coverage"
+        },
+        {
+          "label": "Source note: launch pricing reported at $119.99",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "corsair-hs80-max-2023",
+      "brand": "Corsair",
+      "productName": "HS80 MAX WIRELESS",
+      "series": "HS",
+      "releaseDate": "2023-08-10",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 179.99,
+      "features": [
+        "Bluetooth + 2.4GHz wireless",
+        "Broadcast-grade omni-directional microphone",
+        "Dolby Atmos",
+        "SoundID personalization",
+        "Floating headband design"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: HS80 MAX WIRELESS",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources place launch pricing around $179.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-virtuoso-max-2024",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO MAX",
+      "series": "VIRTUOSO",
+      "releaseDate": "2024-10-15",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 329.99,
+      "features": [
+        "50mm graphene drivers",
+        "Active noise cancellation",
+        "Dolby Atmos",
+        "Bluetooth + 2.4GHz wireless",
+        "Up to 60-hour battery life"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VIRTUOSO MAX",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources report launch pricing at $329.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-void-v2-max-2025",
+      "brand": "Corsair",
+      "productName": "VOID WIRELESS v2",
+      "series": "VOID",
+      "releaseDate": "2025-09-30",
+      "releaseYear": 2025,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 149.99,
+      "features": [
+        "Simultaneous 2.4GHz + Bluetooth",
+        "Dolby Atmos",
+        "NVIDIA Broadcast-powered mic processing",
+        "Up to 70-hour battery life",
+        "SoundID on PC"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: VOID WIRELESS v2",
+          "type": "official"
+        },
+        {
+          "label": "Public product/coverage sources report pricing at $149.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-7plus-2021",
+      "brand": "SteelSeries",
+      "productName": "Arctis 7+",
+      "series": "Arctis",
+      "releaseDate": "2021-10-13",
+      "releaseYear": 2021,
+      "releaseType": "launch",
+      "priceStatus": "official_store_msrp",
+      "msrpUSD": 169.99,
+      "features": [
+        "30+ hour battery life",
+        "USB-C wireless dongle",
+        "15-minute quick charge for 3 hours",
+        "ClearCast retractable microphone",
+        "Spatial audio support"
+      ],
+      "sources": [
+        {
+          "label": "Official store / launch announcement: Arctis 7+",
+          "type": "official"
+        },
+        {
+          "label": "Source note: available October 13, 2021 at $169.99",
+          "type": "note"
         }
       ]
     },
@@ -440,825 +417,191 @@
       "releaseDate": "2022-05-24",
       "releaseYear": 2022,
       "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 349.99,
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 349.0,
       "features": [
-        "ANC for gaming",
+        "Active noise cancellation",
         "Infinity Power dual-battery system",
-        "Wireless base station"
+        "Multi-System Connect base station",
+        "AI-powered noise-cancelling mic",
+        "Sonar audio software suite"
       ],
       "sources": [
         {
-          "label": "Official press release: Arctis Nova Pro series",
-          "type": "official",
-          "url": "https://steelseries.com/press/113-steelseries-unveils-future-gaming-audio-arctis-nova-pro-series"
+          "label": "Official announcement: Arctis Nova Pro family",
+          "type": "official"
+        },
+        {
+          "label": "Public launch references report MSRP at $349",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "steelseries-arctis-7plus-2021",
+      "id": "steelseries-arctis-nova-7-2022",
       "brand": "SteelSeries",
-      "productName": "Arctis 7+ Wireless",
-      "series": "Arctis",
-      "releaseDate": "2021-10-29",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 169.99,
-      "features": [
-        "USB-C charging",
-        "Longer battery life",
-        "Lossless 2.4GHz wireless"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Arctis 7+ / 7P+",
-          "type": "official",
-          "url": "https://steelseries.com/press/102-steelseries-unveils-new-wireless-gaming-headsets-arctis-7-and-arctis-7p"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g435-2021",
-      "brand": "Logitech",
-      "productName": "G435 LIGHTSPEED",
-      "series": "G Series",
-      "releaseDate": "2021-09-14",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 79.99,
-      "features": [
-        "LIGHTSPEED + Bluetooth",
-        "Lightweight 165g design",
-        "More sustainable materials focus"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Logitech G435",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2021/Logitech-G-Unveils-Its-Lightest-Most-Affordable-Sustainable-Wireless-Gaming-Headset-Yet/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "corsair-hs80-rgb-wireless-2021",
-      "brand": "Corsair",
-      "productName": "HS80 RGB Wireless",
-      "series": "HS",
-      "releaseDate": "2021-08-20",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_article_current_price",
-      "msrpUSD": 149.99,
-      "features": [
-        "Floating headband",
-        "Dolby Atmos on PC",
-        "Broadcast-grade omni-directional mic"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: HS80 RGB Wireless",
-          "type": "official",
-          "url": "https://ir.corsair.com/news-releases/news-release-details/what-winning-sounds-introducing-new-corsair-hs80-rgb-wireless"
-        },
-        {
-          "label": "Official Corsair article: HS80 Series pricing context",
-          "type": "official_article",
-          "url": "https://www.corsair.com/us/en/explorer/gamer/headsets/corsair-hs80-series-gaming-headsets-everything-you-need-to-know/"
-        }
-      ]
-    },
-    {
-      "id": "razer-barracuda-x-2021",
-      "brand": "Razer",
-      "productName": "Barracuda X",
-      "series": "Barracuda",
-      "releaseDate": "2021-07-13",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "USB-C wireless dongle",
-        "Multi-platform focus",
-        "Detachable microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer Barracuda X",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/one-to-rule-them-all-the-new-razer-barracuda-x-multi-platform-wireless-gaming-and-mobile-headset/"
-        }
-      ]
-    },
-    {
-      "id": "corsair-virtuoso-rgb-wireless-xt-2021",
-      "brand": "Corsair",
-      "productName": "VIRTUOSO RGB Wireless XT",
-      "series": "VIRTUOSO",
-      "releaseDate": "2021-05-13",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_product_page_current_price",
-      "msrpUSD": 279.99,
-      "features": [
-        "SLIPSTREAM + Bluetooth + 3.5mm + USB",
-        "Broadcast-grade detachable mic",
-        "Dolby Atmos support on PC/Xbox"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: VIRTUOSO RGB Wireless XT",
-          "type": "official",
-          "url": "https://ir.corsair.com/news-releases/news-release-details/incredible-sound-impeccable-clarity-corsair-launches-virtuoso"
-        },
-        {
-          "label": "Official product page: VIRTUOSO RGB Wireless XT",
-          "type": "official_product",
-          "url": "https://www.corsair.com/us/en/p/gaming-headsets/ca-9011188-na/virtuoso-rgb-wireless-xt-high-fidelity-gaming-headset-slate-ca-9011188-na"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-recon-500-2021",
-      "brand": "Turtle Beach",
-      "productName": "Recon 500",
-      "series": "Recon",
-      "releaseDate": "2021-05-06",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 79.95,
-      "features": [
-        "60mm Eclipse dual drivers",
-        "Lightweight wired design",
-        "Platform-wide 3.5mm compatibility"
-      ],
-      "sources": [
-        {
-          "label": "PRNewswire release: Recon 500",
-          "type": "official_wire",
-          "url": "https://www.prnewswire.com/news-releases/turtle-beach-unveils-the-all-new-recon-500-gaming-headset-featuring-first-of-their-kind-60mm-eclipse-dual-drivers-301285086.html"
-        }
-      ]
-    },
-    {
-      "id": "razer-kaira-pro-2020",
-      "brand": "Razer",
-      "productName": "Kaira Pro",
-      "series": "Kaira",
-      "releaseDate": "2020-11-05",
-      "releaseYear": 2020,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "Xbox Wireless connectivity",
-        "TriForce Titanium 50mm drivers",
-        "HyperSense haptics on Xbox model"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer Kaira Pro",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/razer-announces-the-kaira-pro-the-ultimate-xbox-and-cloud-gaming-headset/"
-        }
-      ]
-    },
-    {
-      "id": "corsair-hs70-bluetooth-2020",
-      "brand": "Corsair",
-      "productName": "HS70 BLUETOOTH",
-      "series": "HS",
-      "releaseDate": "2020-11-03",
-      "releaseYear": 2020,
+      "productName": "Arctis Nova 7",
+      "series": "Arctis Nova",
+      "releaseDate": "2022-08-23",
+      "releaseYear": 2022,
       "releaseType": "announcement",
       "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "Simultaneous Bluetooth + wired use",
-        "Discord / mobile chat companion use",
-        "Comfort-first tuning"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: HS70 BLUETOOTH",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/crafted-for-comfort-built-for-battle-corsair-launches-hs70-bluetooth"
-        }
-      ]
-    },
-    {
-      "id": "razer-blackshark-v2-pro-2020",
-      "brand": "Razer",
-      "productName": "BlackShark V2 Pro",
-      "series": "BlackShark",
-      "releaseDate": "2020-09-22",
-      "releaseYear": 2020,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
       "msrpUSD": 179.99,
       "features": [
-        "Wireless esports tuning",
-        "HyperClear supercardioid mic",
-        "THX Spatial Audio"
+        "2.4GHz + Bluetooth",
+        "38-hour battery life",
+        "AI noise-cancelling microphone",
+        "USB-C fast charging",
+        "Neodymium Magnetic Drivers"
       ],
       "sources": [
         {
-          "label": "Official product news: Wireless flagships lineup",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/razer-unleashes-a-fleet-of-wireless-flagships/"
-        }
-      ]
-    },
-    {
-      "id": "razer-blackshark-v2-2020",
-      "brand": "Razer",
-      "productName": "BlackShark V2",
-      "series": "BlackShark",
-      "releaseDate": "2020-07-30",
-      "releaseYear": 2020,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "TriForce Titanium 50mm drivers",
-        "HyperClear cardioid mic",
-        "THX Spatial Audio profiles"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer BlackShark V2",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/the-new-triple-threat-in-esports-the-razer-blackshark-v2/"
-        }
-      ]
-    },
-    {
-      "id": "corsair-virtuoso-rgb-wireless-2019",
-      "brand": "Corsair",
-      "productName": "VIRTUOSO RGB Wireless",
-      "series": "VIRTUOSO",
-      "releaseDate": "2019-09-05",
-      "releaseYear": 2019,
-      "releaseType": "announcement",
-      "priceStatus": "official_product_page_current_price",
-      "msrpUSD": 199.99,
-      "features": [
-        "SLIPSTREAM wireless",
-        "Broadcast-style detachable microphone",
-        "Machined aluminum construction"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: VIRTUOSO RGB Wireless",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair-delivers-incredible-sound-impeccable-clarity-with-new-virtuoso-rgb-wireless-gaming-headsets"
+          "label": "Official announcement: Arctis Nova 7 family",
+          "type": "official"
         },
         {
-          "label": "Official product page: VIRTUOSO RGB Wireless",
-          "type": "official_product",
-          "url": "https://www.corsair.com/us/en/p/gaming-headsets/ca-9011185-na/virtuoso-rgb-wireless-high-fidelity-gaming-headset-carbon-ca-9011185-na"
+          "label": "Public launch references report MSRP at $179.99",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "logitech-g-pro-x-2019",
-      "brand": "Logitech",
-      "productName": "G PRO X Gaming Headset",
-      "series": "PRO",
-      "releaseDate": "2019-07-09",
-      "releaseYear": 2019,
+      "id": "steelseries-arctis-nova-5-2024",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova 5 Wireless",
+      "series": "Arctis Nova",
+      "releaseDate": "2024-05-14",
+      "releaseYear": 2024,
       "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
+      "priceStatus": "official_msrp",
       "msrpUSD": 129.99,
       "features": [
-        "Blue VO!CE microphone tech",
-        "Pro-G 50mm drivers",
-        "Included velour ear pads"
+        "100+ game audio presets via app",
+        "Quick-Switch Wireless",
+        "60+ hour battery life",
+        "ClearCast 2.X microphone",
+        "Bluetooth 5.3"
       ],
       "sources": [
         {
-          "label": "Official press release: Logitech G PRO X",
-          "type": "official",
-          "url": "https://news.logitech.com/press-releases/news-details/2019/Sound-Like-a-Pro-and-Hear-Like-One-with-the-Logitech-G-PRO-X-Gaming-Headset-with-Blue-VOCE-Technology/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "razer-nari-ultimate-2018",
-      "brand": "Razer",
-      "productName": "Nari Ultimate",
-      "series": "Nari",
-      "releaseDate": "2018-09-27",
-      "releaseYear": 2018,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Razer HyperSense haptics",
-        "THX Spatial Audio",
-        "Cooling gel ear cushions"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer Nari family",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/razer-announces-nari-wireless-gaming-headset-family/"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g-pro-2018",
-      "brand": "Logitech",
-      "productName": "G PRO Gaming Headset",
-      "series": "PRO",
-      "releaseDate": "2018-03-28",
-      "releaseYear": 2018,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 89.99,
-      "features": [
-        "Pro-G 50mm drivers",
-        "Detachable pro-grade microphone",
-        "Lightweight aluminum and steel build"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Logitech G PRO",
-          "type": "official",
-          "url": "https://news.logitech.com/press-releases/news-details/2018/Logitech-G-Launches-New-PRO-Gaming-Headset/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-pro-wireless-2018",
-      "brand": "SteelSeries",
-      "productName": "Arctis Pro Wireless",
-      "series": "Arctis Pro",
-      "releaseDate": "2018-03-13",
-      "releaseYear": 2018,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "Dual-wireless system",
-        "Swappable dual batteries",
-        "Hi-Res capable drivers"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Arctis Pro line",
-          "type": "official",
-          "url": "https://steelseries.com/press/45-steelseries-launches-arctis-pro-headset-line-first-high-fidelity-and-high"
-        }
-      ]
-    },
-    {
-      "id": "razer-tiamat-71-v2-2017",
-      "brand": "Razer",
-      "productName": "Tiamat 7.1 V2",
-      "series": "Tiamat",
-      "releaseDate": "2017-07-25",
-      "releaseYear": 2017,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "10 discrete drivers",
-        "Updated audio control unit",
-        "Razer Chroma lighting"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer Tiamat 7.1 V2",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/razer-announces-the-tiamat-7-1-v2-the-flagship-true-surround-sound-headset-for-perfect-positional-gaming-audio/"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-stealth-600-2017",
-      "brand": "Turtle Beach",
-      "productName": "Stealth 600",
-      "series": "Stealth",
-      "releaseDate": "2017-06-08",
-      "releaseYear": 2017,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 99.95,
-      "features": [
-        "Wireless console gaming",
-        "Flip-to-mute mic",
-        "Superhuman Hearing mode"
-      ],
-      "sources": [
-        {
-          "label": "PRNewswire release: Stealth 600 / 700 series",
-          "type": "official_wire",
-          "url": "https://www.prnewswire.com/news-releases/turtle-beach-leads-the-new-era-of-wireless-gaming-audio-at-e3-2017-with-the-stealth-700--stealth-600-series-headsets-for-xbox-one-consoles-and-playstation4-300470878.html"
+          "label": "Official announcement: Arctis Nova 5 Wireless",
+          "type": "official"
         },
         {
-          "label": "Official Turtle Beach blog: Stealth 600 / 700",
-          "type": "official",
-          "url": "https://www.turtlebeach.com/blog/introducing-the-all-new-stealth-600-stealth-700"
+          "label": "Source note: announced May 14, 2024 at $129.99 MSRP",
+          "type": "note"
         }
       ]
     },
     {
-      "id": "turtlebeach-stealth-700-2017",
+      "id": "turtlebeach-stealth-pro-2023",
       "brand": "Turtle Beach",
-      "productName": "Stealth 700",
+      "productName": "Stealth Pro",
       "series": "Stealth",
-      "releaseDate": "2017-06-08",
-      "releaseYear": 2017,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 149.95,
-      "features": [
-        "Bluetooth connectivity",
-        "Active noise-canceling mic monitoring era",
-        "Wireless console flagship tier"
-      ],
-      "sources": [
-        {
-          "label": "PRNewswire release: Stealth 600 / 700 series",
-          "type": "official_wire",
-          "url": "https://www.prnewswire.com/news-releases/turtle-beach-leads-the-new-era-of-wireless-gaming-audio-at-e3-2017-with-the-stealth-700--stealth-600-series-headsets-for-xbox-one-consoles-and-playstation4-300470878.html"
-        },
-        {
-          "label": "Official Turtle Beach blog: Stealth 600 / 700",
-          "type": "official",
-          "url": "https://www.turtlebeach.com/blog/introducing-the-all-new-stealth-600-stealth-700"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g533-2017",
-      "brand": "Logitech",
-      "productName": "G533 Wireless",
-      "series": "G Series",
-      "releaseDate": "2017-01-04",
-      "releaseYear": 2017,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "Pro-G audio drivers",
-        "DTS Headphone:X surround",
-        "15-hour battery life"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Logitech G533",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2017/Logitech-G-Unleashes-Advanced-Audio-Performance-With-New-PC-Wireless-Gaming-Headset/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-7-2016",
-      "brand": "SteelSeries",
-      "productName": "Arctis 7",
-      "series": "Arctis",
-      "releaseDate": "2016-10-04",
-      "releaseYear": 2016,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_lineup_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "Lossless wireless audio",
-        "ClearCast microphone",
-        "Ski-goggle suspension band"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Arctis 3 / 5 / 7 lineup",
-          "type": "official",
-          "url": "https://steelseries.com/press/28-steelseries-launches-arctis-headset-line-challenges-gaming-audio-stereotypes"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-elite-pro-2016",
-      "brand": "Turtle Beach",
-      "productName": "Elite Pro Tournament Headset",
-      "series": "Elite Pro",
-      "releaseDate": "2016-05-03",
-      "releaseYear": 2016,
-      "releaseType": "announcement",
-      "priceStatus": "official_wire_msrp",
-      "msrpUSD": 199.95,
-      "features": [
-        "Esports-first design",
-        "Large 50mm Nanoclear drivers",
-        "Comfort-driven ProSpecs system era"
-      ],
-      "sources": [
-        {
-          "label": "PRNewswire release: Elite Pro announcement",
-          "type": "official_wire",
-          "url": "https://www.prnewswire.com/news-releases/turtle-beach-reinvents-esports-gaming-headsets-with-the-elite-pro--a-new-benchmark-for-competitive-gaming-audio-performance-and-comfort-300261527.html"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-siberia-840-2016",
-      "brand": "SteelSeries",
-      "productName": "Siberia 840",
-      "series": "Siberia",
-      "releaseDate": "2016-04-05",
-      "releaseYear": 2016,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "Dual wireless connectivity",
-        "OLED transmitter base",
-        "Swappable battery system"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Siberia 840",
-          "type": "official",
-          "url": "https://steelseries.com/press/26-best-wireless-gaming-headset-upgraded-bluetooth-steelseries-siberia-840"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-siberia-200-2015",
-      "brand": "SteelSeries",
-      "productName": "Siberia 200",
-      "series": "Siberia",
-      "releaseDate": "2015-10-20",
-      "releaseYear": 2015,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 79.99,
-      "features": [
-        "50mm drivers",
-        "Retractable microphone",
-        "Return of the Siberia tuning and comfort"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Siberia 200",
-          "type": "official",
-          "url": "https://steelseries.com/press/19-steelseries-answers-siberia-headset-demand-gamers-worldwide-introducing"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g633-artemis-spectrum-2015",
-      "brand": "Logitech",
-      "productName": "G633 Artemis Spectrum",
-      "series": "G Series",
-      "releaseDate": "2015-08-27",
-      "releaseYear": 2015,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_lineup_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "7.1 Dolby + DTS Headphone:X",
-        "RGB lighting",
-        "USB and 3.5mm connectivity"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Logitech G633 / G933",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2015/Logitech-G-Introduces-New-Gaming-Headphones/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "logitech-g933-artemis-spectrum-2015",
-      "brand": "Logitech",
-      "productName": "G933 Artemis Spectrum",
-      "series": "G Series",
-      "releaseDate": "2015-08-27",
-      "releaseYear": 2015,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_lineup_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Wireless 7.1 Dolby + DTS Headphone:X",
-        "Multi-source connectivity",
-        "Programmable RGB lighting"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Logitech G633 / G933",
-          "type": "official",
-          "url": "https://ir.logitech.com/press-releases/press-release-details/2015/Logitech-G-Introduces-New-Gaming-Headphones/default.aspx"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-elite-800x-2015",
-      "brand": "Turtle Beach",
-      "productName": "Elite 800X",
-      "series": "Elite",
-      "releaseDate": "2015-01-06",
-      "releaseYear": 2015,
-      "releaseType": "announcement",
+      "releaseDate": "2023-04-23",
+      "releaseYear": 2023,
+      "releaseType": "launch",
       "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 299.95,
+      "msrpUSD": 329.99,
       "features": [
-        "Fully wireless Xbox focus",
-        "ANC-era flagship positioning",
-        "Bluetooth mobile connectivity"
+        "Active noise cancellation",
+        "50mm Nanoclear drivers",
+        "Dual swappable batteries",
+        "Bluetooth 5.1",
+        "Noise-cancelling microphone system"
       ],
       "sources": [
         {
-          "label": "PRNewswire release: Turtle Beach CES 2015 lineup",
-          "type": "official_wire",
-          "url": "https://www.prnewswire.com/news-releases/turtle-beach-introduces-new-gaming-headsets-accessories-and-partnerships-at-ces-300016096.html"
+          "label": "Launch coverage: Stealth Pro release timing and price",
+          "type": "coverage"
+        },
+        {
+          "label": "Product/coverage references place MSRP at $329.99",
+          "type": "note"
         }
       ]
     },
     {
-      "id": "corsair-h2100-wireless-2014",
-      "brand": "Corsair",
-      "productName": "H2100 Wireless",
-      "series": "Corsair Gaming H",
-      "releaseDate": "2014-09-22",
-      "releaseYear": 2014,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_range_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "Wireless gaming headset",
-        "Shared Corsair Gaming design refresh",
-        "Part of 2014 headset lineup"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Corsair Gaming RGB keyboards, mice, and headsets",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair-unleashes-corsair-gaming-rgb-keyboards-rgb-mice-and-headsets"
-        }
-      ]
-    },
-    {
-      "id": "corsair-vengeance-1500-v2-2013",
-      "brand": "Corsair",
-      "productName": "Vengeance 1500 v2",
-      "series": "Vengeance",
-      "releaseDate": "2013-08-29",
-      "releaseYear": 2013,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "Dolby 7.1 surround",
-        "New 50mm drivers",
-        "Memory foam ear pads"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Corsair PAX Prime 2013 headsets",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair-powers-up-gaming-headsets-at-pax-prime-2013"
-        }
-      ]
-    },
-    {
-      "id": "razer-kraken-pro-2012",
-      "brand": "Razer",
-      "productName": "Kraken Pro",
-      "series": "Kraken",
-      "releaseDate": "2012-08-15",
-      "releaseYear": 2012,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 79.99,
-      "features": [
-        "Retractable microphone",
-        "40mm drivers",
-        "Ergonomic design for long sessions"
-      ],
-      "sources": [
-        {
-          "label": "Official product news: Razer Kraken Pro",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/game-longer-in-extreme-comfort-with-the-razer-kraken-pro-gaming-headset/"
-        }
-      ]
-    },
-    {
-      "id": "corsair-vengeance-2000-2012",
-      "brand": "Corsair",
-      "productName": "Vengeance 2000 Wireless",
-      "series": "Vengeance",
-      "releaseDate": "2012-04-05",
-      "releaseYear": 2012,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 149.99,
-      "features": [
-        "Wireless design",
-        "Dolby Headphone support era",
-        "PC gaming focus"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Corsair adds Vengeance wireless headset",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair_adds_wireless_headsets_and_pc_cases_to_vengeance_gaming_line"
-        }
-      ]
-    },
-    {
-      "id": "corsair-vengeance-1500-2011",
-      "brand": "Corsair",
-      "productName": "Vengeance 1500",
-      "series": "Vengeance",
-      "releaseDate": "2011-09-16",
-      "releaseYear": 2011,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 99.0,
-      "features": [
-        "USB 7.1 surround",
-        "50mm drivers",
-        "Noise-canceling microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official press release: Corsair Vengeance headsets",
-          "type": "official",
-          "url": "https://www.corsair.com/newsroom/press-release/corsair_announces_new_vengeance_gaming_headsets"
-        }
-      ]
-    },
-    {
-      "id": "razer-tiamat-71-2011",
-      "brand": "Razer",
-      "productName": "Tiamat 7.1",
-      "series": "Tiamat",
-      "releaseDate": "2011-08-17",
-      "releaseYear": 2011,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
+      "id": "turtlebeach-atlas-air-2024",
+      "brand": "Turtle Beach",
+      "productName": "Atlas Air",
+      "series": "Atlas",
+      "releaseDate": "2024-05-19",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
       "msrpUSD": 179.99,
       "features": [
-        "True 7.1 surround with multiple drivers",
-        "Dedicated audio control unit",
-        "Position-focused PC gaming audio"
+        "Open-back design",
+        "50-hour battery life",
+        "Waves 3D Audio",
+        "Broadcast-quality 16kHz microphone",
+        "Low-latency wireless + Bluetooth"
       ],
       "sources": [
         {
-          "label": "Official product news: Razer Tiamat 7.1",
-          "type": "official",
-          "url": "https://www.razer.com/newsroom/product-news/razer-announces-the-worlds-first-true-7-1-surround-sound-gaming-headset/"
+          "label": "Official announcement: Atlas Air",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale May 19, 2024 at $179.99",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "logitech-g930-2010",
-      "brand": "Logitech",
-      "productName": "G930",
-      "series": "G Series",
-      "releaseDate": "2010-08-05",
-      "releaseYear": 2010,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 159.99,
+      "id": "turtlebeach-stealth-600-gen3-2024",
+      "brand": "Turtle Beach",
+      "productName": "Stealth 600 Gen 3",
+      "series": "Stealth",
+      "releaseDate": "2024-05-19",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
+      "msrpUSD": 99.99,
       "features": [
-        "Wireless 7.1 Dolby surround",
-        "Programmable G-keys",
-        "Noise-canceling microphone"
+        "80-hour battery life",
+        "QuickSwitch button",
+        "Bluetooth",
+        "AI-driven microphone noise reduction",
+        "Multi-platform wireless"
       ],
       "sources": [
         {
-          "label": "Official press release: Logitech G930",
-          "type": "official",
-          "url": "https://news.logitech.com/press-releases/news-details/2010/Choose-Your-Weapons-Wisely-Logitech-Unveils-New-G-Series-Gaming-Headset-Mouse-Keyboard/default.aspx"
+          "label": "Official announcement: Stealth 600 Gen 3",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale May 19, 2024 at $99.99",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "logitech-g35-2009",
-      "brand": "Logitech",
-      "productName": "G35",
-      "series": "G Series",
-      "releaseDate": "2009-01-06",
-      "releaseYear": 2009,
-      "releaseType": "announcement",
-      "priceStatus": "official_press_msrp",
-      "msrpUSD": 129.99,
+      "id": "turtlebeach-stealth-700-gen3-2024",
+      "brand": "Turtle Beach",
+      "productName": "Stealth 700 Gen 3",
+      "series": "Stealth",
+      "releaseDate": "2024-09-22",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_and_launch_coverage",
+      "msrpUSD": 199.99,
       "features": [
-        "7.1 surround sound",
-        "Noise-canceling microphone",
-        "Three programmable G-keys"
+        "Dual USB wireless transmitters",
+        "60mm Eclipse drivers",
+        "80-hour battery life",
+        "Bluetooth 5.2",
+        "AI noise-reduction microphone"
       ],
       "sources": [
         {
-          "label": "Official press release: Logitech G35",
-          "type": "official",
-          "url": "https://news.logitech.com/press-releases/news-details/2009/Logitech-Gives-Gamers-Complete-Control-With-New-G-series-Peripherals-for-PC-Gaming/default.aspx"
+          "label": "Official announcement: Stealth 700 Gen 3",
+          "type": "official"
+        },
+        {
+          "label": "Launch coverage: on-sale September 22, 2024 at $199.99",
+          "type": "coverage"
         }
       ]
     }
