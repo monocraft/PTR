@@ -9,223 +9,14 @@
       "Some official press releases omit MSRP; when that happens, MSRP may be sourced from product pages or reputable launch coverage and is flagged in priceStatus."
     ],
     "brands": [
-      "Corsair",
-      "HyperX",
       "Logitech",
       "Razer",
+      "Corsair",
       "SteelSeries",
       "Turtle Beach"
     ]
   },
   "products": [
-    {
-      "id": "hyperx-cloud-ii-2015",
-      "brand": "HyperX",
-      "productName": "Cloud II",
-      "series": "Cloud",
-      "releaseDate": "2015-02-10",
-      "releaseYear": 2015,
-      "releaseType": "launch",
-      "priceStatus": "coverage_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "53mm drivers",
-        "7.1 virtual surround sound USB control box",
-        "Detachable microphone",
-        "Memory foam ear cushions",
-        "Aluminum frame"
-      ],
-      "sources": [
-        {
-          "label": "Launch coverage: Cloud II",
-          "type": "coverage",
-          "url": "https://www.gizbot.com/news/hyperx-launches-cloud-ii-gaming-headset-a-new-mouse-pad-india-022693.html"
-        },
-        {
-          "label": "Review coverage: Cloud II pricing",
-          "type": "coverage",
-          "url": "https://www.tweaktown.com/reviews/6985/kingston-hyperx-cloud-ii-pro-gaming-headset-review/index.html"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-alpha-2017",
-      "brand": "HyperX",
-      "productName": "Cloud Alpha",
-      "series": "Cloud",
-      "releaseDate": "2017-08-22",
-      "releaseYear": 2017,
-      "releaseType": "announcement",
-      "priceStatus": "coverage_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "Dual chamber driver design",
-        "Detachable noise-cancelling microphone",
-        "Aluminum frame",
-        "Memory foam comfort",
-        "Multi-platform wired audio"
-      ],
-      "sources": [
-        {
-          "label": "Background and date: Cloud Alpha",
-          "type": "coverage",
-          "url": "https://www.ifixit.com/Device/HyperX_Cloud_Alpha"
-        },
-        {
-          "label": "Press summary: Cloud Alpha MSRP",
-          "type": "coverage",
-          "url": "https://www.hardwareasylum.com/news/newspage1200.aspx"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-flight-2018",
-      "brand": "HyperX",
-      "productName": "Cloud Flight",
-      "series": "Cloud",
-      "releaseDate": "2018-01-08",
-      "releaseYear": 2018,
-      "releaseType": "announcement",
-      "priceStatus": "coverage_msrp",
-      "msrpUSD": 159.99,
-      "features": [
-        "2.4GHz wireless",
-        "Up to 30-hour battery life",
-        "Detachable microphone",
-        "Closed-back design",
-        "On-ear LED effects controls"
-      ],
-      "sources": [
-        {
-          "label": "Launch coverage: The Verge",
-          "type": "coverage",
-          "url": "https://www.theverge.com/circuitbreaker/2018/1/8/16858996/hyperx-cloud-flight-gaming-headset-release-date-price-specs-ces-2018"
-        },
-        {
-          "label": "Launch coverage: CES 2018",
-          "type": "coverage",
-          "url": "https://pcper.com/2018/01/ces-2018-hyperx-cloud-flight-wireless-gaming-headset/"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-orbit-s-2019",
-      "brand": "HyperX",
-      "productName": "Cloud Orbit S",
-      "series": "Cloud",
-      "releaseDate": "2019-01-15",
-      "releaseYear": 2019,
-      "releaseType": "announcement",
-      "priceStatus": "coverage_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "Planar magnetic drivers",
-        "Waves Nx head tracking",
-        "3D audio processing",
-        "Detachable microphone",
-        "Premium wired connectivity modes"
-      ],
-      "sources": [
-        {
-          "label": "CES 2019 lineup coverage",
-          "type": "coverage",
-          "url": "https://navi.gg/en/publications/3049-ces-2019-new-hyperx-lineup"
-        },
-        {
-          "label": "Computex / lineup coverage",
-          "type": "coverage",
-          "url": "https://gamingtrend.com/news/hyperx-announces-peripheral-line-up-at-computex-2019-includes-new-mechanical-keyboard-and-gaming-headset/"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-flight-s-2020",
-      "brand": "HyperX",
-      "productName": "Cloud Flight S",
-      "series": "Cloud",
-      "releaseDate": "2020-02-24",
-      "releaseYear": 2020,
-      "releaseType": "launch",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 159.99,
-      "features": [
-        "Qi wireless charging",
-        "Up to 30-hour battery life",
-        "2.4GHz wireless",
-        "Game/chat balance",
-        "Virtual 7.1 surround support"
-      ],
-      "sources": [
-        {
-          "label": "Official launch: HyperX Cloud Flight S",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-now-shipping-cloud-flight-s-wireless-gaming-headset-with-qi-charging"
-        },
-        {
-          "label": "Official archive listing",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/tagged/press?page=12"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-alpha-s-blackout-2020",
-      "brand": "HyperX",
-      "productName": "Cloud Alpha S Blackout",
-      "series": "Cloud",
-      "releaseDate": "2020-03-25",
-      "releaseYear": 2020,
-      "releaseType": "launch",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 129.99,
-      "features": [
-        "Custom-tuned HyperX virtual 7.1",
-        "Advanced audio control mixer",
-        "Dual chamber drivers",
-        "Breathable leatherette",
-        "Detachable microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official launch: Cloud Alpha S Blackout",
-          "type": "official",
-          "url": "https://au.hyperx.com/blogs/press/hyperx-now-shipping-cloud-alpha-s-blackout-edition"
-        },
-        {
-          "label": "Business Wire coverage",
-          "type": "coverage",
-          "url": "https://www.businesswire.com/news/home/20200325005092/en/HyperX-Now-Shipping-Cloud-Alpha-S-Blackout-Edition"
-        }
-      ]
-    },
-    {
-      "id": "corsair-virtuoso-rgb-wireless-xt-2021",
-      "brand": "Corsair",
-      "productName": "VIRTUOSO RGB WIRELESS XT",
-      "series": "VIRTUOSO",
-      "releaseDate": "2021-05-13",
-      "releaseYear": 2021,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 269.99,
-      "features": [
-        "Simultaneous SLIPSTREAM wireless + Bluetooth",
-        "USB and 3.5mm wired options",
-        "50mm high-density drivers",
-        "Dolby Atmos support",
-        "Broadcast-grade omnidirectional microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: VIRTUOSO RGB WIRELESS XT",
-          "type": "official"
-        },
-        {
-          "label": "Launch coverage: MSRP reported at $269.99",
-          "type": "coverage"
-        }
-      ]
-    },
     {
       "id": "logitech-g435-2021",
       "brand": "Logitech",
@@ -250,150 +41,6 @@
         },
         {
           "label": "Source note: announced September 14, 2021 at $79.99 MSRP",
-          "type": "note"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-7plus-2021",
-      "brand": "SteelSeries",
-      "productName": "Arctis 7+",
-      "series": "Arctis",
-      "releaseDate": "2021-10-13",
-      "releaseYear": 2021,
-      "releaseType": "launch",
-      "priceStatus": "official_store_msrp",
-      "msrpUSD": 169.99,
-      "features": [
-        "30+ hour battery life",
-        "USB-C wireless dongle",
-        "15-minute quick charge for 3 hours",
-        "ClearCast retractable microphone",
-        "Spatial audio support"
-      ],
-      "sources": [
-        {
-          "label": "Official store / launch announcement: Arctis 7+",
-          "type": "official"
-        },
-        {
-          "label": "Source note: available October 13, 2021 at $169.99",
-          "type": "note"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-core-wireless-2021",
-      "brand": "HyperX",
-      "productName": "Cloud Core Wireless",
-      "series": "Cloud",
-      "releaseDate": "2021-11-16",
-      "releaseYear": 2021,
-      "releaseType": "launch",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 99.99,
-      "features": [
-        "DTS Headphone:X spatial audio",
-        "53mm drivers",
-        "2.4GHz wireless",
-        "Up to 20-hour battery life",
-        "Detachable noise-cancelling microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official press page: Cloud Core Wireless",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-launches-cloud-core-wireless-gaming-headset-with-dts%C2%AE-headphone-x%C2%AE"
-        },
-        {
-          "label": "Business Wire release",
-          "type": "coverage",
-          "url": "https://www.businesswire.com/news/home/20211116005039/en/HyperX-Launches-Cloud-Core-Wireless-Gaming-Headset-with-DTS-HeadphoneX"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-alpha-wireless-2022",
-      "brand": "HyperX",
-      "productName": "Cloud Alpha Wireless",
-      "series": "Cloud",
-      "releaseDate": "2022-04-11",
-      "releaseYear": 2022,
-      "releaseType": "launch",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 199.99,
-      "features": [
-        "Up to 300-hour battery life",
-        "DTS Headphone:X spatial audio",
-        "Dual chamber drivers",
-        "2.4GHz wireless",
-        "Detachable microphone"
-      ],
-      "sources": [
-        {
-          "label": "Official launch: Cloud Alpha Wireless",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/cloud-alpha-wireless-gaming-headset-with-300-hour-battery-life"
-        },
-        {
-          "label": "Official CES reveal context",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-unveils-world-s-first-300-hour-wireless-gaming-headset-at-ces-2022"
-        }
-      ]
-    },
-    {
-      "id": "steelseries-arctis-nova-pro-wireless-2022",
-      "brand": "SteelSeries",
-      "productName": "Arctis Nova Pro Wireless",
-      "series": "Arctis Nova",
-      "releaseDate": "2022-05-24",
-      "releaseYear": 2022,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 349.0,
-      "features": [
-        "Active noise cancellation",
-        "Infinity Power dual-battery system",
-        "Multi-System Connect base station",
-        "AI-powered noise-cancelling mic",
-        "Sonar audio software suite"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: Arctis Nova Pro family",
-          "type": "official"
-        },
-        {
-          "label": "Public launch references report MSRP at $349",
-          "type": "coverage"
-        }
-      ]
-    },
-    {
-      "id": "razer-barracuda-pro-2022",
-      "brand": "Razer",
-      "productName": "Barracuda Pro",
-      "series": "Barracuda",
-      "releaseDate": "2022-05-31",
-      "releaseYear": 2022,
-      "releaseType": "announcement",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 249.99,
-      "features": [
-        "Hybrid active noise cancellation",
-        "THX Achromatic Audio Amplifier",
-        "Razer SmartSwitch dual wireless",
-        "Beamforming noise-cancelling microphones",
-        "Bluetooth + HyperSpeed Wireless"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: Barracuda line refresh",
-          "type": "official"
-        },
-        {
-          "label": "Source note: announced May 31, 2022 at $249.99 MSRP",
           "type": "note"
         }
       ]
@@ -427,60 +74,86 @@
       ]
     },
     {
-      "id": "steelseries-arctis-nova-7-2022",
-      "brand": "SteelSeries",
-      "productName": "Arctis Nova 7",
-      "series": "Arctis Nova",
-      "releaseDate": "2022-08-23",
-      "releaseYear": 2022,
+      "id": "logitech-pro-x2-lightspeed-2023",
+      "brand": "Logitech",
+      "productName": "PRO X 2 LIGHTSPEED",
+      "series": "PRO",
+      "releaseDate": "2023-05-24",
+      "releaseYear": 2023,
       "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 179.99,
+      "priceStatus": "official_msrp",
+      "msrpUSD": 249.0,
       "features": [
-        "2.4GHz + Bluetooth",
-        "38-hour battery life",
-        "AI noise-cancelling microphone",
-        "USB-C fast charging",
-        "Neodymium Magnetic Drivers"
+        "50mm graphene drivers",
+        "LIGHTSPEED + Bluetooth + 3.5mm",
+        "Up to 50-hour battery life",
+        "Blue VO!CE microphone",
+        "DTS Headphone:X 2.0"
       ],
       "sources": [
         {
-          "label": "Official announcement: Arctis Nova 7 family",
+          "label": "Official announcement: PRO X 2 LIGHTSPEED",
           "type": "official"
         },
         {
-          "label": "Public launch references report MSRP at $179.99",
+          "label": "Source note: announced May 24, 2023 at $249 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "logitech-astro-a50x-2024",
+      "brand": "Logitech",
+      "productName": "ASTRO A50 X LIGHTSPEED",
+      "series": "ASTRO",
+      "releaseDate": "2024-02-24",
+      "releaseYear": 2024,
+      "releaseType": "launch",
+      "priceStatus": "official_announcement_and_launch_coverage",
+      "msrpUSD": 379.99,
+      "features": [
+        "PLAYSYNC multi-platform switching",
+        "PRO-G graphene drivers",
+        "HDMI 2.1 base station",
+        "Bluetooth device mixing",
+        "Broadcast-quality 16-bit 48kHz microphone"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: ASTRO A50 X announced December 5, 2023",
+          "type": "official"
+        },
+        {
+          "label": "Retail/review launch coverage: shipping / on-sale in February 2024",
           "type": "coverage"
         }
       ]
     },
     {
-      "id": "hyperx-cloud-stinger-2-2022",
-      "brand": "HyperX",
-      "productName": "Cloud Stinger 2",
-      "series": "Cloud",
-      "releaseDate": "2022-09-06",
+      "id": "razer-barracuda-pro-2022",
+      "brand": "Razer",
+      "productName": "Barracuda Pro",
+      "series": "Barracuda",
+      "releaseDate": "2022-05-31",
       "releaseYear": 2022,
-      "releaseType": "launch",
+      "releaseType": "announcement",
       "priceStatus": "official_msrp",
-      "msrpUSD": 49.99,
+      "msrpUSD": 249.99,
       "features": [
-        "DTS Headphone:X spatial audio",
-        "50mm drivers",
-        "Under-300g lightweight design",
-        "Swivel-to-mute microphone",
-        "90-degree rotating earcups"
+        "Hybrid active noise cancellation",
+        "THX Achromatic Audio Amplifier",
+        "Razer SmartSwitch dual wireless",
+        "Beamforming noise-cancelling microphones",
+        "Bluetooth + HyperSpeed Wireless"
       ],
       "sources": [
         {
-          "label": "Official launch: Cloud Stinger 2",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-releases-enhanced-cloud-stinger-2-gaming-headset"
+          "label": "Official announcement: Barracuda line refresh",
+          "type": "official"
         },
         {
-          "label": "Official archive listing",
-          "type": "official",
-          "url": "https://au.hyperx.com/blogs/press/hyperx-releases-enhanced-cloud-stinger-2-gaming-headset"
+          "label": "Source note: announced May 31, 2022 at $249.99 MSRP",
+          "type": "note"
         }
       ]
     },
@@ -508,62 +181,6 @@
         },
         {
           "label": "Source note: announced October 17, 2022 starting at $199.99 MSRP",
-          "type": "note"
-        }
-      ]
-    },
-    {
-      "id": "corsair-hs65-wireless-2023",
-      "brand": "Corsair",
-      "productName": "HS65 WIRELESS",
-      "series": "HS",
-      "releaseDate": "2023-02-13",
-      "releaseYear": 2023,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 119.99,
-      "features": [
-        "2.4GHz low-latency wireless",
-        "Bluetooth",
-        "Dolby Audio 7.1 on PC/Mac",
-        "Lightweight frame",
-        "Memory foam ear pads"
-      ],
-      "sources": [
-        {
-          "label": "Launch coverage: HS65 WIRELESS announced February 13, 2023",
-          "type": "coverage"
-        },
-        {
-          "label": "Source note: launch pricing reported at $119.99",
-          "type": "note"
-        }
-      ]
-    },
-    {
-      "id": "turtlebeach-stealth-pro-2023",
-      "brand": "Turtle Beach",
-      "productName": "Stealth Pro",
-      "series": "Stealth",
-      "releaseDate": "2023-04-23",
-      "releaseYear": 2023,
-      "releaseType": "launch",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 329.99,
-      "features": [
-        "Active noise cancellation",
-        "50mm Nanoclear drivers",
-        "Dual swappable batteries",
-        "Bluetooth 5.1",
-        "Noise-cancelling microphone system"
-      ],
-      "sources": [
-        {
-          "label": "Launch coverage: Stealth Pro release timing and price",
-          "type": "coverage"
-        },
-        {
-          "label": "Product/coverage references place MSRP at $329.99",
           "type": "note"
         }
       ]
@@ -597,60 +214,86 @@
       ]
     },
     {
-      "id": "logitech-pro-x2-lightspeed-2023",
-      "brand": "Logitech",
-      "productName": "PRO X 2 LIGHTSPEED",
-      "series": "PRO",
-      "releaseDate": "2023-05-24",
-      "releaseYear": 2023,
+      "id": "razer-kraken-v4-pro-2024",
+      "brand": "Razer",
+      "productName": "Kraken V4 Pro",
+      "series": "Kraken",
+      "releaseDate": "2024-09-28",
+      "releaseYear": 2024,
       "releaseType": "announcement",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 249.0,
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 399.99,
       "features": [
-        "50mm graphene drivers",
-        "LIGHTSPEED + Bluetooth + 3.5mm",
-        "Up to 50-hour battery life",
-        "Blue VO!CE microphone",
-        "DTS Headphone:X 2.0"
+        "Razer Sensa HD haptics",
+        "OLED Control Hub",
+        "Four connectivity modes",
+        "Bluetooth + HyperSpeed Wireless + USB + 3.5mm",
+        "Up to 50-hour battery life"
       ],
       "sources": [
         {
-          "label": "Official announcement: PRO X 2 LIGHTSPEED",
+          "label": "Official announcement: Kraken V4 Pro",
           "type": "official"
         },
         {
-          "label": "Source note: announced May 24, 2023 at $249 MSRP",
-          "type": "note"
+          "label": "Launch coverage: $399.99 MSRP widely reported at launch",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "hyperx-cloud-iii-2023",
-      "brand": "HyperX",
-      "productName": "Cloud III",
-      "series": "Cloud",
-      "releaseDate": "2023-05-30",
-      "releaseYear": 2023,
+      "id": "corsair-virtuoso-rgb-wireless-xt-2021",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO RGB WIRELESS XT",
+      "series": "VIRTUOSO",
+      "releaseDate": "2021-05-13",
+      "releaseYear": 2021,
       "releaseType": "announcement",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 99.99,
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 269.99,
       "features": [
-        "Re-engineered 53mm angled drivers",
-        "DTS Headphone:X activation",
-        "Signature memory foam comfort",
-        "Detachable microphone",
-        "USB-C, USB-A and 3.5mm support"
+        "Simultaneous SLIPSTREAM wireless + Bluetooth",
+        "USB and 3.5mm wired options",
+        "50mm high-density drivers",
+        "Dolby Atmos support",
+        "Broadcast-grade omnidirectional microphone"
       ],
       "sources": [
         {
-          "label": "Official press release: Cloud III",
-          "type": "official",
-          "url": "https://www.hp.com/us-en/newsroom/press-releases/2023/hyperx-announces-cloud-iii-gaming-headset.html"
+          "label": "Official announcement: VIRTUOSO RGB WIRELESS XT",
+          "type": "official"
         },
         {
-          "label": "Official HyperX press page",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-announces-cloud-iii-gaming-headset"
+          "label": "Launch coverage: MSRP reported at $269.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "corsair-hs65-wireless-2023",
+      "brand": "Corsair",
+      "productName": "HS65 WIRELESS",
+      "series": "HS",
+      "releaseDate": "2023-02-13",
+      "releaseYear": 2023,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 119.99,
+      "features": [
+        "2.4GHz low-latency wireless",
+        "Bluetooth",
+        "Dolby Audio 7.1 on PC/Mac",
+        "Lightweight frame",
+        "Memory foam ear pads"
+      ],
+      "sources": [
+        {
+          "label": "Launch coverage: HS65 WIRELESS announced February 13, 2023",
+          "type": "coverage"
+        },
+        {
+          "label": "Source note: launch pricing reported at $119.99",
+          "type": "note"
         }
       ]
     },
@@ -683,59 +326,141 @@
       ]
     },
     {
-      "id": "hyperx-cloud-iii-wireless-2023",
-      "brand": "HyperX",
-      "productName": "Cloud III Wireless",
-      "series": "Cloud",
-      "releaseDate": "2023-08-23",
-      "releaseYear": 2023,
-      "releaseType": "launch",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 169.99,
+      "id": "corsair-virtuoso-max-2024",
+      "brand": "Corsair",
+      "productName": "VIRTUOSO MAX",
+      "series": "VIRTUOSO",
+      "releaseDate": "2024-10-15",
+      "releaseYear": 2024,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 329.99,
       "features": [
-        "Up to 120-hour battery life",
-        "2.4GHz wireless",
-        "53mm angled drivers",
-        "DTS Headphone:X",
-        "USB-C dongle with USB-A adapter"
+        "50mm graphene drivers",
+        "Active noise cancellation",
+        "Dolby Atmos",
+        "Bluetooth + 2.4GHz wireless",
+        "Up to 60-hour battery life"
       ],
       "sources": [
         {
-          "label": "Official launch: Cloud III Wireless",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/hyperx-announces-cloud-iii-wireless-gaming-headset-at-gamescom"
+          "label": "Official announcement: VIRTUOSO MAX",
+          "type": "official"
         },
         {
-          "label": "Official press index",
-          "type": "official",
-          "url": "https://hyperx.com/blogs/press/tagged/2023"
+          "label": "Public product/coverage sources report launch pricing at $329.99",
+          "type": "coverage"
         }
       ]
     },
     {
-      "id": "logitech-astro-a50x-2024",
-      "brand": "Logitech",
-      "productName": "ASTRO A50 X LIGHTSPEED",
-      "series": "ASTRO",
-      "releaseDate": "2024-02-24",
-      "releaseYear": 2024,
-      "releaseType": "launch",
-      "priceStatus": "official_announcement_and_launch_coverage",
-      "msrpUSD": 379.99,
+      "id": "corsair-void-v2-max-2025",
+      "brand": "Corsair",
+      "productName": "VOID WIRELESS v2",
+      "series": "VOID",
+      "releaseDate": "2025-09-30",
+      "releaseYear": 2025,
+      "releaseType": "announcement",
+      "priceStatus": "mixed_public_sources",
+      "msrpUSD": 149.99,
       "features": [
-        "PLAYSYNC multi-platform switching",
-        "PRO-G graphene drivers",
-        "HDMI 2.1 base station",
-        "Bluetooth device mixing",
-        "Broadcast-quality 16-bit 48kHz microphone"
+        "Simultaneous 2.4GHz + Bluetooth",
+        "Dolby Atmos",
+        "NVIDIA Broadcast-powered mic processing",
+        "Up to 70-hour battery life",
+        "SoundID on PC"
       ],
       "sources": [
         {
-          "label": "Official announcement: ASTRO A50 X announced December 5, 2023",
+          "label": "Official announcement: VOID WIRELESS v2",
           "type": "official"
         },
         {
-          "label": "Retail/review launch coverage: shipping / on-sale in February 2024",
+          "label": "Public product/coverage sources report pricing at $149.99",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-7plus-2021",
+      "brand": "SteelSeries",
+      "productName": "Arctis 7+",
+      "series": "Arctis",
+      "releaseDate": "2021-10-13",
+      "releaseYear": 2021,
+      "releaseType": "launch",
+      "priceStatus": "official_store_msrp",
+      "msrpUSD": 169.99,
+      "features": [
+        "30+ hour battery life",
+        "USB-C wireless dongle",
+        "15-minute quick charge for 3 hours",
+        "ClearCast retractable microphone",
+        "Spatial audio support"
+      ],
+      "sources": [
+        {
+          "label": "Official store / launch announcement: Arctis 7+",
+          "type": "official"
+        },
+        {
+          "label": "Source note: available October 13, 2021 at $169.99",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-nova-pro-wireless-2022",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova Pro Wireless",
+      "series": "Arctis Nova",
+      "releaseDate": "2022-05-24",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 349.0,
+      "features": [
+        "Active noise cancellation",
+        "Infinity Power dual-battery system",
+        "Multi-System Connect base station",
+        "AI-powered noise-cancelling mic",
+        "Sonar audio software suite"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Arctis Nova Pro family",
+          "type": "official"
+        },
+        {
+          "label": "Public launch references report MSRP at $349",
+          "type": "coverage"
+        }
+      ]
+    },
+    {
+      "id": "steelseries-arctis-nova-7-2022",
+      "brand": "SteelSeries",
+      "productName": "Arctis Nova 7",
+      "series": "Arctis Nova",
+      "releaseDate": "2022-08-23",
+      "releaseYear": 2022,
+      "releaseType": "announcement",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 179.99,
+      "features": [
+        "2.4GHz + Bluetooth",
+        "38-hour battery life",
+        "AI noise-cancelling microphone",
+        "USB-C fast charging",
+        "Neodymium Magnetic Drivers"
+      ],
+      "sources": [
+        {
+          "label": "Official announcement: Arctis Nova 7 family",
+          "type": "official"
+        },
+        {
+          "label": "Public launch references report MSRP at $179.99",
           "type": "coverage"
         }
       ]
@@ -764,6 +489,34 @@
         },
         {
           "label": "Source note: announced May 14, 2024 at $129.99 MSRP",
+          "type": "note"
+        }
+      ]
+    },
+    {
+      "id": "turtlebeach-stealth-pro-2023",
+      "brand": "Turtle Beach",
+      "productName": "Stealth Pro",
+      "series": "Stealth",
+      "releaseDate": "2023-04-23",
+      "releaseYear": 2023,
+      "releaseType": "launch",
+      "priceStatus": "launch_coverage_msrp",
+      "msrpUSD": 329.99,
+      "features": [
+        "Active noise cancellation",
+        "50mm Nanoclear drivers",
+        "Dual swappable batteries",
+        "Bluetooth 5.1",
+        "Noise-cancelling microphone system"
+      ],
+      "sources": [
+        {
+          "label": "Launch coverage: Stealth Pro release timing and price",
+          "type": "coverage"
+        },
+        {
+          "label": "Product/coverage references place MSRP at $329.99",
           "type": "note"
         }
       ]
@@ -848,180 +601,6 @@
         },
         {
           "label": "Launch coverage: on-sale September 22, 2024 at $199.99",
-          "type": "coverage"
-        }
-      ]
-    },
-    {
-      "id": "razer-kraken-v4-pro-2024",
-      "brand": "Razer",
-      "productName": "Kraken V4 Pro",
-      "series": "Kraken",
-      "releaseDate": "2024-09-28",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "launch_coverage_msrp",
-      "msrpUSD": 399.99,
-      "features": [
-        "Razer Sensa HD haptics",
-        "OLED Control Hub",
-        "Four connectivity modes",
-        "Bluetooth + HyperSpeed Wireless + USB + 3.5mm",
-        "Up to 50-hour battery life"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: Kraken V4 Pro",
-          "type": "official"
-        },
-        {
-          "label": "Launch coverage: $399.99 MSRP widely reported at launch",
-          "type": "coverage"
-        }
-      ]
-    },
-    {
-      "id": "corsair-virtuoso-max-2024",
-      "brand": "Corsair",
-      "productName": "VIRTUOSO MAX",
-      "series": "VIRTUOSO",
-      "releaseDate": "2024-10-15",
-      "releaseYear": 2024,
-      "releaseType": "announcement",
-      "priceStatus": "mixed_public_sources",
-      "msrpUSD": 329.99,
-      "features": [
-        "50mm graphene drivers",
-        "Active noise cancellation",
-        "Dolby Atmos",
-        "Bluetooth + 2.4GHz wireless",
-        "Up to 60-hour battery life"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: VIRTUOSO MAX",
-          "type": "official"
-        },
-        {
-          "label": "Public product/coverage sources report launch pricing at $329.99",
-          "type": "coverage"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-jet-2025",
-      "brand": "HyperX",
-      "productName": "Cloud Jet",
-      "series": "Cloud",
-      "releaseDate": "2025-03-19",
-      "releaseYear": 2025,
-      "releaseType": "launch",
-      "priceStatus": "coverage_msrp",
-      "msrpUSD": 79.99,
-      "features": [
-        "Dual wireless 2.4GHz + Bluetooth 5.3",
-        "40mm drivers",
-        "Swivel-to-mute boom microphone",
-        "Low-latency gaming mode",
-        "Intuitive onboard audio controls"
-      ],
-      "sources": [
-        {
-          "label": "Product page: Cloud Jet",
-          "type": "official",
-          "url": "https://hyperx.com/products/hyperx-cloud-jet-wireless-gaming-headset"
-        },
-        {
-          "label": "Launch coverage: SoundGuys",
-          "type": "coverage",
-          "url": "https://www.soundguys.com/hyperx-cloud-jet-review-dual-wireless-review-136759/"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-alpha-2-2025",
-      "brand": "HyperX",
-      "productName": "Cloud Alpha 2 Wireless",
-      "series": "Cloud",
-      "releaseDate": "2025-08-14",
-      "releaseYear": 2025,
-      "releaseType": "announcement",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 299.99,
-      "features": [
-        "Up to 250-hour battery life",
-        "Multi-layer 53mm dual chamber drivers",
-        "Simultaneous 2.4GHz + Bluetooth",
-        "Included RGB base station",
-        "Programmable controls and macros"
-      ],
-      "sources": [
-        {
-          "label": "Product page: Cloud Alpha 2",
-          "type": "official",
-          "url": "https://hyperx.com/products/hyperx-cloud-alpha-2-wireless-gaming-headset"
-        },
-        {
-          "label": "Launch coverage: The Verge",
-          "type": "coverage",
-          "url": "https://www.theverge.com/news/759290/hyperxs-new-gaming-headset-claims-to-last-250-hours-on-a-single-charge"
-        }
-      ]
-    },
-    {
-      "id": "hyperx-cloud-flight-2-2025",
-      "brand": "HyperX",
-      "productName": "Cloud Flight 2 Wireless",
-      "series": "Cloud",
-      "releaseDate": "2025-08-14",
-      "releaseYear": 2025,
-      "releaseType": "announcement",
-      "priceStatus": "official_msrp",
-      "msrpUSD": 129.99,
-      "features": [
-        "Customizable RGB earcups with removable plates",
-        "Up to 100-hour battery life",
-        "2.4GHz + Bluetooth + Instant Pair",
-        "Angled 50mm drivers",
-        "Detachable boom mic plus internal mic"
-      ],
-      "sources": [
-        {
-          "label": "Product page: Cloud Flight 2",
-          "type": "official",
-          "url": "https://hyperx.com/products/hyperx-cloud-flight-2-wireless-gaming-headset"
-        },
-        {
-          "label": "Launch coverage: The Verge",
-          "type": "coverage",
-          "url": "https://www.theverge.com/news/759290/hyperxs-new-gaming-headset-claims-to-last-250-hours-on-a-single-charge"
-        }
-      ]
-    },
-    {
-      "id": "corsair-void-v2-max-2025",
-      "brand": "Corsair",
-      "productName": "VOID WIRELESS v2",
-      "series": "VOID",
-      "releaseDate": "2025-09-30",
-      "releaseYear": 2025,
-      "releaseType": "announcement",
-      "priceStatus": "mixed_public_sources",
-      "msrpUSD": 149.99,
-      "features": [
-        "Simultaneous 2.4GHz + Bluetooth",
-        "Dolby Atmos",
-        "NVIDIA Broadcast-powered mic processing",
-        "Up to 70-hour battery life",
-        "SoundID on PC"
-      ],
-      "sources": [
-        {
-          "label": "Official announcement: VOID WIRELESS v2",
-          "type": "official"
-        },
-        {
-          "label": "Public product/coverage sources report pricing at $149.99",
           "type": "coverage"
         }
       ]
