@@ -344,6 +344,7 @@ input:focus {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
   min-height: 0;
+  max-width: 360px;
   height: 100%;
   align-items: stretch;
 }
