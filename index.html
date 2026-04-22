@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gaming Headset Release Tracker</title>
+  <meta name="description" content="Track gaming headset releases by brand and by year using a local JSON database." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="title-block">
+        <p class="eyebrow">GitHub Pages-ready • JSON-driven</p>
+        <h1>Gaming Headset Release Tracker</h1>
+      </div>
+      <div id="metadataNote" class="notice loading">Loading dataset…</div>
+    </div>
+  </header>
+
+  <main class="shell app-shell">
+    <section class="panel controls controls-minimal">
+      <div class="toolbar-row">
+        <select id="brandFilter" aria-label="Filter by brand">
+          <option value="all">All brands</option>
+        </select>
+
+        <select id="yearFilter" aria-label="Filter by year">
+          <option value="all">All years</option>
+        </select>
+
+        <input id="searchInput" type="search" placeholder="Search" aria-label="Search products" />
+
+        <select id="sortSelect" aria-label="Sort products">
+          <option value="date-desc">Newest</option>
+          <option value="date-asc">Oldest</option>
+          <option value="msrp-desc">MSRP ↓</option>
+          <option value="msrp-asc">MSRP ↑</option>
+          <option value="brand-asc">Brand A–Z</option>
+          <option value="name-asc">Name A–Z</option>
+        </select>
+
+        <span id="resultCount" class="toolbar-chip">0 visible</span>
+        <button id="resetButton" class="button secondary" type="button">Reset</button>
+      </div>
+    </section>
+
+    <section id="metrics" class="metrics-row"></section>
+
+    <section class="panel timeline-panel">
+      <div class="section-head compact-head">
+        <h2>Year strip</h2>
+        <span class="section-chip">Hover or click a release for full detail</span>
+      </div>
+      <div id="timeline" class="timeline"></div>
+    </section>
+  </main>
+
+  <template id="metricTemplate">
+    <article class="metric-chip">
+      <span class="metric-label"></span>
+      <strong class="metric-value"></strong>
+      <span class="metric-subtext"></span>
+    </article>
+  </template>
+
+  <aside id="detailLayer" class="detail-layer" aria-live="polite"></aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
