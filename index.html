@@ -29,13 +29,13 @@
           <option value="all">All years</option>
         </select>
 
-        <input id="searchInput" type="search" placeholder="Search model, series, or features" aria-label="Search products" />
+        <input id="searchInput" type="search" placeholder="Search" aria-label="Search products" />
 
         <select id="sortSelect" aria-label="Sort products">
-          <option value="date-desc">Newest first</option>
-          <option value="date-asc">Oldest first</option>
-          <option value="msrp-desc">Highest MSRP</option>
-          <option value="msrp-asc">Lowest MSRP</option>
+          <option value="date-desc">Newest</option>
+          <option value="date-asc">Oldest</option>
+          <option value="msrp-desc">MSRP ↓</option>
+          <option value="msrp-asc">MSRP ↑</option>
           <option value="brand-asc">Brand A–Z</option>
           <option value="name-asc">Name A–Z</option>
         </select>
@@ -49,11 +49,8 @@
 
     <section class="panel timeline-panel">
       <div class="section-head compact-head">
-        <div>
-          <h2>Horizontal year view</h2>
-          <p>Quarterly segmented. Each year snaps to a full view and includes all 12 months, even when no releases exist.</p>
-        </div>
-        <div class="section-chip">Hover or focus releases for details</div>
+        <h2>Year strip</h2>
+        <span class="section-chip">Hover or click a release for full detail</span>
       </div>
       <div id="timeline" class="timeline"></div>
     </section>
@@ -66,6 +63,8 @@
       <span class="metric-subtext"></span>
     </article>
   </template>
+
+  <aside id="detailLayer" class="detail-layer" aria-live="polite"></aside>
 
   <script src="app.js" defer></script>
 </body>

@@ -16,6 +16,12 @@ const state = {
   metadata: null
 };
 
+const popupState = {
+  activeTrigger: null,
+  activeProduct: null,
+  hideTimer: null
+};
+
 const els = {
   metadataNote: document.getElementById('metadataNote'),
   brandFilter: document.getElementById('brandFilter'),
@@ -26,7 +32,8 @@ const els = {
   resultCount: document.getElementById('resultCount'),
   metrics: document.getElementById('metrics'),
   timeline: document.getElementById('timeline'),
-  metricTemplate: document.getElementById('metricTemplate')
+  metricTemplate: document.getElementById('metricTemplate'),
+  detailLayer: document.getElementById('detailLayer')
 };
 
 function currency(value) {
@@ -109,7 +116,7 @@ function applyFilters() {
   const search = els.searchInput.value.trim().toLowerCase();
   const sort = els.sortSelect.value;
 
-  let results = state.allProducts.filter(product => {
+  const results = state.allProducts.filter(product => {
     const matchesBrand = brand === 'all' || product.brand === brand;
     const matchesYear = year === 'all' || String(product.releaseYear) === year;
     const haystack = [
@@ -123,6 +130,7 @@ function applyFilters() {
   });
 
   state.filteredProducts = sortProducts(results, sort);
+  hideDetailCard(true);
   renderAll();
 }
 
@@ -144,10 +152,10 @@ function renderMetrics(products) {
   const yearSpan = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
 
   const metrics = [
-    ['Visible releases', String(products.length), 'Current filtered set'],
-    ['Brands', String(uniqueBrands), 'Across current filters'],
-    ['Average MSRP', msrps.length ? currency(average(msrps)) : '—', 'Visible records only'],
-    ['Span', yearSpan, newest ? `Latest: ${newest.productName}` : 'No results']
+    ['Visible', String(products.length), 'Releases'],
+    ['Brands', String(uniqueBrands), 'Shown'],
+    ['Avg MSRP', msrps.length ? currency(average(msrps)) : '—', 'Filtered'],
+    ['Span', yearSpan, newest ? newest.productName : 'No results']
   ];
 
   metrics.forEach(([label, value, subtext]) => {
@@ -159,7 +167,7 @@ function createSourceLinks(sources) {
   const list = document.createElement('div');
   list.className = 'mini-sources';
 
-  (sources || []).slice(0, 3).forEach(source => {
+  (sources || []).slice(0, 4).forEach(source => {
     if (!source || !source.label) return;
 
     if (source.url) {
@@ -179,11 +187,124 @@ function createSourceLinks(sources) {
   return list;
 }
 
-function getHoverAlignment(monthNumber) {
-  return monthNumber >= 10 ? 'align-right' : 'align-left';
+function buildDetailCard(product) {
+  const detail = document.createElement('div');
+  detail.className = 'detail-card';
+
+  const detailName = document.createElement('h5');
+  detailName.className = 'hover-card-title';
+  detailName.textContent = product.productName;
+
+  const detailMeta = document.createElement('p');
+  detailMeta.className = 'hover-card-meta';
+  detailMeta.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''} · ${formatDate(product.releaseDate)} · ${titleCase(product.releaseType)}`;
+
+  const detailPrice = document.createElement('p');
+  detailPrice.className = 'hover-card-price';
+  detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
+
+  const featureLabel = document.createElement('p');
+  featureLabel.className = 'hover-card-label';
+  featureLabel.textContent = 'Features';
+
+  const featureList = document.createElement('ul');
+  featureList.className = 'hover-card-features';
+  (product.features || []).slice(0, 6).forEach(feature => {
+    const li = document.createElement('li');
+    li.textContent = feature;
+    featureList.appendChild(li);
+  });
+
+  const sourceLabel = document.createElement('p');
+  sourceLabel.className = 'hover-card-label';
+  sourceLabel.textContent = 'Sources';
+
+  detail.append(
+    detailName,
+    detailMeta,
+    detailPrice,
+    featureLabel,
+    featureList,
+    sourceLabel,
+    createSourceLinks(product.sources)
+  );
+
+  return detail;
 }
 
-function buildReleasePeek(product, monthNumber) {
+function clearHideTimer() {
+  if (popupState.hideTimer) {
+    clearTimeout(popupState.hideTimer);
+    popupState.hideTimer = null;
+  }
+}
+
+function scheduleHideDetailCard() {
+  clearHideTimer();
+  popupState.hideTimer = setTimeout(() => hideDetailCard(), 120);
+}
+
+function hideDetailCard(force = false) {
+  clearHideTimer();
+  if (popupState.activeTrigger) {
+    popupState.activeTrigger.classList.remove('is-active');
+  }
+  popupState.activeTrigger = null;
+  popupState.activeProduct = null;
+  els.detailLayer.classList.remove('visible');
+  if (force) {
+    els.detailLayer.innerHTML = '';
+  }
+}
+
+function positionDetailCard(trigger) {
+  const layer = els.detailLayer;
+  if (!trigger || !layer.classList.contains('visible')) return;
+
+  const rect = trigger.getBoundingClientRect();
+  const margin = 8;
+  const layerWidth = Math.min(layer.offsetWidth || 340, window.innerWidth - (margin * 2));
+  const layerHeight = Math.min(layer.offsetHeight || 200, window.innerHeight - (margin * 2));
+
+  let left = rect.right + margin;
+  if (left + layerWidth > window.innerWidth - margin) {
+    left = rect.left - layerWidth - margin;
+  }
+  if (left < margin) {
+    left = margin;
+  }
+
+  let top = rect.top;
+  if (top + layerHeight > window.innerHeight - margin) {
+    top = window.innerHeight - layerHeight - margin;
+  }
+  if (top < margin) {
+    top = margin;
+  }
+
+  layer.style.left = `${Math.round(left)}px`;
+  layer.style.top = `${Math.round(top)}px`;
+}
+
+function showDetailCard(trigger, product) {
+  clearHideTimer();
+
+  if (popupState.activeTrigger && popupState.activeTrigger !== trigger) {
+    popupState.activeTrigger.classList.remove('is-active');
+  }
+
+  popupState.activeTrigger = trigger;
+  popupState.activeProduct = product;
+  trigger.classList.add('is-active');
+
+  els.detailLayer.innerHTML = '';
+  els.detailLayer.appendChild(buildDetailCard(product));
+  els.detailLayer.classList.add('visible');
+
+  requestAnimationFrame(() => positionDetailCard(trigger));
+}
+
+function buildReleasePeek(product) {
   const item = document.createElement('article');
   item.className = 'release-peek';
   item.tabIndex = 0;
@@ -209,48 +330,21 @@ function buildReleasePeek(product, monthNumber) {
   brand.className = 'release-peek-brand';
   brand.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''}`;
 
-  const detail = document.createElement('div');
-  detail.className = `release-hover-card ${getHoverAlignment(monthNumber)}`;
+  item.append(top, name, brand);
 
-  const detailName = document.createElement('h5');
-  detailName.className = 'hover-card-title';
-  detailName.textContent = product.productName;
-
-  const detailMeta = document.createElement('p');
-  detailMeta.className = 'hover-card-meta';
-  detailMeta.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''} · ${formatDate(product.releaseDate)}`;
-
-  const detailPrice = document.createElement('p');
-  detailPrice.className = 'hover-card-price';
-  detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
-
-  const featureLabel = document.createElement('p');
-  featureLabel.className = 'hover-card-label';
-  featureLabel.textContent = 'Features';
-
-  const featureList = document.createElement('ul');
-  featureList.className = 'hover-card-features';
-  (product.features || []).slice(0, 4).forEach(feature => {
-    const li = document.createElement('li');
-    li.textContent = feature;
-    featureList.appendChild(li);
+  item.addEventListener('mouseenter', () => showDetailCard(item, product));
+  item.addEventListener('mouseleave', scheduleHideDetailCard);
+  item.addEventListener('focus', () => showDetailCard(item, product));
+  item.addEventListener('blur', scheduleHideDetailCard);
+  item.addEventListener('click', event => {
+    event.stopPropagation();
+    if (popupState.activeTrigger === item && els.detailLayer.classList.contains('visible')) {
+      hideDetailCard(true);
+      return;
+    }
+    showDetailCard(item, product);
   });
 
-  const sourceLabel = document.createElement('p');
-  sourceLabel.className = 'hover-card-label';
-  sourceLabel.textContent = 'Sources';
-
-  detail.append(
-    detailName,
-    detailMeta,
-    detailPrice,
-    featureLabel,
-    featureList,
-    sourceLabel,
-    createSourceLinks(product.sources)
-  );
-
-  item.append(top, name, brand, detail);
   return item;
 }
 
@@ -278,11 +372,9 @@ function getVisibleYears(products) {
     return [Number(selectedYear)].filter(Number.isFinite);
   }
 
-  const years = [...new Set(products.map(product => product.releaseYear))]
+  return [...new Set(products.map(product => product.releaseYear))]
     .filter(year => typeof year === 'number')
     .sort((a, b) => a - b);
-
-  return years;
 }
 
 function buildMonthCard(year, monthNumber, productsInMonth) {
@@ -312,7 +404,7 @@ function buildMonthCard(year, monthNumber, productsInMonth) {
     body.appendChild(empty);
   } else {
     productsInMonth.forEach(product => {
-      body.appendChild(buildReleasePeek(product, monthNumber));
+      body.appendChild(buildReleasePeek(product));
     });
   }
 
@@ -338,7 +430,7 @@ function buildQuarterCard(year, quarter, byYearMonth) {
 
   const badge = document.createElement('span');
   badge.className = 'year-count';
-  badge.textContent = `${total} release${total === 1 ? '' : 's'}`;
+  badge.textContent = `${total} rel`;
 
   head.append(title, badge);
 
@@ -359,6 +451,7 @@ function enableHorizontalWheelScroll(container) {
   container.addEventListener('wheel', event => {
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
     container.scrollLeft += event.deltaY;
+    hideDetailCard(true);
     event.preventDefault();
   }, { passive: false });
 }
@@ -413,7 +506,7 @@ function renderTimeline(products) {
 
     const subtitle = document.createElement('span');
     subtitle.className = 'year-subtitle';
-    subtitle.textContent = 'Full-year monthly view';
+    subtitle.textContent = '12 months · quarter split';
 
     titleWrap.append(title, subtitle);
 
@@ -424,7 +517,7 @@ function renderTimeline(products) {
 
     const count = document.createElement('span');
     count.className = 'year-count';
-    count.textContent = `${total} release${total === 1 ? '' : 's'}`;
+    count.textContent = `${total} releases`;
 
     head.append(titleWrap, count);
 
@@ -439,6 +532,7 @@ function renderTimeline(products) {
   });
 
   viewport.appendChild(strip);
+  viewport.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
   els.timeline.appendChild(viewport);
   enableHorizontalWheelScroll(viewport);
 
@@ -451,8 +545,9 @@ function renderMetadata() {
   const metadata = state.metadata;
   if (!metadata) return;
 
-  const minYear = Math.min(...state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number'));
-  const maxYear = Math.max(...state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number'));
+  const years = state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number');
+  const minYear = Math.min(...years);
+  const maxYear = Math.max(...years);
   els.metadataNote.classList.remove('loading');
   els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
@@ -478,6 +573,23 @@ function bindEvents() {
     els.sortSelect.value = 'date-desc';
     applyFilters();
   });
+
+  els.detailLayer.addEventListener('mouseenter', clearHideTimer);
+  els.detailLayer.addEventListener('mouseleave', scheduleHideDetailCard);
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.release-peek') && !event.target.closest('#detailLayer')) {
+      hideDetailCard(true);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (popupState.activeTrigger) {
+      positionDetailCard(popupState.activeTrigger);
+    }
+  });
+
+  window.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
 }
 
 async function init() {
