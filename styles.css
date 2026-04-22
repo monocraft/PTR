@@ -342,6 +342,17 @@ input:focus {
   margin: 6px 0;
 }
 
+.source-list a {
+  color: #b9ceff;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.source-list a:hover {
+  color: #dce7ff;
+}
+
+
 .timeline {
   margin-top: 18px;
   display: grid;

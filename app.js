@@ -26,6 +26,7 @@ const els = {
 };
 
 function currency(value) {
+  if (typeof value !== 'number' || Number.isNaN(value)) return '—';
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -68,8 +69,8 @@ function sortProducts(items, sortKey) {
   const sorters = {
     'date-desc': (a, b) => (b.releaseDate || '').localeCompare(a.releaseDate || ''),
     'date-asc': (a, b) => (a.releaseDate || '').localeCompare(b.releaseDate || ''),
-    'msrp-desc': (a, b) => b.msrpUSD - a.msrpUSD,
-    'msrp-asc': (a, b) => a.msrpUSD - b.msrpUSD,
+    'msrp-desc': (a, b) => (typeof b.msrpUSD === 'number' ? b.msrpUSD : -Infinity) - (typeof a.msrpUSD === 'number' ? a.msrpUSD : -Infinity),
+    'msrp-asc': (a, b) => (typeof a.msrpUSD === 'number' ? a.msrpUSD : Infinity) - (typeof b.msrpUSD === 'number' ? b.msrpUSD : Infinity),
     'brand-asc': (a, b) => a.brand.localeCompare(b.brand) || a.productName.localeCompare(b.productName),
     'name-asc': (a, b) => a.productName.localeCompare(b.productName)
   };
@@ -199,7 +200,18 @@ function renderProducts(products) {
     const sourceList = node.querySelector('.source-list');
     (product.sources || []).forEach(source => {
       const li = document.createElement('li');
-      li.textContent = source.label;
+
+      if (source.url) {
+        const link = document.createElement('a');
+        link.href = source.url;
+        link.target = '_blank';
+        link.rel = 'noreferrer noopener';
+        link.textContent = source.label;
+        li.appendChild(link);
+      } else {
+        li.textContent = source.label;
+      }
+
       sourceList.appendChild(li);
     });
 

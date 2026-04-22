@@ -1,6 +1,6 @@
 # Gaming Headset Release Tracker
 
-A GitHub Pages-ready static project that tracks gaming headset releases by brand and by year using a local JSON database.
+A GitHub Pages-ready static project that tracks gaming headset releases by brand and by year using a local JSON database, now expanded with older back-catalog entries and direct source URLs in every record.
 
 ## What this project does
 
@@ -86,7 +86,8 @@ Each product entry follows this shape:
   "sources": [
     {
       "label": "Official announcement: PRO X 2 LIGHTSPEED",
-      "type": "official"
+      "type": "official",
+      "url": "https://example.com/source"
     }
   ]
 }
@@ -94,13 +95,14 @@ Each product entry follows this shape:
 
 ## Data note
 
-This starter dataset is intentionally honest about source quality:
+This dataset is intentionally honest about source quality:
 
 - Some brands publish announcement dates more clearly than actual shelf dates
 - Some official press releases omit MSRP
-- In those cases, the dataset flags the record using `releaseType` and `priceStatus`
+- Older back-catalog records may use a mix of official press pages, official product pages, and launch coverage when a single primary source does not include every field
+- Each `sources` entry now supports a direct `url`, and the site renders those links in the product cards
 
-That makes it easier to expand later without pretending every field is equally precise.
+That makes it easier to expand the catalog without pretending every field is equally precise.
 
 ## Extend the dataset
 
@@ -122,8 +124,12 @@ node scripts/validate-json.mjs
 
 ## Good next upgrades
 
-- Add links for official product pages
 - Add platform support fields
 - Add driver size, wireless type, battery life, and mic type as first-class fields
+- Add source dates and source confidence scores
 - Add charts for MSRP over time
 - Add a compare view
+
+## Current coverage
+
+This expanded starter dataset currently spans 2009–2025 across Logitech, Razer, Corsair, SteelSeries, and Turtle Beach.
