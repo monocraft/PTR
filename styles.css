@@ -236,51 +236,27 @@ input:focus {
   height: 100%;
 }
 
-.timeline-scroll-shell {
-  height: 100%;
-  min-height: 0;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) 12px;
-  gap: 4px;
-}
-
 .year-snap-viewport {
   height: 100%;
   min-height: 0;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122,162,255,0.65) rgba(255,255,255,0.05);
+  padding-bottom: 4px;
 }
 
 .year-snap-viewport::-webkit-scrollbar {
-  height: 0;
+  height: 10px;
 }
 
-.year-scrollbar {
-  min-height: 12px;
-  max-height: 12px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(122,162,255,0.80) rgba(255,255,255,0.08);
+.year-snap-viewport::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
 }
 
-.year-scrollbar::-webkit-scrollbar {
-  height: 12px;
-}
-
-.year-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.08);
-}
-
-.year-scrollbar::-webkit-scrollbar-thumb {
+.year-snap-viewport::-webkit-scrollbar-thumb {
   background: rgba(122,162,255,0.80);
-}
-
-.year-scrollbar-inner {
-  height: 1px;
 }
 
 .year-strip {
@@ -297,8 +273,7 @@ input:focus {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: grid;
-  grid-template-rows: auto auto;
-  align-content: start;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 4px;
   padding: 4px;
   border: 1px solid var(--line);
@@ -345,22 +320,19 @@ input:focus {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
   min-height: 0;
-  height: auto;
-  align-items: start;
-  align-content: start;
+  height: 100%;
 }
 
 .quarter-card {
   min-width: 0;
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto;
-  align-content: start;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 4px;
   padding: 4px;
   border: 1px solid var(--line);
   background: #131923;
-  height: auto;
+  height: 100%;
 }
 
 .quarter-head {
@@ -382,22 +354,19 @@ input:focus {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
   min-height: 0;
-  height: auto;
-  align-items: start;
+  height: 100%;
 }
 
 .month-card {
   min-width: 0;
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto;
-  align-content: start;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 3px;
   padding: 3px;
   border: 1px solid var(--line);
   background: #10151d;
-  height: auto;
-  overflow: hidden;
+  height: 100%;
 }
 
 .month-head {
@@ -428,31 +397,29 @@ input:focus {
   display: grid;
   gap: 3px;
   align-content: start;
-  grid-auto-rows: min-content;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .month-empty {
   margin: 0;
-  min-height: 34px;
+  min-height: 44px;
   display: grid;
   place-items: center;
   text-align: center;
   border: 1px dashed rgba(255,255,255,0.10);
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   background: rgba(255,255,255,0.015);
 }
 
 .release-peek {
   display: grid;
-  gap: 2px;
-  padding: 3px;
+  gap: 3px;
+  padding: 4px;
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.03);
   outline: none;
   cursor: default;
-  min-height: 46px;
 }
 
 .release-peek:hover,
@@ -608,6 +575,8 @@ input:focus {
 
   .quarter-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, calc((360px * 2) + 4px));
+    max-width: calc((360px * 2) + 4px);
   }
 }
 
