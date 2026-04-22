@@ -508,7 +508,7 @@ function attachSyncedScrollbar(viewport, strip) {
 }
 
 function scrollToLatestYear(viewport) {
-  const panels = viewport.querySelectorAll('.year-panel');
+  const panels = viewport.querySelectorAll('.year-snap-item');
   if (!panels.length) return;
   const lastPanel = panels[panels.length - 1];
   viewport.scrollLeft = lastPanel.offsetLeft;
@@ -542,6 +542,9 @@ function renderTimeline(products) {
   strip.className = 'year-strip';
 
   years.forEach(year => {
+    const snapItem = document.createElement('div');
+    snapItem.className = 'year-snap-item';
+
     const yearPanel = document.createElement('section');
     yearPanel.className = 'year-panel';
 
@@ -579,7 +582,8 @@ function renderTimeline(products) {
     });
 
     yearPanel.append(head, quarterGrid);
-    strip.appendChild(yearPanel);
+    snapItem.appendChild(yearPanel);
+    strip.appendChild(snapItem);
   });
 
   viewport.appendChild(strip);

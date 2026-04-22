@@ -236,51 +236,27 @@ input:focus {
   height: 100%;
 }
 
-.timeline-scroll-shell {
-  height: 100%;
-  min-height: 0;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) 12px;
-  gap: 4px;
-}
-
 .year-snap-viewport {
   height: 100%;
   min-height: 0;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122,162,255,0.65) rgba(255,255,255,0.05);
+  padding-bottom: 4px;
 }
 
 .year-snap-viewport::-webkit-scrollbar {
-  height: 0;
+  height: 10px;
 }
 
-.year-scrollbar {
-  min-height: 12px;
-  max-height: 12px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(122,162,255,0.80) rgba(255,255,255,0.08);
+.year-snap-viewport::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
 }
 
-.year-scrollbar::-webkit-scrollbar {
-  height: 12px;
-}
-
-.year-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.08);
-}
-
-.year-scrollbar::-webkit-scrollbar-thumb {
+.year-snap-viewport::-webkit-scrollbar-thumb {
   background: rgba(122,162,255,0.80);
-}
-
-.year-scrollbar-inner {
-  height: 1px;
 }
 
 .year-strip {
@@ -293,9 +269,18 @@ input:focus {
   height: 100%;
 }
 
-.year-panel {
+.year-snap-item {
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.year-panel {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 4px;
@@ -345,9 +330,7 @@ input:focus {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
   min-height: 0;
-  max-width: fit-content;
   height: 100%;
-  align-items: stretch;
 }
 
 .quarter-card {
@@ -382,7 +365,6 @@ input:focus {
   gap: 4px;
   min-height: 0;
   height: 100%;
-  align-items: stretch;
 }
 
 .month-card {
@@ -395,7 +377,6 @@ input:focus {
   border: 1px solid var(--line);
   background: #10151d;
   height: 100%;
-  overflow: hidden;
 }
 
 .month-head {
@@ -426,8 +407,7 @@ input:focus {
   display: grid;
   gap: 3px;
   align-content: start;
-  grid-auto-rows: min-content;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .month-empty {
@@ -450,7 +430,6 @@ input:focus {
   background: rgba(255,255,255,0.03);
   outline: none;
   cursor: default;
-  min-height: 58px;
 }
 
 .release-peek:hover,
@@ -606,6 +585,8 @@ input:focus {
 
   .quarter-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, calc((360px * 2) + 4px));
+    max-width: calc((360px * 2) + 4px);
   }
 }
 
