@@ -38,7 +38,11 @@ const els = {
 
 function currency(value) {
   return typeof value === 'number'
-    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
+    ? new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(value)
     : '—';
 }
 
@@ -80,8 +84,12 @@ function sortProducts(items, sortKey) {
   const sorters = {
     'date-desc': (a, b) => (b.releaseDate || '').localeCompare(a.releaseDate || ''),
     'date-asc': (a, b) => (a.releaseDate || '').localeCompare(b.releaseDate || ''),
-    'msrp-desc': (a, b) => (typeof b.msrpUSD === 'number' ? b.msrpUSD : -Infinity) - (typeof a.msrpUSD === 'number' ? a.msrpUSD : -Infinity),
-    'msrp-asc': (a, b) => (typeof a.msrpUSD === 'number' ? a.msrpUSD : Infinity) - (typeof b.msrpUSD === 'number' ? b.msrpUSD : Infinity),
+    'msrp-desc': (a, b) =>
+      (typeof b.msrpUSD === 'number' ? b.msrpUSD : -Infinity) -
+      (typeof a.msrpUSD === 'number' ? a.msrpUSD : -Infinity),
+    'msrp-asc': (a, b) =>
+      (typeof a.msrpUSD === 'number' ? a.msrpUSD : Infinity) -
+      (typeof b.msrpUSD === 'number' ? b.msrpUSD : Infinity),
     'brand-asc': (a, b) => a.brand.localeCompare(b.brand) || a.productName.localeCompare(b.productName),
     'name-asc': (a, b) => a.productName.localeCompare(b.productName)
   };
@@ -110,6 +118,23 @@ function populateFilters(products) {
   });
 }
 
+function productSearchText(product) {
+  return [
+    product.productName,
+    product.series,
+    product.brand,
+    ...(product.features || []),
+    ...(product.tags || []),
+    ...(product.compare?.platforms || []),
+    product.compare?.driverType,
+    product.compare?.spatialAudio,
+    product.compare?.acousticDesign
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
 function applyFilters() {
   const brand = els.brandFilter.value;
   const year = els.yearFilter.value;
@@ -119,19 +144,7 @@ function applyFilters() {
   const results = state.allProducts.filter(product => {
     const matchesBrand = brand === 'all' || product.brand === brand;
     const matchesYear = year === 'all' || String(product.releaseYear) === year;
-    const haystack = [
-      product.productName,
-      product.series,
-      product.brand,
-      ...(product.features || []),
-      ...(product.tags || []),
-      ...(product.compare?.platforms || []),
-      product.compare?.driverType,
-      product.compare?.spatialAudio,
-      product.images?.imageSourceType,
-      ...(product.imageBackfill?.requiredViews || [])
-    ].filter(Boolean).join(' ').toLowerCase();
-    const matchesSearch = !search || haystack.includes(search);
+    const matchesSearch = !search || productSearchText(product).includes(search);
     return matchesBrand && matchesYear && matchesSearch;
   });
 
@@ -193,7 +206,6 @@ function createSourceLinks(sources) {
   return list;
 }
 
-
 function getPrimaryImage(product) {
   return product?.images?.primary?.src || '';
 }
@@ -214,22 +226,28 @@ function getGalleryImages(product) {
       fallbackSrc: fallbackPrimary?.src || '',
       alt: fallbackPrimary?.alt || `${product.productName} hero image`,
       view: 'hero',
-      imageSourceType: targets.expectedPrimary ? 'official_folder_preferred' : (fallbackPrimary?.imageSourceType || product?.images?.imageSourceType || 'image')
+      imageSourceType: targets.expectedPrimary
+        ? 'official_folder_preferred'
+        : (fallbackPrimary?.imageSourceType || product?.images?.imageSourceType || 'image')
     });
   }
 
   const expectedGallery = targets.expectedGallery || [];
   const count = Math.max(expectedGallery.length, fallbackGallery.length);
+
   for (let i = 0; i < count; i += 1) {
     const fallback = fallbackGallery[i] || null;
     const src = expectedGallery[i] || fallback?.src || '';
     if (!src) continue;
+
     list.push({
       src,
       fallbackSrc: fallback?.src || '',
       alt: fallback?.alt || `${product.productName} gallery image ${i + 1}`,
       view: fallback?.view || `gallery-${i + 1}`,
-      imageSourceType: expectedGallery[i] ? 'official_folder_preferred' : (fallback?.imageSourceType || product?.images?.imageSourceType || 'image')
+      imageSourceType: expectedGallery[i]
+        ? 'official_folder_preferred'
+        : (fallback?.imageSourceType || product?.images?.imageSourceType || 'image')
     });
   }
 
@@ -238,15 +256,20 @@ function getGalleryImages(product) {
 
 function setImageWithFallback(imgEl, imageObj) {
   const primarySrc = imageObj?.src || imageObj?.fallbackSrc || '';
-  const fallbackSrc = imageObj?.fallbackSrc && imageObj.fallbackSrc !== imageObj.src ? imageObj.fallbackSrc : '';
+  const fallbackSrc = imageObj?.fallbackSrc && imageObj.fallbackSrc !== imageObj.src
+    ? imageObj.fallbackSrc
+    : '';
+
   imgEl.alt = imageObj?.alt || '';
   imgEl.onerror = null;
+
   if (fallbackSrc) {
     imgEl.onerror = () => {
       imgEl.onerror = null;
       imgEl.src = fallbackSrc;
     };
   }
+
   imgEl.src = primarySrc;
 }
 
@@ -254,8 +277,13 @@ function buildCompareItems(product) {
   const compare = product.compare || {};
   const items = [];
 
-  if (typeof compare.driverSizeMm === 'number') items.push(['Driver', `${compare.driverSizeMm}mm`]);
-  if (compare.driverType) items.push(['Driver type', titleCase(compare.driverType)]);
+  if (typeof compare.driverSizeMm === 'number') {
+    items.push(['Driver', `${compare.driverSizeMm}mm`]);
+  }
+
+  if (compare.driverType) {
+    items.push(['Driver Type', titleCase(compare.driverType)]);
+  }
 
   const modes = [
     compare.wireless24GHz ? '2.4GHz' : null,
@@ -264,24 +292,41 @@ function buildCompareItems(product) {
     compare.usb ? 'USB' : null,
     compare.analog35mm ? '3.5mm' : null
   ].filter(Boolean);
-  if (modes.length) items.push(['Connectivity', modes.join(' · ')]);
 
-  if (typeof compare.batteryHours === 'number') items.push(['Battery', `${compare.batteryHours}h`]);
-  if (compare.spatialAudio) items.push(['Spatial', compare.spatialAudio]);
-  if (compare.acousticDesign) items.push(['Acoustic', titleCase(compare.acousticDesign)]);
+  if (modes.length) {
+    items.push(['Connectivity', modes.join(' · ')]);
+  }
+
+  if (typeof compare.batteryHours === 'number') {
+    items.push(['Battery', `${compare.batteryHours}h`]);
+  }
+
+  if (compare.spatialAudio) {
+    items.push(['Spatial', compare.spatialAudio]);
+  }
+
+  if (compare.acousticDesign) {
+    items.push(['Acoustic', titleCase(compare.acousticDesign)]);
+  }
 
   const mic = [
     compare.detachableMic ? 'Detachable' : null,
     compare.flipToMuteMic ? 'Flip-to-mute' : null,
     compare.noiseCancellingMic ? 'Noise-cancelling' : null
   ].filter(Boolean);
-  if (mic.length) items.push(['Mic', mic.join(' · ')]);
+
+  if (mic.length) {
+    items.push(['Mic', mic.join(' · ')]);
+  }
 
   const comfort = [
     compare.memoryFoam ? 'Memory foam' : null,
     compare.lightweight ? 'Lightweight' : null
   ].filter(Boolean);
-  if (comfort.length) items.push(['Comfort', comfort.join(' · ')]);
+
+  if (comfort.length) {
+    items.push(['Comfort', comfort.join(' · ')]);
+  }
 
   if (Array.isArray(compare.platforms) && compare.platforms.length) {
     items.push(['Platforms', compare.platforms.join(' · ')]);
@@ -321,7 +366,12 @@ function buildDetailCard(product) {
   detail.className = 'detail-card';
 
   const galleryImages = getGalleryImages(product);
-  let activeImage = galleryImages[0] || null;
+  const activeImage = galleryImages[0] || {
+    src: '',
+    fallbackSrc: '',
+    alt: getPrimaryImageAlt(product),
+    view: 'hero'
+  };
 
   const hero = document.createElement('div');
   hero.className = 'hover-card-hero';
@@ -333,21 +383,8 @@ function buildDetailCard(product) {
   image.className = 'hover-card-image';
   image.loading = 'lazy';
   image.decoding = 'async';
-  setImageWithFallback(image, activeImage || { src: '', alt: getPrimaryImageAlt(product) });
+  setImageWithFallback(image, activeImage);
   imageWrap.appendChild(image);
-
-  const galleryMeta = document.createElement('div');
-  galleryMeta.className = 'hover-card-gallery-meta';
-
-  const gallerySource = document.createElement('p');
-  gallerySource.className = 'hover-card-meta';
-  gallerySource.textContent = `${titleCase(galleryImages[0]?.imageSourceType || product.images?.imageSourceType)} · ${galleryImages.length} image${galleryImages.length === 1 ? '' : 's'}`;
-
-  const galleryStatus = document.createElement('p');
-  galleryStatus.className = 'hover-card-meta';
-  galleryStatus.textContent = `${titleCase(product.images?.replacementStatus)} · ${titleCase(product.imageBackfill?.status)}`;
-
-  galleryMeta.append(gallerySource, galleryStatus);
 
   const heroBody = document.createElement('div');
   heroBody.className = 'hover-card-hero-body';
@@ -364,8 +401,9 @@ function buildDetailCard(product) {
   detailPrice.className = 'hover-card-price';
   detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
 
-  heroBody.append(detailName, detailMeta, detailPrice, galleryMeta);
+  heroBody.append(detailName, detailMeta, detailPrice);
   hero.append(imageWrap, heroBody);
+  detail.append(hero);
 
   if (galleryImages.length > 1) {
     const thumbRow = document.createElement('div');
@@ -384,28 +422,32 @@ function buildDetailCard(product) {
       button.className = 'hover-card-thumb';
       button.dataset.src = imgObj.src || '';
       button.title = imgObj.view ? titleCase(imgObj.view) : `Image ${index + 1}`;
-      if (index === 0) button.classList.add('is-active');
+
+      if (index === 0) {
+        button.classList.add('is-active');
+      }
 
       const thumbImg = document.createElement('img');
       thumbImg.alt = imgObj.alt || `Gallery image ${index + 1}`;
       thumbImg.loading = 'lazy';
       thumbImg.decoding = 'async';
       setImageWithFallback(thumbImg, imgObj);
+
       button.appendChild(thumbImg);
       button.addEventListener('click', () => setActiveThumb(imgObj));
       thumbRow.appendChild(button);
     });
 
-    detail.append(hero, thumbRow);
-  } else {
-    detail.append(hero);
+    detail.append(thumbRow);
   }
 
-  const compareLabel = document.createElement('p');
-  compareLabel.className = 'hover-card-label';
-  compareLabel.textContent = 'Compare-ready specs';
-
   const compareGrid = buildCompareGrid(product);
+  if (compareGrid) {
+    const compareLabel = document.createElement('p');
+    compareLabel.className = 'hover-card-label';
+    compareLabel.textContent = 'Compare-ready specs';
+    detail.append(compareLabel, compareGrid);
+  }
 
   const featureLabel = document.createElement('p');
   featureLabel.className = 'hover-card-label';
@@ -413,28 +455,23 @@ function buildDetailCard(product) {
 
   const featureList = document.createElement('ul');
   featureList.className = 'hover-card-features';
+
   (product.features || []).slice(0, 6).forEach(feature => {
     const li = document.createElement('li');
     li.textContent = feature;
     featureList.appendChild(li);
   });
 
-  const backfillLabel = document.createElement('p');
-  backfillLabel.className = 'hover-card-label';
-  backfillLabel.textContent = 'Official photo replacement';
-
-  const backfillMeta = document.createElement('p');
-  backfillMeta.className = 'hover-card-meta';
-  backfillMeta.textContent = `${product.imageBackfill?.brand || product.brand} · ${titleCase(product.imageBackfill?.status)} · ${product.imageBackfill?.targetFolder || ''}`;
-
   const sourceLabel = document.createElement('p');
   sourceLabel.className = 'hover-card-label';
   sourceLabel.textContent = 'Sources';
 
-  if (compareGrid) {
-    detail.append(compareLabel, compareGrid);
-  }
-  detail.append(featureLabel, featureList, backfillLabel, backfillMeta, sourceLabel, createSourceLinks(product.sources));
+  detail.append(
+    featureLabel,
+    featureList,
+    sourceLabel,
+    createSourceLinks(product.sources)
+  );
 
   return detail;
 }
@@ -453,12 +490,15 @@ function scheduleHideDetailCard() {
 
 function hideDetailCard(force = false) {
   clearHideTimer();
+
   if (popupState.activeTrigger) {
     popupState.activeTrigger.classList.remove('is-active');
   }
+
   popupState.activeTrigger = null;
   popupState.activeProduct = null;
   els.detailLayer.classList.remove('visible');
+
   if (force) {
     els.detailLayer.innerHTML = '';
   }
@@ -545,10 +585,12 @@ function buildReleasePeek(product) {
   item.addEventListener('blur', scheduleHideDetailCard);
   item.addEventListener('click', event => {
     event.stopPropagation();
+
     if (popupState.activeTrigger === item && els.detailLayer.classList.contains('visible')) {
       hideDetailCard(true);
       return;
     }
+
     showDetailCard(item, product);
   });
 
@@ -566,7 +608,10 @@ function groupProductsByYearMonth(products) {
     if (!month || month < 1 || month > 12) return;
 
     const key = `${product.releaseYear}-${String(month).padStart(2, '0')}`;
-    if (!map.has(key)) map.set(key, []);
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+
     map.get(key).push(product);
   });
 
@@ -575,6 +620,7 @@ function groupProductsByYearMonth(products) {
 
 function getVisibleYears(products) {
   const selectedYear = els.yearFilter.value;
+
   if (selectedYear !== 'all') {
     return [Number(selectedYear)].filter(Number.isFinite);
   }
@@ -663,11 +709,12 @@ function enableHorizontalWheelScroll(container) {
   }, { passive: false });
 }
 
-
 function syncYearPageWidths(viewport, strip) {
   if (!viewport || !strip) return;
+
   const width = Math.max(1, Math.floor(viewport.clientWidth));
   strip.style.setProperty('--year-page-width', `${width}px`);
+
   strip.querySelectorAll('.year-snap-item').forEach(item => {
     item.style.width = `${width}px`;
     item.style.minWidth = `${width}px`;
@@ -731,6 +778,7 @@ function attachSyncedScrollbar(viewport, strip) {
 function scrollToLatestYear(viewport) {
   const panels = viewport.querySelectorAll('.year-snap-item');
   if (!panels.length) return;
+
   const lastPanel = panels[panels.length - 1];
   viewport.scrollTo({ left: lastPanel.offsetLeft, behavior: 'auto' });
 }
@@ -747,6 +795,7 @@ function renderTimeline(products) {
   }
 
   const years = getVisibleYears(products);
+
   if (!years.length) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
@@ -798,6 +847,7 @@ function renderTimeline(products) {
 
     const quarterGrid = document.createElement('div');
     quarterGrid.className = 'quarter-grid';
+
     QUARTERS.forEach(quarter => {
       quarterGrid.appendChild(buildQuarterCard(year, quarter, byYearMonth));
     });
@@ -809,8 +859,10 @@ function renderTimeline(products) {
 
   viewport.appendChild(strip);
   viewport.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
+
   const scrollShell = attachSyncedScrollbar(viewport, strip);
   els.timeline.appendChild(scrollShell);
+
   enableHorizontalWheelScroll(viewport);
   requestAnimationFrame(() => syncYearPageWidths(viewport, strip));
 
@@ -823,9 +875,13 @@ function renderMetadata() {
   const metadata = state.metadata;
   if (!metadata) return;
 
-  const years = state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number');
+  const years = state.allProducts
+    .map(product => product.releaseYear)
+    .filter(year => typeof year === 'number');
+
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
+
   els.metadataNote.classList.remove('loading');
   els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
@@ -864,14 +920,17 @@ function bindEvents() {
   window.addEventListener('resize', () => {
     const viewport = document.querySelector('.year-snap-viewport');
     const strip = document.querySelector('.year-strip');
+
     if (viewport && strip) {
       const items = Array.from(strip.querySelectorAll('.year-snap-item'));
       const current = items.find(item => item.offsetLeft + (item.offsetWidth / 2) >= viewport.scrollLeft) || items[0];
       syncYearPageWidths(viewport, strip);
+
       if (current) {
         viewport.scrollLeft = current.offsetLeft;
       }
     }
+
     if (popupState.activeTrigger) {
       positionDetailCard(popupState.activeTrigger);
     }
@@ -883,6 +942,7 @@ function bindEvents() {
 async function init() {
   try {
     const response = await fetch('./data/headsets.json');
+
     if (!response.ok) {
       throw new Error(`Failed to load dataset: ${response.status}`);
     }
