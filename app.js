@@ -430,7 +430,7 @@ function buildQuarterCard(year, quarter, byYearMonth) {
 
   const badge = document.createElement('span');
   badge.className = 'year-count';
-  badge.textContent = `${total} rel`;
+  badge.textContent = `${total} released`;
 
   head.append(title, badge);
 
