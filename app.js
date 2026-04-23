@@ -123,8 +123,12 @@ function applyFilters() {
       product.productName,
       product.series,
       product.brand,
-      ...(product.features || [])
-    ].join(' ').toLowerCase();
+      ...(product.features || []),
+      ...(product.tags || []),
+      ...(product.compare?.platforms || []),
+      product.compare?.driverType,
+      product.compare?.spatialAudio
+    ].filter(Boolean).join(' ').toLowerCase();
     const matchesSearch = !search || haystack.includes(search);
     return matchesBrand && matchesYear && matchesSearch;
   });
@@ -187,9 +191,101 @@ function createSourceLinks(sources) {
   return list;
 }
 
+
+function getPrimaryImage(product) {
+  return product?.images?.primary?.src || '';
+}
+
+function getPrimaryImageAlt(product) {
+  return product?.images?.primary?.alt || `${product.productName} image`;
+}
+
+function buildCompareItems(product) {
+  const compare = product.compare || {};
+  const items = [];
+
+  if (typeof compare.driverSizeMm === 'number') items.push(['Driver', `${compare.driverSizeMm}mm`]);
+  if (compare.driverType) items.push(['Driver type', titleCase(compare.driverType)]);
+
+  const modes = [
+    compare.wireless24GHz ? '2.4GHz' : null,
+    compare.bluetooth ? 'Bluetooth' : null,
+    compare.wired ? 'Wired' : null,
+    compare.usb ? 'USB' : null,
+    compare.analog35mm ? '3.5mm' : null
+  ].filter(Boolean);
+  if (modes.length) items.push(['Connectivity', modes.join(' · ')]);
+
+  if (typeof compare.batteryHours === 'number') items.push(['Battery', `${compare.batteryHours}h`]);
+  if (compare.spatialAudio) items.push(['Spatial', compare.spatialAudio]);
+  if (compare.acousticDesign) items.push(['Acoustic', titleCase(compare.acousticDesign)]);
+
+  const mic = [
+    compare.detachableMic ? 'Detachable' : null,
+    compare.flipToMuteMic ? 'Flip-to-mute' : null,
+    compare.noiseCancellingMic ? 'Noise-cancelling' : null
+  ].filter(Boolean);
+  if (mic.length) items.push(['Mic', mic.join(' · ')]);
+
+  const comfort = [
+    compare.memoryFoam ? 'Memory foam' : null,
+    compare.lightweight ? 'Lightweight' : null
+  ].filter(Boolean);
+  if (comfort.length) items.push(['Comfort', comfort.join(' · ')]);
+
+  if (Array.isArray(compare.platforms) && compare.platforms.length) {
+    items.push(['Platforms', compare.platforms.join(' · ')]);
+  }
+
+  return items;
+}
+
+function buildCompareGrid(product) {
+  const items = buildCompareItems(product);
+  if (!items.length) return null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'compare-grid';
+
+  items.forEach(([label, value]) => {
+    const node = document.createElement('div');
+    node.className = 'compare-chip';
+
+    const chipLabel = document.createElement('span');
+    chipLabel.className = 'compare-chip-label';
+    chipLabel.textContent = label;
+
+    const chipValue = document.createElement('strong');
+    chipValue.className = 'compare-chip-value';
+    chipValue.textContent = value;
+
+    node.append(chipLabel, chipValue);
+    wrapper.appendChild(node);
+  });
+
+  return wrapper;
+}
+
 function buildDetailCard(product) {
   const detail = document.createElement('div');
   detail.className = 'detail-card';
+
+  const hero = document.createElement('div');
+  hero.className = 'hover-card-hero';
+
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'hover-card-image-wrap';
+
+  const image = document.createElement('img');
+  image.className = 'hover-card-image';
+  image.src = getPrimaryImage(product);
+  image.alt = getPrimaryImageAlt(product);
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  imageWrap.appendChild(image);
+
+  const heroBody = document.createElement('div');
+  heroBody.className = 'hover-card-hero-body';
 
   const detailName = document.createElement('h5');
   detailName.className = 'hover-card-title';
@@ -202,6 +298,15 @@ function buildDetailCard(product) {
   const detailPrice = document.createElement('p');
   detailPrice.className = 'hover-card-price';
   detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
+
+  heroBody.append(detailName, detailMeta, detailPrice);
+  hero.append(imageWrap, heroBody);
+
+  const compareLabel = document.createElement('p');
+  compareLabel.className = 'hover-card-label';
+  compareLabel.textContent = 'Compare-ready specs';
+
+  const compareGrid = buildCompareGrid(product);
 
   const featureLabel = document.createElement('p');
   featureLabel.className = 'hover-card-label';
@@ -219,15 +324,11 @@ function buildDetailCard(product) {
   sourceLabel.className = 'hover-card-label';
   sourceLabel.textContent = 'Sources';
 
-  detail.append(
-    detailName,
-    detailMeta,
-    detailPrice,
-    featureLabel,
-    featureList,
-    sourceLabel,
-    createSourceLinks(product.sources)
-  );
+  detail.append(hero);
+  if (compareGrid) {
+    detail.append(compareLabel, compareGrid);
+  }
+  detail.append(featureLabel, featureList, sourceLabel, createSourceLinks(product.sources));
 
   return detail;
 }
@@ -430,7 +531,7 @@ function buildQuarterCard(year, quarter, byYearMonth) {
 
   const badge = document.createElement('span');
   badge.className = 'year-count';
-  badge.textContent = `${total} released`;
+  badge.textContent = `${total} rel`;
 
   head.append(title, badge);
 
@@ -619,6 +720,8 @@ function renderMetadata() {
   const years = state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number');
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
+  els.metadataNote.classList.remove('loading');
+  els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
 
 function renderAll() {

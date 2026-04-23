@@ -648,3 +648,74 @@ input:focus {
     grid-auto-columns: 100%;
   }
 }
+
+.hover-card-hero {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+}
+
+.hover-card-image-wrap {
+  width: 112px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  overflow: hidden;
+}
+
+.hover-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hover-card-hero-body {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.compare-chip {
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+}
+
+.compare-chip-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.compare-chip-value {
+  color: #eaf0ff;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+@media (max-width: 720px) {
+  .hover-card-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hover-card-image-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+}
