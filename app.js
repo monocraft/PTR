@@ -203,7 +203,51 @@ function getPrimaryImageAlt(product) {
 }
 
 function getGalleryImages(product) {
-  return [product?.images?.primary, ...(product?.images?.gallery || [])].filter(Boolean);
+  const fallbackPrimary = product?.images?.primary || null;
+  const fallbackGallery = product?.images?.gallery || [];
+  const targets = product?.images?.replacementTargets || {};
+  const list = [];
+
+  if (targets.expectedPrimary || fallbackPrimary) {
+    list.push({
+      src: targets.expectedPrimary || fallbackPrimary?.src || '',
+      fallbackSrc: fallbackPrimary?.src || '',
+      alt: fallbackPrimary?.alt || `${product.productName} hero image`,
+      view: 'hero',
+      imageSourceType: targets.expectedPrimary ? 'official_folder_preferred' : (fallbackPrimary?.imageSourceType || product?.images?.imageSourceType || 'image')
+    });
+  }
+
+  const expectedGallery = targets.expectedGallery || [];
+  const count = Math.max(expectedGallery.length, fallbackGallery.length);
+  for (let i = 0; i < count; i += 1) {
+    const fallback = fallbackGallery[i] || null;
+    const src = expectedGallery[i] || fallback?.src || '';
+    if (!src) continue;
+    list.push({
+      src,
+      fallbackSrc: fallback?.src || '',
+      alt: fallback?.alt || `${product.productName} gallery image ${i + 1}`,
+      view: fallback?.view || `gallery-${i + 1}`,
+      imageSourceType: expectedGallery[i] ? 'official_folder_preferred' : (fallback?.imageSourceType || product?.images?.imageSourceType || 'image')
+    });
+  }
+
+  return list;
+}
+
+function setImageWithFallback(imgEl, imageObj) {
+  const primarySrc = imageObj?.src || imageObj?.fallbackSrc || '';
+  const fallbackSrc = imageObj?.fallbackSrc && imageObj.fallbackSrc !== imageObj.src ? imageObj.fallbackSrc : '';
+  imgEl.alt = imageObj?.alt || '';
+  imgEl.onerror = null;
+  if (fallbackSrc) {
+    imgEl.onerror = () => {
+      imgEl.onerror = null;
+      imgEl.src = fallbackSrc;
+    };
+  }
+  imgEl.src = primarySrc;
 }
 
 function buildCompareItems(product) {
@@ -287,10 +331,9 @@ function buildDetailCard(product) {
 
   const image = document.createElement('img');
   image.className = 'hover-card-image';
-  image.src = activeImage?.src || '';
-  image.alt = activeImage?.alt || getPrimaryImageAlt(product);
   image.loading = 'lazy';
   image.decoding = 'async';
+  setImageWithFallback(image, activeImage || { src: '', alt: getPrimaryImageAlt(product) });
   imageWrap.appendChild(image);
 
   const galleryMeta = document.createElement('div');
@@ -298,7 +341,7 @@ function buildDetailCard(product) {
 
   const gallerySource = document.createElement('p');
   gallerySource.className = 'hover-card-meta';
-  gallerySource.textContent = `${titleCase(product.images?.imageSourceType)} · ${galleryImages.length} image${galleryImages.length === 1 ? '' : 's'}`;
+  gallerySource.textContent = `${titleCase(galleryImages[0]?.imageSourceType || product.images?.imageSourceType)} · ${galleryImages.length} image${galleryImages.length === 1 ? '' : 's'}`;
 
   const galleryStatus = document.createElement('p');
   galleryStatus.className = 'hover-card-meta';
@@ -329,8 +372,7 @@ function buildDetailCard(product) {
     thumbRow.className = 'hover-card-thumbs';
 
     const setActiveThumb = nextImage => {
-      image.src = nextImage.src || '';
-      image.alt = nextImage.alt || getPrimaryImageAlt(product);
+      setImageWithFallback(image, nextImage);
       Array.from(thumbRow.children).forEach(node => {
         node.classList.toggle('is-active', node.dataset.src === nextImage.src);
       });
@@ -345,10 +387,10 @@ function buildDetailCard(product) {
       if (index === 0) button.classList.add('is-active');
 
       const thumbImg = document.createElement('img');
-      thumbImg.src = imgObj.src || '';
       thumbImg.alt = imgObj.alt || `Gallery image ${index + 1}`;
       thumbImg.loading = 'lazy';
       thumbImg.decoding = 'async';
+      setImageWithFallback(thumbImg, imgObj);
       button.appendChild(thumbImg);
       button.addEventListener('click', () => setActiveThumb(imgObj));
       thumbRow.appendChild(button);

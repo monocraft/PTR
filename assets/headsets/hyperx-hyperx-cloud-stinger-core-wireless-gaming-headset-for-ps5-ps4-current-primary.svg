@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="HyperX Cloud Stinger Core - Wireless Gaming Headset for PS5-PS4 Hero product shot image">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#110f12"/>
+      <stop offset="100%" stop-color="#090d13"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <rect x="38" y="38" width="1124" height="724" fill="none" stroke="rgba(255,255,255,0.11)"/>
+  <text x="72" y="82" font-size="24" font-weight="800" fill="#ff4d4d" font-family="Inter,Segoe UI,sans-serif" letter-spacing="1.8">HYPERX</text>
+  <text x="1080" y="82" text-anchor="end" font-size="20" font-weight="700" fill="#8fa0b7" font-family="Inter,Segoe UI,sans-serif">HERO PRODUCT SHOT</text>
+  <text x="72" y="122" font-size="42" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">HyperX Cloud Stinger</text><text x="72" y="174" font-size="42" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">Core - Wireless Gaming</text><text x="72" y="226" font-size="42" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">Headset for PS5-PS4</text>
+  <text x="72" y="310" font-size="28" fill="#9fb0c6" font-family="Inter,Segoe UI,sans-serif">Cloud · Unknown · MSRP unknown</text>
+  <text x="72" y="420" font-size="22" fill="#b8c3d6" font-family="Inter,Segoe UI,sans-serif">• Lightweight comfort</text><text x="72" y="454" font-size="22" fill="#b8c3d6" font-family="Inter,Segoe UI,sans-serif">• Durable steel sliders</text><text x="72" y="488" font-size="22" fill="#b8c3d6" font-family="Inter,Segoe UI,sans-serif">• Swivel-to-mute noise cancelling mic</text>
+  <g transform="translate(775 120)" fill="none" stroke="#ff4d4d" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M94 145c0-84 67-151 151-151s151 67 151 151" opacity="0.95"/>
+    <rect x="26" y="132" rx="24" ry="24" width="96" height="192"/>
+    <rect x="272" y="132" rx="24" ry="24" width="96" height="192"/>
+    <path d="M76 324v74c0 22 18 40 40 40h36" opacity="0.82"/>
+    <path d="M160 438h62" opacity="0.88"/>
+  </g>
+  <text x="72" y="724" font-size="18" fill="#708096" font-family="Inter,Segoe UI,sans-serif">Prepared for official product-photo replacement · source candidate: https://hyperx.com/collections/gaming-headsets</text>
+</svg>

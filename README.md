@@ -152,3 +152,34 @@ Recommended order:
 4. Corsair
 5. SteelSeries
 6. Turtle Beach
+
+
+## Official image folder preference
+
+The UI now automatically prefers files from each product's prepared official folder:
+
+```text
+assets/headsets/official/{brandSlug}/{productId}/
+```
+
+Priority order:
+1. `images.replacementTargets.expectedPrimary`
+2. `images.replacementTargets.expectedGallery[]`
+3. fallback to `images.primary` / `images.gallery[]`
+
+This update also seeds each official folder with PNG files:
+- `primary.png`
+- `gallery-1.png`
+- `gallery-2.png`
+
+You can overwrite those PNGs later with real official product images and the UI will pick them up automatically.
+
+## Bulk prefetch script
+
+A best-effort helper script is included:
+
+```bash
+python prefetch-official-images.py
+```
+
+In an internet-enabled environment, it will attempt to fetch official product images from each product's source URLs and save them into the prepared official folders.
