@@ -127,7 +127,9 @@ function applyFilters() {
       ...(product.tags || []),
       ...(product.compare?.platforms || []),
       product.compare?.driverType,
-      product.compare?.spatialAudio
+      product.compare?.spatialAudio,
+      product.images?.imageSourceType,
+      ...(product.imageBackfill?.requiredViews || [])
     ].filter(Boolean).join(' ').toLowerCase();
     const matchesSearch = !search || haystack.includes(search);
     return matchesBrand && matchesYear && matchesSearch;
@@ -200,6 +202,10 @@ function getPrimaryImageAlt(product) {
   return product?.images?.primary?.alt || `${product.productName} image`;
 }
 
+function getGalleryImages(product) {
+  return [product?.images?.primary, ...(product?.images?.gallery || [])].filter(Boolean);
+}
+
 function buildCompareItems(product) {
   const compare = product.compare || {};
   const items = [];
@@ -270,6 +276,9 @@ function buildDetailCard(product) {
   const detail = document.createElement('div');
   detail.className = 'detail-card';
 
+  const galleryImages = getGalleryImages(product);
+  let activeImage = galleryImages[0] || null;
+
   const hero = document.createElement('div');
   hero.className = 'hover-card-hero';
 
@@ -278,11 +287,24 @@ function buildDetailCard(product) {
 
   const image = document.createElement('img');
   image.className = 'hover-card-image';
-  image.src = getPrimaryImage(product);
-  image.alt = getPrimaryImageAlt(product);
+  image.src = activeImage?.src || '';
+  image.alt = activeImage?.alt || getPrimaryImageAlt(product);
   image.loading = 'lazy';
   image.decoding = 'async';
   imageWrap.appendChild(image);
+
+  const galleryMeta = document.createElement('div');
+  galleryMeta.className = 'hover-card-gallery-meta';
+
+  const gallerySource = document.createElement('p');
+  gallerySource.className = 'hover-card-meta';
+  gallerySource.textContent = `${titleCase(product.images?.imageSourceType)} · ${galleryImages.length} image${galleryImages.length === 1 ? '' : 's'}`;
+
+  const galleryStatus = document.createElement('p');
+  galleryStatus.className = 'hover-card-meta';
+  galleryStatus.textContent = `${titleCase(product.images?.replacementStatus)} · ${titleCase(product.imageBackfill?.status)}`;
+
+  galleryMeta.append(gallerySource, galleryStatus);
 
   const heroBody = document.createElement('div');
   heroBody.className = 'hover-card-hero-body';
@@ -299,8 +321,43 @@ function buildDetailCard(product) {
   detailPrice.className = 'hover-card-price';
   detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
 
-  heroBody.append(detailName, detailMeta, detailPrice);
+  heroBody.append(detailName, detailMeta, detailPrice, galleryMeta);
   hero.append(imageWrap, heroBody);
+
+  if (galleryImages.length > 1) {
+    const thumbRow = document.createElement('div');
+    thumbRow.className = 'hover-card-thumbs';
+
+    const setActiveThumb = nextImage => {
+      image.src = nextImage.src || '';
+      image.alt = nextImage.alt || getPrimaryImageAlt(product);
+      Array.from(thumbRow.children).forEach(node => {
+        node.classList.toggle('is-active', node.dataset.src === nextImage.src);
+      });
+    };
+
+    galleryImages.forEach((imgObj, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'hover-card-thumb';
+      button.dataset.src = imgObj.src || '';
+      button.title = imgObj.view ? titleCase(imgObj.view) : `Image ${index + 1}`;
+      if (index === 0) button.classList.add('is-active');
+
+      const thumbImg = document.createElement('img');
+      thumbImg.src = imgObj.src || '';
+      thumbImg.alt = imgObj.alt || `Gallery image ${index + 1}`;
+      thumbImg.loading = 'lazy';
+      thumbImg.decoding = 'async';
+      button.appendChild(thumbImg);
+      button.addEventListener('click', () => setActiveThumb(imgObj));
+      thumbRow.appendChild(button);
+    });
+
+    detail.append(hero, thumbRow);
+  } else {
+    detail.append(hero);
+  }
 
   const compareLabel = document.createElement('p');
   compareLabel.className = 'hover-card-label';
@@ -320,15 +377,22 @@ function buildDetailCard(product) {
     featureList.appendChild(li);
   });
 
+  const backfillLabel = document.createElement('p');
+  backfillLabel.className = 'hover-card-label';
+  backfillLabel.textContent = 'Official photo replacement';
+
+  const backfillMeta = document.createElement('p');
+  backfillMeta.className = 'hover-card-meta';
+  backfillMeta.textContent = `${product.imageBackfill?.brand || product.brand} · ${titleCase(product.imageBackfill?.status)} · ${product.imageBackfill?.targetFolder || ''}`;
+
   const sourceLabel = document.createElement('p');
   sourceLabel.className = 'hover-card-label';
   sourceLabel.textContent = 'Sources';
 
-  detail.append(hero);
   if (compareGrid) {
     detail.append(compareLabel, compareGrid);
   }
-  detail.append(featureLabel, featureList, sourceLabel, createSourceLinks(product.sources));
+  detail.append(featureLabel, featureList, backfillLabel, backfillMeta, sourceLabel, createSourceLinks(product.sources));
 
   return detail;
 }
