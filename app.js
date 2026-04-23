@@ -619,8 +619,6 @@ function renderMetadata() {
   const years = state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number');
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
-  els.metadataNote.classList.remove('loading');
-  els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
 
 function renderAll() {
