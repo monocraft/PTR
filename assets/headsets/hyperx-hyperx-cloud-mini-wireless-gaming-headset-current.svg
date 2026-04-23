@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="HyperX Cloud Mini - Wireless Gaming Headset">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#110f12"/>
+      <stop offset="100%" stop-color="#0a0e14"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <rect x="48" y="48" width="1104" height="704" fill="none" stroke="rgba(255,255,255,0.12)"/>
+  <text x="80" y="110" font-size="28" font-weight="700" fill="#ff4d4d" font-family="Inter,Segoe UI,sans-serif" letter-spacing="2">HYPERX</text>
+  <text x="80" y="220" font-size="56" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">HyperX Cloud Mini -</text><text x="80" y="288" font-size="56" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">Wireless Gaming</text><text x="80" y="356" font-size="56" font-weight="700" fill="#f3f6fb" font-family="Inter,Segoe UI,sans-serif">Headset</text>
+  <text x="80" y="470" font-size="30" fill="#9ca8bb" font-family="Inter,Segoe UI,sans-serif">Cloud</text>
+  <text x="80" y="535" font-size="24" fill="#9ca8bb" font-family="Inter,Segoe UI,sans-serif">Unknown year · $49.99</text>
+  <g transform="translate(760 150)" fill="none" stroke="#ff4d4d" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M110 120c0-72 58-130 130-130s130 58 130 130" opacity="0.9"/>
+    <rect x="40" y="112" rx="22" ry="22" width="78" height="180"/>
+    <rect x="252" y="112" rx="22" ry="22" width="78" height="180"/>
+    <path d="M79 292v64c0 24 20 44 44 44h22" opacity="0.85"/>
+    <path d="M291 292v40" opacity="0.35"/>
+    <path d="M166 399h56" opacity="0.85"/>
+  </g>
+  <text x="80" y="708" font-size="22" fill="#6f7c90" font-family="Inter,Segoe UI,sans-serif">Generated local product image placeholder · ready for official image backfill</text>
+</svg>
