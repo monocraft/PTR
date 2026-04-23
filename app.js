@@ -456,6 +456,19 @@ function enableHorizontalWheelScroll(container) {
   }, { passive: false });
 }
 
+
+function syncYearPageWidths(viewport, strip) {
+  if (!viewport || !strip) return;
+  const width = Math.max(1, Math.floor(viewport.clientWidth));
+  strip.style.setProperty('--year-page-width', `${width}px`);
+  strip.querySelectorAll('.year-snap-item').forEach(item => {
+    item.style.width = `${width}px`;
+    item.style.minWidth = `${width}px`;
+    item.style.maxWidth = `${width}px`;
+    item.style.flexBasis = `${width}px`;
+  });
+}
+
 function attachSyncedScrollbar(viewport, strip) {
   const shell = document.createElement('div');
   shell.className = 'timeline-scroll-shell';
@@ -472,7 +485,8 @@ function attachSyncedScrollbar(viewport, strip) {
   let syncing = false;
 
   const syncWidths = () => {
-    inner.style.width = `${strip.scrollWidth}px`;
+    syncYearPageWidths(viewport, strip);
+    inner.style.width = `${Math.max(strip.scrollWidth, viewport.clientWidth)}px`;
   };
 
   const syncFromViewport = () => {
@@ -511,7 +525,7 @@ function scrollToLatestYear(viewport) {
   const panels = viewport.querySelectorAll('.year-snap-item');
   if (!panels.length) return;
   const lastPanel = panels[panels.length - 1];
-  viewport.scrollLeft = lastPanel.offsetLeft;
+  viewport.scrollTo({ left: lastPanel.offsetLeft, behavior: 'auto' });
 }
 
 function renderTimeline(products) {
@@ -588,8 +602,10 @@ function renderTimeline(products) {
 
   viewport.appendChild(strip);
   viewport.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
-  els.timeline.appendChild(attachSyncedScrollbar(viewport, strip));
+  const scrollShell = attachSyncedScrollbar(viewport, strip);
+  els.timeline.appendChild(scrollShell);
   enableHorizontalWheelScroll(viewport);
+  requestAnimationFrame(() => syncYearPageWidths(viewport, strip));
 
   if (els.yearFilter.value === 'all') {
     requestAnimationFrame(() => scrollToLatestYear(viewport));
@@ -639,6 +655,16 @@ function bindEvents() {
   });
 
   window.addEventListener('resize', () => {
+    const viewport = document.querySelector('.year-snap-viewport');
+    const strip = document.querySelector('.year-strip');
+    if (viewport && strip) {
+      const items = Array.from(strip.querySelectorAll('.year-snap-item'));
+      const current = items.find(item => item.offsetLeft + (item.offsetWidth / 2) >= viewport.scrollLeft) || items[0];
+      syncYearPageWidths(viewport, strip);
+      if (current) {
+        viewport.scrollLeft = current.offsetLeft;
+      }
+    }
     if (popupState.activeTrigger) {
       positionDetailCard(popupState.activeTrigger);
     }
