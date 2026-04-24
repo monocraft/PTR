@@ -13,8 +13,7 @@ const QUARTERS = [
 const state = {
   allProducts: [],
   filteredProducts: [],
-  metadata: null,
-  compareSelection: []
+  metadata: null
 };
 
 const popupState = {
@@ -34,13 +33,16 @@ const els = {
   metrics: document.getElementById('metrics'),
   timeline: document.getElementById('timeline'),
   metricTemplate: document.getElementById('metricTemplate'),
-  detailLayer: document.getElementById('detailLayer'),
-  comparePanel: null
+  detailLayer: document.getElementById('detailLayer')
 };
 
 function currency(value) {
   return typeof value === 'number'
-    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
+    ? new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(value)
     : '—';
 }
 
@@ -82,8 +84,12 @@ function sortProducts(items, sortKey) {
   const sorters = {
     'date-desc': (a, b) => (b.releaseDate || '').localeCompare(a.releaseDate || ''),
     'date-asc': (a, b) => (a.releaseDate || '').localeCompare(b.releaseDate || ''),
-    'msrp-desc': (a, b) => (typeof b.msrpUSD === 'number' ? b.msrpUSD : -Infinity) - (typeof a.msrpUSD === 'number' ? a.msrpUSD : -Infinity),
-    'msrp-asc': (a, b) => (typeof a.msrpUSD === 'number' ? a.msrpUSD : Infinity) - (typeof b.msrpUSD === 'number' ? b.msrpUSD : Infinity),
+    'msrp-desc': (a, b) =>
+      (typeof b.msrpUSD === 'number' ? b.msrpUSD : -Infinity) -
+      (typeof a.msrpUSD === 'number' ? a.msrpUSD : -Infinity),
+    'msrp-asc': (a, b) =>
+      (typeof a.msrpUSD === 'number' ? a.msrpUSD : Infinity) -
+      (typeof b.msrpUSD === 'number' ? b.msrpUSD : Infinity),
     'brand-asc': (a, b) => a.brand.localeCompare(b.brand) || a.productName.localeCompare(b.productName),
     'name-asc': (a, b) => a.productName.localeCompare(b.productName)
   };
@@ -112,6 +118,23 @@ function populateFilters(products) {
   });
 }
 
+function productSearchText(product) {
+  return [
+    product.productName,
+    product.series,
+    product.brand,
+    ...(product.features || []),
+    ...(product.tags || []),
+    ...(product.compare?.platforms || []),
+    product.compare?.driverType,
+    product.compare?.spatialAudio,
+    product.compare?.acousticDesign
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
 function applyFilters() {
   const brand = els.brandFilter.value;
   const year = els.yearFilter.value;
@@ -121,13 +144,7 @@ function applyFilters() {
   const results = state.allProducts.filter(product => {
     const matchesBrand = brand === 'all' || product.brand === brand;
     const matchesYear = year === 'all' || String(product.releaseYear) === year;
-    const haystack = [
-      product.productName,
-      product.series,
-      product.brand,
-      ...(product.features || [])
-    ].join(' ').toLowerCase();
-    const matchesSearch = !search || haystack.includes(search);
+    const matchesSearch = !search || productSearchText(product).includes(search);
     return matchesBrand && matchesYear && matchesSearch;
   });
 
@@ -189,205 +206,188 @@ function createSourceLinks(sources) {
   return list;
 }
 
-
-function getProductById(productId) {
-  return state.allProducts.find(product => product.id === productId) || null;
+function getPrimaryImage(product) {
+  return product?.images?.primary?.src || '';
 }
 
-function isCompareSelected(productId) {
-  return state.compareSelection.includes(productId);
+function getPrimaryImageAlt(product) {
+  return product?.images?.primary?.alt || `${product.productName} image`;
 }
 
-function toggleCompareSelection(product) {
-  const current = [...state.compareSelection];
-  const index = current.indexOf(product.id);
+function getGalleryImages(product) {
+  const fallbackPrimary = product?.images?.primary || null;
+  const fallbackGallery = product?.images?.gallery || [];
+  const targets = product?.images?.replacementTargets || {};
+  const list = [];
 
-  if (index >= 0) {
-    current.splice(index, 1);
-  } else if (current.length >= 2) {
-    current.shift();
-    current.push(product.id);
-  } else {
-    current.push(product.id);
+  if (targets.expectedPrimary || fallbackPrimary) {
+    list.push({
+      src: targets.expectedPrimary || fallbackPrimary?.src || '',
+      fallbackSrc: fallbackPrimary?.src || '',
+      alt: fallbackPrimary?.alt || `${product.productName} hero image`,
+      view: 'hero',
+      imageSourceType: targets.expectedPrimary
+        ? 'official_folder_preferred'
+        : (fallbackPrimary?.imageSourceType || product?.images?.imageSourceType || 'image')
+    });
   }
 
-  state.compareSelection = current;
-  renderComparePanel();
-  renderTimeline(state.filteredProducts);
-  if (popupState.activeProduct && popupState.activeProduct.id === product.id && popupState.activeTrigger) {
-    showDetailCard(popupState.activeTrigger, product);
+  const expectedGallery = targets.expectedGallery || [];
+  const count = Math.max(expectedGallery.length, fallbackGallery.length);
+
+  for (let i = 0; i < count; i += 1) {
+    const fallback = fallbackGallery[i] || null;
+    const src = expectedGallery[i] || fallback?.src || '';
+    if (!src) continue;
+
+    list.push({
+      src,
+      fallbackSrc: fallback?.src || '',
+      alt: fallback?.alt || `${product.productName} gallery image ${i + 1}`,
+      view: fallback?.view || `gallery-${i + 1}`,
+      imageSourceType: expectedGallery[i]
+        ? 'official_folder_preferred'
+        : (fallback?.imageSourceType || product?.images?.imageSourceType || 'image')
+    });
   }
+
+  return list;
 }
 
-function clearCompareSelection() {
-  state.compareSelection = [];
-  renderComparePanel();
-  renderTimeline(state.filteredProducts);
+function setImageWithFallback(imgEl, imageObj) {
+  const primarySrc = imageObj?.src || imageObj?.fallbackSrc || '';
+  const fallbackSrc = imageObj?.fallbackSrc && imageObj.fallbackSrc !== imageObj.src
+    ? imageObj.fallbackSrc
+    : '';
+
+  imgEl.alt = imageObj?.alt || '';
+  imgEl.onerror = null;
+
+  if (fallbackSrc) {
+    imgEl.onerror = () => {
+      imgEl.onerror = null;
+      imgEl.src = fallbackSrc;
+    };
+  }
+
+  imgEl.src = primarySrc;
 }
 
-function getCompareItems(product) {
+function buildCompareItems(product) {
   const compare = product.compare || {};
-  const items = [
-    ['Brand', product.brand],
-    ['Series', product.series || '—'],
-    ['Release date', formatDate(product.releaseDate)],
-    ['MSRP', currency(product.msrpUSD)],
-    ['Driver', typeof compare.driverSizeMm === 'number' ? `${compare.driverSizeMm}mm` : '—'],
-    ['Driver type', compare.driverType ? titleCase(compare.driverType) : '—'],
-    ['Connectivity', [
-      compare.wireless24GHz ? '2.4GHz' : null,
-      compare.bluetooth ? 'Bluetooth' : null,
-      compare.wired ? 'Wired' : null,
-      compare.usb ? 'USB' : null,
-      compare.analog35mm ? '3.5mm' : null
-    ].filter(Boolean).join(' · ') || '—'],
-    ['Battery', typeof compare.batteryHours === 'number' ? `${compare.batteryHours}h` : '—'],
-    ['Spatial audio', compare.spatialAudio || '—'],
-    ['Acoustic', compare.acousticDesign ? titleCase(compare.acousticDesign) : '—'],
-    ['ANC', compare.activeNoiseCancellation ? 'Yes' : '—'],
-    ['Mic', [
-      compare.detachableMic ? 'Detachable' : null,
-      compare.flipToMuteMic ? 'Flip-to-mute' : null,
-      compare.noiseCancellingMic ? 'Noise-cancelling' : null
-    ].filter(Boolean).join(' · ') || '—'],
-    ['Comfort', [
-      compare.memoryFoam ? 'Memory foam' : null,
-      compare.lightweight ? 'Lightweight' : null
-    ].filter(Boolean).join(' · ') || '—'],
-    ['Platforms', Array.isArray(compare.platforms) && compare.platforms.length ? compare.platforms.join(' · ') : '—']
-  ];
+  const items = [];
+
+  if (typeof compare.driverSizeMm === 'number') {
+    items.push(['Driver', `${compare.driverSizeMm}mm`]);
+  }
+
+  if (compare.driverType) {
+    items.push(['Driver Type', titleCase(compare.driverType)]);
+  }
+
+  const modes = [
+    compare.wireless24GHz ? '2.4GHz' : null,
+    compare.bluetooth ? 'Bluetooth' : null,
+    compare.wired ? 'Wired' : null,
+    compare.usb ? 'USB' : null,
+    compare.analog35mm ? '3.5mm' : null
+  ].filter(Boolean);
+
+  if (modes.length) {
+    items.push(['Connectivity', modes.join(' · ')]);
+  }
+
+  if (typeof compare.batteryHours === 'number') {
+    items.push(['Battery', `${compare.batteryHours}h`]);
+  }
+
+  if (compare.spatialAudio) {
+    items.push(['Spatial', compare.spatialAudio]);
+  }
+
+  if (compare.acousticDesign) {
+    items.push(['Acoustic', titleCase(compare.acousticDesign)]);
+  }
+
+  const mic = [
+    compare.detachableMic ? 'Detachable' : null,
+    compare.flipToMuteMic ? 'Flip-to-mute' : null,
+    compare.noiseCancellingMic ? 'Noise-cancelling' : null
+  ].filter(Boolean);
+
+  if (mic.length) {
+    items.push(['Mic', mic.join(' · ')]);
+  }
+
+  const comfort = [
+    compare.memoryFoam ? 'Memory foam' : null,
+    compare.lightweight ? 'Lightweight' : null
+  ].filter(Boolean);
+
+  if (comfort.length) {
+    items.push(['Comfort', comfort.join(' · ')]);
+  }
+
+  if (Array.isArray(compare.platforms) && compare.platforms.length) {
+    items.push(['Platforms', compare.platforms.join(' · ')]);
+  }
 
   return items;
 }
 
-function ensureComparePanel() {
-  if (els.comparePanel) return els.comparePanel;
+function buildCompareGrid(product) {
+  const items = buildCompareItems(product);
+  if (!items.length) return null;
 
-  const panel = document.createElement('section');
-  panel.className = 'panel compare-panel is-hidden';
-  panel.id = 'comparePanel';
-  els.metrics.insertAdjacentElement('afterend', panel);
-  els.comparePanel = panel;
-  return panel;
-}
+  const wrapper = document.createElement('div');
+  wrapper.className = 'compare-grid';
 
-function buildCompareSelectionCard(product) {
-  const card = document.createElement('article');
-  card.className = 'compare-selection-card';
+  items.forEach(([label, value]) => {
+    const node = document.createElement('div');
+    node.className = 'compare-chip';
 
-  const head = document.createElement('div');
-  head.className = 'compare-selection-head';
+    const chipLabel = document.createElement('span');
+    chipLabel.className = 'compare-chip-label';
+    chipLabel.textContent = label;
 
-  const titleWrap = document.createElement('div');
-  titleWrap.className = 'compare-selection-title-wrap';
+    const chipValue = document.createElement('strong');
+    chipValue.className = 'compare-chip-value';
+    chipValue.textContent = value;
 
-  const title = document.createElement('h3');
-  title.className = 'compare-selection-title';
-  title.textContent = product.productName;
-
-  const meta = document.createElement('p');
-  meta.className = 'compare-selection-meta';
-  meta.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''} · ${currency(product.msrpUSD)}`;
-
-  titleWrap.append(title, meta);
-
-  const removeBtn = document.createElement('button');
-  removeBtn.type = 'button';
-  removeBtn.className = 'compare-remove-button';
-  removeBtn.textContent = 'Remove';
-  removeBtn.addEventListener('click', () => toggleCompareSelection(product));
-
-  head.append(titleWrap, removeBtn);
-
-  const rows = document.createElement('div');
-  rows.className = 'compare-selection-rows';
-
-  getCompareItems(product).forEach(([label, value]) => {
-    const row = document.createElement('div');
-    row.className = 'compare-selection-row';
-
-    const labelNode = document.createElement('span');
-    labelNode.className = 'compare-selection-label';
-    labelNode.textContent = label;
-
-    const valueNode = document.createElement('strong');
-    valueNode.className = 'compare-selection-value';
-    valueNode.textContent = value;
-
-    row.append(labelNode, valueNode);
-    rows.appendChild(row);
+    node.append(chipLabel, chipValue);
+    wrapper.appendChild(node);
   });
 
-  card.append(head, rows);
-  return card;
-}
-
-function renderComparePanel() {
-  const panel = ensureComparePanel();
-  panel.innerHTML = '';
-
-  const selectedProducts = state.compareSelection
-    .map(getProductById)
-    .filter(Boolean);
-
-  if (!selectedProducts.length) {
-    panel.classList.add('is-hidden');
-    return;
-  }
-
-  panel.classList.remove('is-hidden');
-
-  const head = document.createElement('div');
-  head.className = 'compare-panel-head';
-
-  const titleWrap = document.createElement('div');
-  titleWrap.className = 'compare-panel-title-wrap';
-
-  const title = document.createElement('h2');
-  title.className = 'compare-panel-title';
-  title.textContent = selectedProducts.length === 2 ? 'Side-by-side comparison' : 'Compare tray';
-
-  const subtitle = document.createElement('p');
-  subtitle.className = 'compare-panel-subtitle';
-  subtitle.textContent = selectedProducts.length === 2
-    ? 'Two selected products shown side by side.'
-    : 'Select one more product to compare side by side.';
-
-  titleWrap.append(title, subtitle);
-
-  const actions = document.createElement('div');
-  actions.className = 'compare-panel-actions';
-
-  const count = document.createElement('span');
-  count.className = 'compare-panel-count';
-  count.textContent = `${selectedProducts.length}/2 selected`;
-
-  const clearBtn = document.createElement('button');
-  clearBtn.type = 'button';
-  clearBtn.className = 'button secondary compare-clear-button';
-  clearBtn.textContent = 'Clear';
-  clearBtn.addEventListener('click', clearCompareSelection);
-
-  actions.append(count, clearBtn);
-  head.append(titleWrap, actions);
-
-  const grid = document.createElement('div');
-  grid.className = 'compare-grid-panel';
-  selectedProducts.forEach(product => grid.appendChild(buildCompareSelectionCard(product)));
-
-  if (selectedProducts.length === 1) {
-    const empty = document.createElement('article');
-    empty.className = 'compare-selection-card compare-selection-card--empty';
-    empty.innerHTML = '<div class="compare-empty-state">Select another product to populate the second comparison column.</div>';
-    grid.appendChild(empty);
-  }
-
-  panel.append(head, grid);
+  return wrapper;
 }
 
 function buildDetailCard(product) {
   const detail = document.createElement('div');
   detail.className = 'detail-card';
+
+  const galleryImages = getGalleryImages(product);
+  const activeImage = galleryImages[0] || {
+    src: '',
+    fallbackSrc: '',
+    alt: getPrimaryImageAlt(product),
+    view: 'hero'
+  };
+
+  const hero = document.createElement('div');
+  hero.className = 'hover-card-hero';
+
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'hover-card-image-wrap';
+
+  const image = document.createElement('img');
+  image.className = 'hover-card-image';
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  setImageWithFallback(image, activeImage);
+  imageWrap.appendChild(image);
+
+  const heroBody = document.createElement('div');
+  heroBody.className = 'hover-card-hero-body';
 
   const detailName = document.createElement('h5');
   detailName.className = 'hover-card-title';
@@ -401,12 +401,61 @@ function buildDetailCard(product) {
   detailPrice.className = 'hover-card-price';
   detailPrice.textContent = `${currency(product.msrpUSD)} · ${titleCase(product.priceStatus)}`;
 
+  heroBody.append(detailName, detailMeta, detailPrice);
+  hero.append(imageWrap, heroBody);
+  detail.append(hero);
+
+  if (galleryImages.length > 1) {
+    const thumbRow = document.createElement('div');
+    thumbRow.className = 'hover-card-thumbs';
+
+    const setActiveThumb = nextImage => {
+      setImageWithFallback(image, nextImage);
+      Array.from(thumbRow.children).forEach(node => {
+        node.classList.toggle('is-active', node.dataset.src === nextImage.src);
+      });
+    };
+
+    galleryImages.forEach((imgObj, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'hover-card-thumb';
+      button.dataset.src = imgObj.src || '';
+      button.title = imgObj.view ? titleCase(imgObj.view) : `Image ${index + 1}`;
+
+      if (index === 0) {
+        button.classList.add('is-active');
+      }
+
+      const thumbImg = document.createElement('img');
+      thumbImg.alt = imgObj.alt || `Gallery image ${index + 1}`;
+      thumbImg.loading = 'lazy';
+      thumbImg.decoding = 'async';
+      setImageWithFallback(thumbImg, imgObj);
+
+      button.appendChild(thumbImg);
+      button.addEventListener('click', () => setActiveThumb(imgObj));
+      thumbRow.appendChild(button);
+    });
+
+    detail.append(thumbRow);
+  }
+
+  const compareGrid = buildCompareGrid(product);
+  if (compareGrid) {
+    const compareLabel = document.createElement('p');
+    compareLabel.className = 'hover-card-label';
+    compareLabel.textContent = 'Compare-ready specs';
+    detail.append(compareLabel, compareGrid);
+  }
+
   const featureLabel = document.createElement('p');
   featureLabel.className = 'hover-card-label';
   featureLabel.textContent = 'Features';
 
   const featureList = document.createElement('ul');
   featureList.className = 'hover-card-features';
+
   (product.features || []).slice(0, 6).forEach(feature => {
     const li = document.createElement('li');
     li.textContent = feature;
@@ -417,20 +466,7 @@ function buildDetailCard(product) {
   sourceLabel.className = 'hover-card-label';
   sourceLabel.textContent = 'Sources';
 
-  const compareButton = document.createElement('button');
-  compareButton.type = 'button';
-  compareButton.className = `detail-compare-button${isCompareSelected(product.id) ? ' is-selected' : ''}`;
-  compareButton.textContent = isCompareSelected(product.id) ? 'Remove from compare' : 'Add to compare';
-  compareButton.addEventListener('click', event => {
-    event.stopPropagation();
-    toggleCompareSelection(product);
-  });
-
   detail.append(
-    detailName,
-    detailMeta,
-    detailPrice,
-    compareButton,
     featureLabel,
     featureList,
     sourceLabel,
@@ -454,12 +490,15 @@ function scheduleHideDetailCard() {
 
 function hideDetailCard(force = false) {
   clearHideTimer();
+
   if (popupState.activeTrigger) {
     popupState.activeTrigger.classList.remove('is-active');
   }
+
   popupState.activeTrigger = null;
   popupState.activeProduct = null;
   els.detailLayer.classList.remove('visible');
+
   if (force) {
     els.detailLayer.innerHTML = '';
   }
@@ -514,7 +553,7 @@ function showDetailCard(trigger, product) {
 
 function buildReleasePeek(product) {
   const item = document.createElement('article');
-  item.className = `release-peek${isCompareSelected(product.id) ? ' is-compare-selected' : ''}`;
+  item.className = 'release-peek';
   item.tabIndex = 0;
 
   const top = document.createElement('div');
@@ -538,16 +577,7 @@ function buildReleasePeek(product) {
   brand.className = 'release-peek-brand';
   brand.textContent = `${product.brand}${product.series ? ` · ${product.series}` : ''}`;
 
-  const compareToggle = document.createElement('button');
-  compareToggle.type = 'button';
-  compareToggle.className = `release-compare-toggle${isCompareSelected(product.id) ? ' is-selected' : ''}`;
-  compareToggle.textContent = isCompareSelected(product.id) ? 'Selected' : 'Compare';
-  compareToggle.addEventListener('click', event => {
-    event.stopPropagation();
-    toggleCompareSelection(product);
-  });
-
-  item.append(top, name, brand, compareToggle);
+  item.append(top, name, brand);
 
   item.addEventListener('mouseenter', () => showDetailCard(item, product));
   item.addEventListener('mouseleave', scheduleHideDetailCard);
@@ -555,10 +585,12 @@ function buildReleasePeek(product) {
   item.addEventListener('blur', scheduleHideDetailCard);
   item.addEventListener('click', event => {
     event.stopPropagation();
+
     if (popupState.activeTrigger === item && els.detailLayer.classList.contains('visible')) {
       hideDetailCard(true);
       return;
     }
+
     showDetailCard(item, product);
   });
 
@@ -576,7 +608,10 @@ function groupProductsByYearMonth(products) {
     if (!month || month < 1 || month > 12) return;
 
     const key = `${product.releaseYear}-${String(month).padStart(2, '0')}`;
-    if (!map.has(key)) map.set(key, []);
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+
     map.get(key).push(product);
   });
 
@@ -585,6 +620,7 @@ function groupProductsByYearMonth(products) {
 
 function getVisibleYears(products) {
   const selectedYear = els.yearFilter.value;
+
   if (selectedYear !== 'all') {
     return [Number(selectedYear)].filter(Number.isFinite);
   }
@@ -673,6 +709,20 @@ function enableHorizontalWheelScroll(container) {
   }, { passive: false });
 }
 
+function syncYearPageWidths(viewport, strip) {
+  if (!viewport || !strip) return;
+
+  const width = Math.max(1, Math.floor(viewport.clientWidth));
+  strip.style.setProperty('--year-page-width', `${width}px`);
+
+  strip.querySelectorAll('.year-snap-item').forEach(item => {
+    item.style.width = `${width}px`;
+    item.style.minWidth = `${width}px`;
+    item.style.maxWidth = `${width}px`;
+    item.style.flexBasis = `${width}px`;
+  });
+}
+
 function attachSyncedScrollbar(viewport, strip) {
   const shell = document.createElement('div');
   shell.className = 'timeline-scroll-shell';
@@ -689,7 +739,8 @@ function attachSyncedScrollbar(viewport, strip) {
   let syncing = false;
 
   const syncWidths = () => {
-    inner.style.width = `${strip.scrollWidth}px`;
+    syncYearPageWidths(viewport, strip);
+    inner.style.width = `${Math.max(strip.scrollWidth, viewport.clientWidth)}px`;
   };
 
   const syncFromViewport = () => {
@@ -725,10 +776,11 @@ function attachSyncedScrollbar(viewport, strip) {
 }
 
 function scrollToLatestYear(viewport) {
-  const panels = viewport.querySelectorAll('.year-panel');
+  const panels = viewport.querySelectorAll('.year-snap-item');
   if (!panels.length) return;
+
   const lastPanel = panels[panels.length - 1];
-  viewport.scrollLeft = lastPanel.offsetLeft;
+  viewport.scrollTo({ left: lastPanel.offsetLeft, behavior: 'auto' });
 }
 
 function renderTimeline(products) {
@@ -743,6 +795,7 @@ function renderTimeline(products) {
   }
 
   const years = getVisibleYears(products);
+
   if (!years.length) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
@@ -759,6 +812,9 @@ function renderTimeline(products) {
   strip.className = 'year-strip';
 
   years.forEach(year => {
+    const snapItem = document.createElement('div');
+    snapItem.className = 'year-snap-item';
+
     const yearPanel = document.createElement('section');
     yearPanel.className = 'year-panel';
 
@@ -791,18 +847,24 @@ function renderTimeline(products) {
 
     const quarterGrid = document.createElement('div');
     quarterGrid.className = 'quarter-grid';
+
     QUARTERS.forEach(quarter => {
       quarterGrid.appendChild(buildQuarterCard(year, quarter, byYearMonth));
     });
 
     yearPanel.append(head, quarterGrid);
-    strip.appendChild(yearPanel);
+    snapItem.appendChild(yearPanel);
+    strip.appendChild(snapItem);
   });
 
   viewport.appendChild(strip);
   viewport.addEventListener('scroll', () => hideDetailCard(true), { passive: true });
-  els.timeline.appendChild(attachSyncedScrollbar(viewport, strip));
+
+  const scrollShell = attachSyncedScrollbar(viewport, strip);
+  els.timeline.appendChild(scrollShell);
+
   enableHorizontalWheelScroll(viewport);
+  requestAnimationFrame(() => syncYearPageWidths(viewport, strip));
 
   if (els.yearFilter.value === 'all') {
     requestAnimationFrame(() => scrollToLatestYear(viewport));
@@ -813,9 +875,13 @@ function renderMetadata() {
   const metadata = state.metadata;
   if (!metadata) return;
 
-  const years = state.allProducts.map(product => product.releaseYear).filter(year => typeof year === 'number');
+  const years = state.allProducts
+    .map(product => product.releaseYear)
+    .filter(year => typeof year === 'number');
+
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
+
   els.metadataNote.classList.remove('loading');
   els.metadataNote.textContent = `${metadata.brands.join(' • ')} · ${state.allProducts.length} releases · ${minYear}–${maxYear}`;
 }
@@ -824,7 +890,6 @@ function renderAll() {
   const products = state.filteredProducts;
   els.resultCount.textContent = `${products.length} visible`;
   renderMetrics(products);
-  renderComparePanel();
   renderTimeline(products);
 }
 
@@ -853,6 +918,19 @@ function bindEvents() {
   });
 
   window.addEventListener('resize', () => {
+    const viewport = document.querySelector('.year-snap-viewport');
+    const strip = document.querySelector('.year-strip');
+
+    if (viewport && strip) {
+      const items = Array.from(strip.querySelectorAll('.year-snap-item'));
+      const current = items.find(item => item.offsetLeft + (item.offsetWidth / 2) >= viewport.scrollLeft) || items[0];
+      syncYearPageWidths(viewport, strip);
+
+      if (current) {
+        viewport.scrollLeft = current.offsetLeft;
+      }
+    }
+
     if (popupState.activeTrigger) {
       positionDetailCard(popupState.activeTrigger);
     }
@@ -864,6 +942,7 @@ function bindEvents() {
 async function init() {
   try {
     const response = await fetch('./data/headsets.json');
+
     if (!response.ok) {
       throw new Error(`Failed to load dataset: ${response.status}`);
     }
